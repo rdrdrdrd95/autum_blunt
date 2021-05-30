@@ -3,3 +3,7 @@
 ################################################################################
 
 /ss_convert_cli/obj/Debug
+/ss_convert_cli/bin/Debug/ss_convert_cli.pdb
+/ss_convert_cli/bin/Debug/ss_convert_cli.exe.config
+/ss_convert_cli/bin/Debug/ss_convert_cli.exe
+/.vs/ss_convert_cli/v16/.suo
