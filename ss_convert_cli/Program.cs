@@ -12,6 +12,12 @@ using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.IO;
 
+//TODO:
+//* ENUM selection from the ss ints, check the c# source?
+//*basically all the enums... this will be tedious...
+//* gun battery mount group parsing
+//* machinery matrix parsing
+
 namespace ss_convert_cli
 {
     public enum Unit_System
@@ -67,7 +73,6 @@ namespace ss_convert_cli
         DUAL_PURPOSE,
         AUTO_RAPID_FIRE,
         MACHINE_GUN,
-        //TODO{ add this shit
     }
 
     public struct Gun
@@ -166,6 +171,7 @@ namespace ss_convert_cli
         public int number_of_guns;
         public List<Gun_Group> gun_groups = new List<Gun_Group>();
 
+        //for now just two groups at all times. 
         public Battery()
         {
             for (int groups = 0; groups < 2; ++groups)
@@ -590,6 +596,8 @@ namespace ss_convert_cli
 
         Regex find_new_line = new Regex(@"\r\n|\n", RegexOptions.Compiled);
 
+        //SS stores the numbers differently based on the unit system selected
+        //Maybe force metric?
         public void parse_sship(Path sship_path)
         {
             var sship_file_string = File.OpenText(sship_path.File_Path).ReadToEnd();
@@ -697,9 +705,10 @@ namespace ss_convert_cli
             ship.armor.conning_tower_aft.armor.thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[211], ""));
 
 
-            bool foo = true; 
+            bool foo = true;
         }
 
+        //need to make this aware of the units? 
         public void parse_ssr(Path ssr_path)
         {
             var report = File.OpenText(ssr_path.File_Path);
@@ -811,12 +820,11 @@ namespace ss_convert_cli
         {
             Parser parser = new Parser();
 
-            //var sship_ship = parser.parse_ssr(new Path("Vicksburg.sship"));
             parser.parse_sship(new Path("Vicksburg.sship"));
 
             parser.parse_ssr(new Path("Vicksburg.ssr"));
 
-            Ship copy = parser.ship; 
+            Ship copy = parser.ship;
         }
     }
 }
