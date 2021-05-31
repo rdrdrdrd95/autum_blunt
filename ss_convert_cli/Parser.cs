@@ -108,11 +108,11 @@ namespace ss_convert_cli
 
         private int get_int_from_line(string line)
         {
-            return Convert.ToInt32(sub_non_decimal.Replace(line, ""));
+            return Convert.ToInt32(sub_non_decimal_neg.Replace(line, ""));
         }
         private double get_double_from_line(string line)
         {
-            return Convert.ToDouble(sub_non_decimal.Replace(line, ""));
+            return Convert.ToDouble(sub_non_decimal_neg.Replace(line, ""));
         }
         private bool get_bool_from_line(string line)
         {
@@ -269,21 +269,36 @@ namespace ss_convert_cli
 
         private void parse_armor(string[] sship_by_line)
         {
-            ship.armor.fore_and_aft_deck.thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[108], ""));
-            ship.armor.forecastle.thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[208], ""));
-            ship.armor.quarter_deck.thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[209], ""));
-            ship.armor.tds.beam_between_bulkeads = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[207], ""));
 
-            ship.armor.tds.bulkhead.thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[90], ""));
-            ship.armor.tds.bulkhead.length = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[91], ""));
-            ship.armor.tds.bulkhead.height = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[92], ""));
+            ship.armor.main_belt.thickness  = this.get_double_from_line(sship_by_line[81]);
+            ship.armor.main_belt.length     = this.get_double_from_line(sship_by_line[82]);
+            ship.armor.main_belt.height     = this.get_double_from_line(sship_by_line[83]);
 
-            ship.armor.bulge.thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[203], ""));
-            ship.armor.bulge.length = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[204], ""));
-            ship.armor.bulge.height = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[205], ""));
+            ship.armor.end_belts.thickness  = this.get_double_from_line(sship_by_line[84]);
+            ship.armor.end_belts.length     = this.get_double_from_line(sship_by_line[85]);
+            ship.armor.end_belts.height     = this.get_double_from_line(sship_by_line[86]);
 
-            ship.armor.conning_tower_fore.armor.thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[109], ""));
-            ship.armor.conning_tower_aft.armor.thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[211], ""));
+            ship.armor.upper_belt.thickness = this.get_double_from_line(sship_by_line[87]);
+            ship.armor.upper_belt.length    = this.get_double_from_line(sship_by_line[88]);
+            ship.armor.upper_belt.height    = this.get_double_from_line(sship_by_line[89]);
+
+            ship.armor.main_belt.incline = this.get_double_from_line(sship_by_line[202]); 
+
+            ship.armor.fore_and_aft_deck.thickness = this.get_double_from_line(sship_by_line[108]);
+            ship.armor.forecastle.thickness = this.get_double_from_line(sship_by_line[208]);
+            ship.armor.quarter_deck.thickness = this.get_double_from_line(sship_by_line[209]);
+            ship.armor.tds.beam_between_bulkeads = this.get_double_from_line(sship_by_line[207]);
+
+            ship.armor.tds.bulkhead.thickness = this.get_double_from_line(sship_by_line[90]);
+            ship.armor.tds.bulkhead.length = this.get_double_from_line(sship_by_line[91]);
+            ship.armor.tds.bulkhead.height = this.get_double_from_line(sship_by_line[92]);
+
+            ship.armor.bulge.thickness = this.get_double_from_line(sship_by_line[203]);
+            ship.armor.bulge.length = this.get_double_from_line(sship_by_line[204]);
+            ship.armor.bulge.height = this.get_double_from_line(sship_by_line[205]);
+
+            ship.armor.conning_tower_fore.armor.thickness = this.get_double_from_line(sship_by_line[109]);
+            ship.armor.conning_tower_aft.armor.thickness = this.get_double_from_line(sship_by_line[211]);
         }
 
         private void parse_mines(string[] sship_by_line)
@@ -301,13 +316,11 @@ namespace ss_convert_cli
             ship.weapons.torpedo_battery[0].torpedo.diameter = this.get_double_from_line(sship_by_line[80]);
             ship.weapons.torpedo_battery[0].torpedo.length = this.get_double_from_line(sship_by_line[183]);
 
-
             ship.weapons.torpedo_battery[1].mount.number = this.get_int_from_line(sship_by_line[79]);
             ship.weapons.torpedo_battery[1].mount.sets = this.get_int_from_line(sship_by_line[181]);
             ship.weapons.torpedo_battery[1].mount.mount_type = this.get_torpedo_mount_type_from_line(sship_by_line[186]);
             ship.weapons.torpedo_battery[1].torpedo.diameter = this.get_double_from_line(sship_by_line[182]);
             ship.weapons.torpedo_battery[1].torpedo.length = this.get_double_from_line(sship_by_line[184]);
-
         }
 
         private void parse_asw_batteries(string[] sship_by_line)
@@ -439,32 +452,12 @@ namespace ss_convert_cli
 
             ship.type.cost = Convert.ToDouble(sub_non_decimal.Replace(find_price.Match(stripped).Groups[1].ToString(), ""));
 
-            ship.armor.main_belt.incline = Convert.ToDouble(sub_non_decimal_neg.Replace(find_belt_incline.Match(stripped).Groups[1].ToString(), ""));
+            
             ship.type.complement_low = Convert.ToDouble(sub_non_decimal.Replace(find_complement.Match(stripped).Groups[1].ToString(), ""));
             ship.type.complement_high = Convert.ToDouble(sub_non_decimal.Replace(find_complement.Match(stripped).Groups[2].ToString(), ""));
 
-            var main_belt = find_main_belt.Match(stripped);
-            var end_belt = find_end_belt.Match(stripped);
-            var upper_belt = find_upper_belt.Match(stripped);
+            //ship.armor.main_belt.incline = Convert.ToDouble(sub_non_decimal_neg.Replace(find_belt_incline.Match(stripped).Groups[1].ToString(), ""));
 
-            if (main_belt.Success)
-            {
-                ship.armor.main_belt.thickness = Convert.ToDouble(main_belt.Groups[1].ToString());
-                ship.armor.main_belt.length = Convert.ToDouble(main_belt.Groups[2].ToString());
-                ship.armor.main_belt.height = Convert.ToDouble(main_belt.Groups[3].ToString());
-            }
-            if (end_belt.Success)
-            {
-                ship.armor.end_belts.thickness = Convert.ToDouble(end_belt.Groups[1].ToString());
-                ship.armor.end_belts.length = Convert.ToDouble(end_belt.Groups[2].ToString());
-                ship.armor.end_belts.height = Convert.ToDouble(end_belt.Groups[3].ToString());
-            }
-            if (upper_belt.Success)
-            {
-                ship.armor.upper_belt.thickness = Convert.ToDouble(upper_belt.Groups[1].ToString());
-                ship.armor.upper_belt.length = Convert.ToDouble(upper_belt.Groups[2].ToString());
-                ship.armor.upper_belt.height = Convert.ToDouble(upper_belt.Groups[3].ToString());
-            }
         }
 
 
