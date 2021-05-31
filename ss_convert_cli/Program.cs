@@ -632,25 +632,6 @@ namespace ss_convert_cli
 
             return MAKE_ENUMS.gun_type_from_int(get_int_from_line(line));
 
-
-            //switch (this.get_int_from_line(line))
-            //{
-            //    case 0:
-            //        return Gun_Type.MUZZLE_LOAD;
-            //    default://fallthrough
-            //    case 1:
-            //        return Gun_Type.BREACH_LOAD;
-            //    case 2:
-            //        return Gun_Type.QUICK_FIRING;
-            //    case 3:
-            //        return Gun_Type.ANTI_AIR;
-            //    case 4:
-            //        return Gun_Type.DUAL_PURPOSE;
-            //    case 5:
-            //        return Gun_Type.AUTO_RAPID_FIRE;
-            //    case 6:
-            //        return Gun_Type.MACHINE_GUN;
-            //}
         }
 
         private Mount_Type get_gun_mount_type_from_line(string line)
