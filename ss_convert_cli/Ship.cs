@@ -46,7 +46,6 @@ namespace ss_convert_cli
             {
                 case 0:
                     return Gun_Type.MUZZLE_LOAD;
-                default://fallthrough
                 case 1:
                     return Gun_Type.BREACH_LOAD;
                 case 2:
@@ -59,6 +58,8 @@ namespace ss_convert_cli
                     return Gun_Type.AUTO_RAPID_FIRE;
                 case 6:
                     return Gun_Type.MACHINE_GUN;
+                default://fallthrough
+                    return Gun_Type.NONE; 
             }
         }
 
@@ -72,7 +73,6 @@ namespace ss_convert_cli
                     return Mount_Type.COLES_ERICSSON_TURRET;
                 case 2:
                     return Mount_Type.OPERN_BARBETTE;
-                default://fallthrough
                 case 3:
                     return Mount_Type.TURRET_ON_BARBETTE;
                 case 4:
@@ -81,6 +81,8 @@ namespace ss_convert_cli
                     return Mount_Type.DECK;
                 case 6:
                     return Mount_Type.CASEMENT;
+                default://fallthrough
+                    return Mount_Type.NONE; 
             }
         }
 
@@ -134,7 +136,6 @@ namespace ss_convert_cli
         {
             switch (i)
             {
-                default://fallthrough
                 case 0:
                     return Mount_Size.SINGLE;
                 case 1:
@@ -165,7 +166,9 @@ namespace ss_convert_cli
                     return Mount_Size.FIVE_GUN;
                 case 14:
                     return Mount_Size.TWO_ROW_DECUPLE;
-             
+                default://fallthrough
+                    return Mount_Size.NONE; 
+
             }
         }
 
@@ -173,7 +176,6 @@ namespace ss_convert_cli
         {
             switch (i)
             {
-                default://fallthrough
                 case 0:
                     return Torpedo_Mount_Type.DECK_MOUNTED_CARRIGE_FIXED_TUBE;
                 case 1:
@@ -192,14 +194,15 @@ namespace ss_convert_cli
                     return Torpedo_Mount_Type.SUBMURGED_SIDE_TUBE;
                 case 8:
                     return Torpedo_Mount_Type.BELOW_WATER_RELOAD;
+                default://fallthrough
+                    return Torpedo_Mount_Type.NONE;
             }
         }
 
         public static ASW_Type asw_type_from_int(int i)
         {
             switch (i)
-            {
-                default://fallthrough
+            { 
                 case 0:
                     return ASW_Type.STERN_DEPTH_CHARGE_RACK;
                 case 1:
@@ -208,6 +211,8 @@ namespace ss_convert_cli
                     return ASW_Type.HEDGEHOG_STYLE_AS_MORTARS;
                 case 3:
                     return ASW_Type.SUID_STYLE_AS_MORTARS;
+                default://fallthrough
+                    return ASW_Type.NONE;
             }
         }
 
@@ -215,11 +220,12 @@ namespace ss_convert_cli
         {
             switch (i)
             {
-                default://fallthrough
                 case 0:
                     return Torpedo_Bulkhead_Type.STRENGTHENED;
                 case 1:
                     return Torpedo_Bulkhead_Type.ADDITIONAL;
+                default://fallthrough
+                    return Torpedo_Bulkhead_Type.NONE;
             }
         }
 
@@ -227,7 +233,6 @@ namespace ss_convert_cli
         {
             switch (i)
             {
-                default://fallthrough
                 case 0:
                     return Deck_Type.ARMORED_SINGLE;
                 case 1:
@@ -236,7 +241,16 @@ namespace ss_convert_cli
                     return Deck_Type.PROTECTED_SINGLE;
                 case 3:
                     return Deck_Type.PROTECTED_MULTIPLE;
-            }
+                case 4:
+                    return Deck_Type.BOX_OVER_MACHINERY;
+                case 5:
+                    return Deck_Type.BOX_OVER_MAGAZINES;
+                case 6:
+                    return Deck_Type.BOX_OVER_MACHINERY_AND_MAGAZINES;
+
+                default:
+                    return Deck_Type.NONE;
+            }  
         }
 
         public static Bow_Type bow_type_from_int(int i)
@@ -275,7 +289,7 @@ namespace ss_convert_cli
         {
             switch (i)
             {
-                default://fallthrough
+                
                 case 0:
                     return Mine_Mount_Type.ABOVE_WATER_STERN_RACK;
                 case 1:
@@ -284,6 +298,8 @@ namespace ss_convert_cli
                     return Mine_Mount_Type.BELOW_WATER_STERN_TUBE;
                 case 3:
                     return Mine_Mount_Type.BELOW_WATER_SIDE_TUBES;
+                default://fallthrough
+                    return Mine_Mount_Type.NONE; 
             }
         }
 
@@ -307,7 +323,8 @@ namespace ss_convert_cli
     public enum Torpedo_Bulkhead_Type
     {
         ADDITIONAL,
-        STRENGTHENED
+        STRENGTHENED,
+        NONE,
     };
 
     public enum Deck_Type
@@ -316,6 +333,10 @@ namespace ss_convert_cli
         ARMORED_MULTIPLE,
         PROTECTED_SINGLE,
         PROTECTED_MULTIPLE,
+        BOX_OVER_MACHINERY,
+        BOX_OVER_MAGAZINES,
+        BOX_OVER_MACHINERY_AND_MAGAZINES,
+        NONE, 
     };
 
     public enum Bow_Type
@@ -343,6 +364,7 @@ namespace ss_convert_cli
         DUAL_PURPOSE,
         AUTO_RAPID_FIRE,
         MACHINE_GUN,
+        NONE,
     }
 
     public struct Gun
@@ -364,6 +386,7 @@ namespace ss_convert_cli
         DECK_AND_HOIST,
         DECK,
         CASEMENT,
+        NONE,
     };
 
     public enum Mount_Size
@@ -382,7 +405,8 @@ namespace ss_convert_cli
         TWO_ROW_OCTUPLE,
         QUINTUPLE,
         FIVE_GUN,
-        TWO_ROW_DECUPLE
+        TWO_ROW_DECUPLE,
+        NONE,
     };
 
     public enum Gun_Distribution_Type
@@ -655,11 +679,11 @@ namespace ss_convert_cli
         public double length_to_beam;
     }
 
-    public struct Hull
+    public class Hull
     {
         public Size size;
         public Displacement dispacment;
-        public Hull_Form hull_form;
+        public Hull_Form hull_form = new Hull_Form();
         public Bow bow;
         public Stern stern;
         public double natural_speed;
@@ -682,6 +706,7 @@ namespace ss_convert_cli
         SUBMERGED_BOW_AND_STERN_TUBE,
         SUBMURGED_SIDE_TUBE,
         BELOW_WATER_RELOAD,
+        NONE,
     }
 
     public struct Torpedo_Mount
@@ -708,6 +733,7 @@ namespace ss_convert_cli
         BELOW_WATER_BOW_TUBE,
         BELOW_WATER_STERN_TUBE,
         BELOW_WATER_SIDE_TUBES,
+        NONE,
     }
 
     public class Mine_Battery
@@ -724,6 +750,7 @@ namespace ss_convert_cli
         DEPTH_CHARGE_THROWERS,
         HEDGEHOG_STYLE_AS_MORTARS,
         SUID_STYLE_AS_MORTARS,
+        NONE,
     }
 
     public class ASW_Battery
@@ -785,7 +812,7 @@ namespace ss_convert_cli
     public class Ship
     {
         public Type type;
-        public Hull hull;
+        public Hull hull = new Hull();
         public Armor armor = new Armor();
         public Weapon_Suite weapons = new Weapon_Suite();
         public Machinery machinery;

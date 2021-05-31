@@ -28,7 +28,7 @@ namespace ss_convert_cli
 
             Ship copy = parser.ship;
 
-            bool foo = true; 
+            parser.save_ship_xml(new Path("Vicksburg.xml"));
         }
     }
 }

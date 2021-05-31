@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Xml;
+using System.Xml.Serialization;
 
 //TODO:
 //* ENUM selection from the ss ints, check the c# source?
@@ -177,7 +179,10 @@ namespace ss_convert_cli
                 ship.weapons.gun_battery[0].gun_groups[1].mount_numbers.mounts_one_below = this.get_int_from_line(sship_by_line[170]);
             }
 
-            ship.weapons.gun_battery[0].gun_groups[0].mount_numbers.mounts_on_deck = ship.weapons.gun_battery[0].number_of_mounts - ship.weapons.gun_battery[0].gun_groups[0].sum_total_mounts() - ship.weapons.gun_battery[0].gun_groups[1].sum_total_mounts();
+            ship.weapons.gun_battery[0].gun_groups[0].mount_numbers.mounts_on_deck = 
+                ship.weapons.gun_battery[0].number_of_mounts 
+                - ship.weapons.gun_battery[0].gun_groups[0].sum_total_mounts() 
+                - ship.weapons.gun_battery[0].gun_groups[1].sum_total_mounts();
 
             ship.weapons.gun_battery[0].mount_type = this.get_gun_mount_type_from_line(sship_by_line[64]);
             ship.weapons.gun_battery[0].gun_groups[0].distribution = this.get_gun_distribution_type_from_line(sship_by_line[65]);
@@ -186,6 +191,7 @@ namespace ss_convert_cli
             ship.weapons.gun_battery[0].gun_groups[1].distribution = this.get_gun_distribution_type_from_line(sship_by_line[150]);
             ship.weapons.gun_battery[0].gun_groups[1].Mount_Size = this.get_gun_mount_size_from_line(sship_by_line[242]);
 
+            if (ship.weapons.gun_battery[0].guns.diameter == 0) ship.weapons.gun_battery[0].guns.type = Gun_Type.NONE;
         }
 
         private void parse_secondary_battery(string[] sship_by_line)
@@ -199,6 +205,8 @@ namespace ss_convert_cli
             ship.weapons.gun_battery[1].guns.caliber = this.get_double_from_line(sship_by_line[142]);
             ship.weapons.gun_battery[1].guns.date = this.get_int_from_line(sship_by_line[131]);
             ship.weapons.gun_battery[1].guns.type = get_gun_type_from_line(sship_by_line[40]);
+
+            if (ship.weapons.gun_battery[1].guns.diameter == 0) ship.weapons.gun_battery[1].guns.type = Gun_Type.NONE;
         }
         private void parse_tertiary_battery(string[] sship_by_line)
         {
@@ -211,6 +219,8 @@ namespace ss_convert_cli
             ship.weapons.gun_battery[2].guns.caliber = this.get_double_from_line(sship_by_line[143]);
             ship.weapons.gun_battery[2].guns.date = this.get_int_from_line(sship_by_line[132]);
             ship.weapons.gun_battery[2].guns.type = get_gun_type_from_line(sship_by_line[46]);
+
+            if (ship.weapons.gun_battery[2].guns.diameter == 0) ship.weapons.gun_battery[2].guns.type = Gun_Type.NONE;
         }
         private void parse_quaterarny_battery(string[] sship_by_line)
         {
@@ -223,6 +233,8 @@ namespace ss_convert_cli
             ship.weapons.gun_battery[3].guns.caliber = this.get_double_from_line(sship_by_line[144]);
             ship.weapons.gun_battery[3].guns.date = this.get_int_from_line(sship_by_line[133]);
             ship.weapons.gun_battery[3].guns.type = get_gun_type_from_line(sship_by_line[52]);
+
+            if (ship.weapons.gun_battery[3].guns.diameter == 0) ship.weapons.gun_battery[3].guns.type = Gun_Type.NONE;
         }
         private void parse_pentarny_battery(string[] sship_by_line)
         {
@@ -235,6 +247,8 @@ namespace ss_convert_cli
             ship.weapons.gun_battery[4].guns.caliber = this.get_double_from_line(sship_by_line[145]);
             ship.weapons.gun_battery[4].guns.date = this.get_int_from_line(sship_by_line[134]);
             ship.weapons.gun_battery[4].guns.type = get_gun_type_from_line(sship_by_line[58]);
+
+            if (ship.weapons.gun_battery[4].guns.diameter == 0) ship.weapons.gun_battery[4].guns.type = Gun_Type.NONE;
         }
 
         private void parse_notes(string[] sship_by_line)
@@ -332,6 +346,7 @@ namespace ss_convert_cli
             ship.weapons.mine_battery[0].reloads = this.get_int_from_line(sship_by_line[188]);
             ship.weapons.mine_battery[0].mine.weight = this.get_double_from_line(sship_by_line[189]);
             ship.weapons.mine_battery[0].mount = this.get_mine_type_from_line(sship_by_line[190]);
+            if (ship.weapons.mine_battery[0].number == 0) ship.weapons.mine_battery[0].mount = Mine_Mount_Type.NONE; 
         }
 
         private void parse_torpedos(string[] sship_by_line)
@@ -341,12 +356,14 @@ namespace ss_convert_cli
             ship.weapons.torpedo_battery[0].mount.mount_type = this.get_torpedo_mount_type_from_line(sship_by_line[185]);
             ship.weapons.torpedo_battery[0].torpedo.diameter = this.get_double_from_line(sship_by_line[80]);
             ship.weapons.torpedo_battery[0].torpedo.length = this.get_double_from_line(sship_by_line[183]);
+            if (ship.weapons.torpedo_battery[0].mount.number == 0) ship.weapons.torpedo_battery[0].mount.mount_type = Torpedo_Mount_Type.NONE; 
 
             ship.weapons.torpedo_battery[1].mount.number = this.get_int_from_line(sship_by_line[79]);
             ship.weapons.torpedo_battery[1].mount.sets = this.get_int_from_line(sship_by_line[181]);
             ship.weapons.torpedo_battery[1].mount.mount_type = this.get_torpedo_mount_type_from_line(sship_by_line[186]);
             ship.weapons.torpedo_battery[1].torpedo.diameter = this.get_double_from_line(sship_by_line[182]);
             ship.weapons.torpedo_battery[1].torpedo.length = this.get_double_from_line(sship_by_line[184]);
+            if (ship.weapons.torpedo_battery[1].mount.number == 0) ship.weapons.torpedo_battery[1].mount.mount_type = Torpedo_Mount_Type.NONE;
         }
 
         private void parse_asw_batteries(string[] sship_by_line)
@@ -355,29 +372,31 @@ namespace ss_convert_cli
             ship.weapons.asw_battery[0].reloads = this.get_int_from_line(sship_by_line[193]);
             ship.weapons.asw_battery[0].weight = this.get_double_from_line(sship_by_line[195]);
             ship.weapons.asw_battery[0].type = this.get_asw_type_from_line(sship_by_line[197]);
+            if (ship.weapons.asw_battery[0].number == 0) ship.weapons.asw_battery[0].type = ASW_Type.NONE; 
 
             ship.weapons.asw_battery[1].number = this.get_int_from_line(sship_by_line[192]);
             ship.weapons.asw_battery[1].reloads = this.get_int_from_line(sship_by_line[194]);
             ship.weapons.asw_battery[1].weight = this.get_double_from_line(sship_by_line[196]);
             ship.weapons.asw_battery[1].type = this.get_asw_type_from_line(sship_by_line[198]);
+            if (ship.weapons.asw_battery[1].number == 0) ship.weapons.asw_battery[1].type = ASW_Type.NONE;
         }
 
         private void parse_hull_form(string[] sship_by_line)
         {
-            //bow
+            //bow //TODO: check bow type logic
             ship.hull.bow.bow_type = this.get_bow_type_from_line(sship_by_line[135]);
             ship.hull.bow.bow_angle = this.get_double_from_line(sship_by_line[31]);
             ship.hull.bow.ram_length = this.get_double_from_line(sship_by_line[136]);
 
-            //stern
+            //stern //TODO: check stern type logic
             ship.hull.stern.stern_type = this.get_stern_type_from_line(sship_by_line[17]);
             ship.hull.stern.stern_overhang = this.get_double_from_line(sship_by_line[20]);
 
             //freeboard
             //fore castle
             ship.hull.hull_form.fore_castle.length_pcnt = this.get_double_from_line(sship_by_line[27]);
-            ship.hull.hull_form.fore_castle.forward_freeboard = this.get_double_from_line(sship_by_line[29]);
-            ship.hull.hull_form.fore_castle.aft_freboard = this.get_double_from_line(sship_by_line[30]);
+            ship.hull.hull_form.fore_castle.forward_freeboard = this.get_double_from_line(sship_by_line[30]);
+            ship.hull.hull_form.fore_castle.aft_freboard = this.get_double_from_line(sship_by_line[29]);
 
             //fore deck
             ship.hull.hull_form.fore_deck.length_pcnt = this.get_double_from_line(sship_by_line[24]);
@@ -391,7 +410,11 @@ namespace ss_convert_cli
 
 
             //aft deck
-            ship.hull.hull_form.aft_deck.length_pcnt = 100 - ship.hull.hull_form.fore_castle.length_pcnt - ship.hull.hull_form.fore_deck.length_pcnt - ship.hull.hull_form.quarter_deck.length_pcnt;
+            ship.hull.hull_form.aft_deck.length_pcnt = 
+                100 
+                - ship.hull.hull_form.fore_castle.length_pcnt 
+                - ship.hull.hull_form.fore_deck.length_pcnt 
+                - ship.hull.hull_form.quarter_deck.length_pcnt;
             ship.hull.hull_form.aft_deck.forward_freeboard = this.get_double_from_line(sship_by_line[25]);
             ship.hull.hull_form.aft_deck.aft_freboard = this.get_double_from_line(sship_by_line[23]);
 
@@ -500,8 +523,6 @@ namespace ss_convert_cli
             ship.hull.natural_speed = Convert.ToDouble(sub_non_decimal.Replace(nat_speed, ""));
 
             ship.stats.performance.trim = Convert.ToDouble(sub_non_decimal.Replace(find_trim.Match(stripped).Groups[1].ToString(), ""));
-            ship.hull.bow.bow_angle = Convert.ToDouble(sub_non_decimal_neg.Replace(find_bow_angle.Match(stripped).Groups[1].ToString(), ""));
-            ship.hull.stern.stern_overhang = Convert.ToDouble(sub_non_decimal_neg.Replace(find_stern_overhand.Match(stripped).Groups[1].ToString(), ""));
             ship.hull.size.block_coeffecient_nom = Convert.ToDouble(sub_non_decimal.Replace(find_cb.Match(stripped).Groups[1].ToString(), ""));
             ship.hull.size.block_coeffecient_max = Convert.ToDouble(sub_non_decimal.Replace(find_cb.Match(stripped).Groups[2].ToString(), ""));
             ship.machinery.performance.power_to_wavemaking = Convert.ToDouble(sub_non_decimal.Replace(find_power_to_waves.Match(stripped).Groups[1].ToString(), ""));
@@ -516,13 +537,20 @@ namespace ss_convert_cli
             ship.machinery.performance.max_speed = Convert.ToDouble(sub_non_decimal.Replace(find_shp_and_speed.Match(stripped).Groups[2].ToString(), ""));
 
             ship.type.cost = Convert.ToDouble(sub_non_decimal.Replace(find_price.Match(stripped).Groups[1].ToString(), "")) * 1000000;
-
             
             ship.type.complement_low = Convert.ToDouble(sub_non_decimal.Replace(find_complement.Match(stripped).Groups[1].ToString(), ""));
             ship.type.complement_high = Convert.ToDouble(sub_non_decimal.Replace(find_complement.Match(stripped).Groups[2].ToString(), ""));
 
-            //ship.armor.main_belt.incline = Convert.ToDouble(sub_non_decimal_neg.Replace(find_belt_incline.Match(stripped).Groups[1].ToString(), ""));
+        }
 
+        public void save_ship_xml(Path save_path)
+        {
+
+            XmlSerializer serializer = new XmlSerializer(typeof(Ship));
+            TextWriter writer = new StreamWriter(save_path.File_Path);
+
+            serializer.Serialize(writer, ship);
+            writer.Close();
         }
 
 
