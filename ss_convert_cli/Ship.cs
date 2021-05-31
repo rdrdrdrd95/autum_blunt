@@ -271,7 +271,21 @@ namespace ss_convert_cli
             }
         }
 
-
+        public static Mine_Mount_Type mine_type_from_int(int i)
+        {
+            switch (i)
+            {
+                default://fallthrough
+                case 0:
+                    return Mine_Mount_Type.ABOVE_WATER_STERN_RACK;
+                case 1:
+                    return Mine_Mount_Type.BELOW_WATER_BOW_TUBE;
+                case 2:
+                    return Mine_Mount_Type.BELOW_WATER_STERN_TUBE;
+                case 3:
+                    return Mine_Mount_Type.BELOW_WATER_SIDE_TUBES;
+            }
+        }
 
     }
 

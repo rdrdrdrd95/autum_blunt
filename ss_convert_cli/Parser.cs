@@ -106,6 +106,11 @@ namespace ss_convert_cli
             return MAKE_ENUMS.asw_type_from_int(get_int_from_line(line));
         }
 
+        private Deck_Type get_deck_type_from_line(string line)
+        {
+            return MAKE_ENUMS.deck_type_from_int(get_int_from_line(line)); 
+        }
+
         private int get_int_from_line(string line)
         {
             return Convert.ToInt32(sub_non_decimal_neg.Replace(line, ""));
@@ -299,6 +304,11 @@ namespace ss_convert_cli
 
             ship.armor.conning_tower_fore.armor.thickness = this.get_double_from_line(sship_by_line[109]);
             ship.armor.conning_tower_aft.armor.thickness = this.get_double_from_line(sship_by_line[211]);
+
+            ship.armor.forecastle.type = get_deck_type_from_line(sship_by_line[210]);//SS has all decks linked
+            ship.armor.fore_and_aft_deck.type = get_deck_type_from_line(sship_by_line[210]);
+            ship.armor.quarter_deck.type = get_deck_type_from_line(sship_by_line[210]);
+
         }
 
         private void parse_mines(string[] sship_by_line)
@@ -306,6 +316,7 @@ namespace ss_convert_cli
             ship.weapons.mine_battery[0].number = this.get_int_from_line(sship_by_line[187]);
             ship.weapons.mine_battery[0].reloads = this.get_int_from_line(sship_by_line[188]);
             ship.weapons.mine_battery[0].mine.weight = this.get_double_from_line(sship_by_line[189]);
+            //TODO: mine type from line
         }
 
         private void parse_torpedos(string[] sship_by_line)
