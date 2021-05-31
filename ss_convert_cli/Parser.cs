@@ -76,6 +76,20 @@ namespace ss_convert_cli
         //End the gross collection of regexes
 
         //TODO: make a subclass to hold this shit
+        private int get_int_from_line(string line)
+        {
+            return Convert.ToInt32(sub_non_decimal_neg.Replace(line, ""));
+        }
+        private double get_double_from_line(string line)
+        {
+            return Convert.ToDouble(sub_non_decimal_neg.Replace(line, ""));
+        }
+        private bool get_bool_from_line(string line)
+        {
+            if (line == "True") return true;
+            else return false;
+        }
+
         private Gun_Type get_gun_type_from_line(string line)
         {
             return MAKE_ENUMS.gun_type_from_int(get_int_from_line(line));
@@ -108,22 +122,23 @@ namespace ss_convert_cli
 
         private Deck_Type get_deck_type_from_line(string line)
         {
-            return MAKE_ENUMS.deck_type_from_int(get_int_from_line(line)); 
+            return MAKE_ENUMS.deck_type_from_int(get_int_from_line(line));
+
+        }
+        private Bow_Type get_bow_type_from_line(string line)
+        {
+            return MAKE_ENUMS.bow_type_from_int(get_int_from_line(line));
+        }
+        private Stern_Type get_stern_type_from_line(string line)
+        {
+            return MAKE_ENUMS.stern_type_from_int(get_int_from_line(line));
+        }
+        private Mine_Mount_Type get_mine_type_from_line(string line)
+        {
+            return MAKE_ENUMS.mine_type_from_int(get_int_from_line(line));
         }
 
-        private int get_int_from_line(string line)
-        {
-            return Convert.ToInt32(sub_non_decimal_neg.Replace(line, ""));
-        }
-        private double get_double_from_line(string line)
-        {
-            return Convert.ToDouble(sub_non_decimal_neg.Replace(line, ""));
-        }
-        private bool get_bool_from_line(string line)
-        {
-            if (line == "True") return true;
-            else return false; 
-        }
+
 
         private void parse_main_battery(string[] sship_by_line)
         {
@@ -316,6 +331,8 @@ namespace ss_convert_cli
             ship.weapons.mine_battery[0].number = this.get_int_from_line(sship_by_line[187]);
             ship.weapons.mine_battery[0].reloads = this.get_int_from_line(sship_by_line[188]);
             ship.weapons.mine_battery[0].mine.weight = this.get_double_from_line(sship_by_line[189]);
+            ship.weapons.mine_battery[0].mount = this.get_mine_type_from_line(sship_by_line[190]);
+            190
             //TODO: mine type from line
         }
 
