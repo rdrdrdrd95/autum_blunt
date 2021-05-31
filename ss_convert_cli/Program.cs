@@ -280,6 +280,16 @@ namespace ss_convert_cli
         public Mount_Size Mount_Size;
         public Gun_Distribution_Type distribution;
         public Gun_Mount_Numbers mount_numbers;
+
+        internal int sum_total_mounts()
+        {
+            return
+                    mount_numbers.mounts_two_below +
+                    mount_numbers.mounts_one_below +
+                    mount_numbers.mounts_on_deck +
+                    mount_numbers.mounts_one_up +
+                    mount_numbers.mounts_two_up;
+        }
     }
 
     public struct Gun_Armor
@@ -661,9 +671,14 @@ namespace ss_convert_cli
 
     class Parser
     {
+        public Parser()
+        {
+            this.ship.weapons.init_for_ss_import();
+        }
 
         public Ship ship = new Ship();
 
+        //TODO: make a re subclass to hold this shit
         Regex strip_formatting = new Regex(@"\\tab|\\par", RegexOptions.Compiled);
 
         Regex find_displacement = new Regex(@"\n.+load", RegexOptions.Compiled);
@@ -718,6 +733,7 @@ namespace ss_convert_cli
 
         Regex find_new_line = new Regex(@"\r\n|\n", RegexOptions.Compiled);
 
+        //TODO: make a subclass to hold this shit
         private Gun_Type get_gun_type_from_line(string line)
         {
             return MAKE_ENUMS.gun_type_from_int(get_int_from_line(line));
@@ -748,51 +764,24 @@ namespace ss_convert_cli
             else return false; 
         }
 
+        //TODO: make functions like this for all 5 batteries in spring sharp. 
         private void parse_main_battery(string[] sship_by_line)
         {
+            ship.weapons.gun_battery[0].number_of_guns = this.get_int_from_line(sship_by_line[32]);
+            ship.weapons.gun_battery[0].guns.diameter = this.get_double_from_line(sship_by_line[33]);
+            ship.weapons.gun_battery[0].number_of_mounts = this.get_int_from_line(sship_by_line[63]);
+            ship.weapons.gun_battery[0].armor.face_thickness = this.get_double_from_line(sship_by_line[93]);
+            ship.weapons.gun_battery[0].armor.other_thickness = this.get_double_from_line(sship_by_line[94]);
+            ship.weapons.gun_battery[0].armor.hoist_thickness = this.get_double_from_line(sship_by_line[95]);
+            ship.weapons.gun_battery[0].guns.caliber = this.get_double_from_line(sship_by_line[141]);
+            ship.weapons.gun_battery[0].guns.date = this.get_int_from_line(sship_by_line[130]);
 
-        }
-
-        //SS stores the numbers differently based on the unit system selected
-        //Maybe force metric?
-        public void parse_sship(Path sship_path)
-        {
-            var sship_file_string = File.OpenText(sship_path.File_Path).ReadToEnd();
-
-            var sship_by_line = find_new_line.Split(sship_file_string);
-
-            string notes = "";
-            const int note_start_line = 281; //should always be the same per the sship files I looked at
-            for (int index = note_start_line; index < sship_by_line.Length; ++index)
-            {
-                notes += sship_by_line[index] + "\n";
-            }
-            ship.ship_notes = notes;
-
-            ship.type.name = sship_by_line[1];
-            ship.type.country = sship_by_line[2];
-            ship.type.type = sship_by_line[3];
-            ship.type.date_laid_down = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[12], ""));
-
-            ship.weapons.init_for_ss_import();
-
-            //parse guns
-            ship.weapons.gun_battery[0].number_of_guns = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[32], ""));
-            ship.weapons.gun_battery[0].guns.diameter = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[33], ""));
-            ship.weapons.gun_battery[0].number_of_mounts = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[63], ""));
-            ship.weapons.gun_battery[0].armor.face_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[93], ""));
-            ship.weapons.gun_battery[0].armor.other_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[94], ""));
-            ship.weapons.gun_battery[0].armor.hoist_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[95], ""));
-            ship.weapons.gun_battery[0].guns.caliber = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[141], ""));
-            ship.weapons.gun_battery[0].guns.date = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[130], ""));
-            
             ship.weapons.gun_battery[0].guns.shell_weight = this.get_double_from_line(sship_by_line[37]);
             ship.weapons.gun_battery[0].guns.ammo_stowage = this.get_int_from_line(sship_by_line[62]);
             ship.weapons.gun_battery[0].gun_groups[0].mount_numbers.mounts_one_up = this.get_int_from_line(sship_by_line[35]);
             ship.weapons.gun_battery[0].gun_groups[0].mount_numbers.mounts_one_below = this.get_int_from_line(sship_by_line[36]);
 
-            //TODO: move per battery logic into subroutine
-            if (this.get_bool_from_line(sship_by_line[160])) 
+            if (this.get_bool_from_line(sship_by_line[160]))
             {
                 ship.weapons.gun_battery[0].gun_groups[1].mount_numbers.mounts_two_up = this.get_int_from_line(sship_by_line[155]);
             }
@@ -813,10 +802,38 @@ namespace ss_convert_cli
             }
 
             //TODO: implement sum function for a mount group to simplify this
-            //ship.weapons.gun_battery[0].gun_groups[1].mount_numbers.mounts_on_deck = ship.weapons.gun_battery[0].number_of_mounts - ship.weapons.gun_battery[0].gun_groups[0].get_total_mounts() - ship.weapons.gun_battery[0].gun_groups[1].get_total_mounts();
+            ship.weapons.gun_battery[0].gun_groups[1].mount_numbers.mounts_on_deck = ship.weapons.gun_battery[0].number_of_mounts - ship.weapons.gun_battery[0].gun_groups[0].sum_total_mounts() - ship.weapons.gun_battery[0].gun_groups[1].sum_total_mounts();
 
             ship.weapons.gun_battery[0].mount_type = this.get_gun_mount_type_from_line(sship_by_line[64]);
             ship.weapons.gun_battery[0].gun_groups[0].distribution = this.get_gun_distribution_type_from_line(sship_by_line[65]);
+        }
+
+        //SS stores the numbers differently based on the unit system selected
+        //Maybe force metric for submissions?
+        //This will grab whatever is in the data file. 
+        public void parse_sship(Path sship_path)
+        {
+            var sship_file_string = File.OpenText(sship_path.File_Path).ReadToEnd();
+
+            var sship_by_line = find_new_line.Split(sship_file_string);
+
+            string notes = "";
+            const int note_start_line = 281; //should always be the same per the sship files I looked at
+            for (int index = note_start_line; index < sship_by_line.Length; ++index)
+            {
+                notes += sship_by_line[index] + "\n";
+            }
+            ship.ship_notes = notes;
+
+            ship.type.name = sship_by_line[1];
+            ship.type.country = sship_by_line[2];
+            ship.type.type = sship_by_line[3];
+            ship.type.date_laid_down = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[12], ""));
+
+            
+
+            //parse guns
+            parse_main_battery(sship_by_line);
 
 
             ship.weapons.gun_battery[1].number_of_guns = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[38], ""));
@@ -923,6 +940,7 @@ namespace ss_convert_cli
         }
 
         //need to make this aware of the units? 
+        //Right now this always grabs the metric units
         public void parse_ssr(Path ssr_path)
         {
             var report = File.OpenText(ssr_path.File_Path);
