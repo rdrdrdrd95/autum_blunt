@@ -137,7 +137,7 @@ namespace ss_convert_cli
             ship.weapons.gun_battery[0].gun_groups[0].mount_numbers.mounts_one_up = this.get_int_from_line(sship_by_line[35]);
             ship.weapons.gun_battery[0].gun_groups[0].mount_numbers.mounts_one_below = this.get_int_from_line(sship_by_line[36]);
 
-            if (this.get_bool_from_line(sship_by_line[160]))
+            if (this.get_bool_from_line(sship_by_line[160]))//two moutns up checkbox
             {
                 ship.weapons.gun_battery[0].gun_groups[1].mount_numbers.mounts_two_up = this.get_int_from_line(sship_by_line[155]);
             }
@@ -148,13 +148,13 @@ namespace ss_convert_cli
 
             ship.weapons.gun_battery[0].gun_groups[1].mount_numbers.mounts_on_deck = this.get_int_from_line(sship_by_line[165]);
 
-            if (this.get_bool_from_line(sship_by_line[175]))
+            if (this.get_bool_from_line(sship_by_line[175]))//two moutns up checkbox
             {
-                ship.weapons.gun_battery[0].gun_groups[1].mount_numbers.mounts_two_up = this.get_int_from_line(sship_by_line[170]);
+                ship.weapons.gun_battery[0].gun_groups[1].mount_numbers.mounts_two_below = this.get_int_from_line(sship_by_line[170]);
             }
             else
             {
-                ship.weapons.gun_battery[0].gun_groups[1].mount_numbers.mounts_one_up = this.get_int_from_line(sship_by_line[170]);
+                ship.weapons.gun_battery[0].gun_groups[1].mount_numbers.mounts_one_below = this.get_int_from_line(sship_by_line[170]);
             }
 
             ship.weapons.gun_battery[0].gun_groups[0].mount_numbers.mounts_on_deck = ship.weapons.gun_battery[0].number_of_mounts - ship.weapons.gun_battery[0].gun_groups[0].sum_total_mounts() - ship.weapons.gun_battery[0].gun_groups[1].sum_total_mounts();
