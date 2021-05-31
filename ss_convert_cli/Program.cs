@@ -23,10 +23,33 @@ namespace ss_convert_cli
 
     public static class Extensions
     {
-        public static Deck_Type minPassing = Deck_Type.ARMORED_SINGLE;
-        public static bool Passing(this Deck_Type grade)
+        //TODO: play with this to make it clean 
+        public static string get_description(this Gun_Distribution_Type value)
         {
-            return grade >= minPassing;
+            switch (value)
+            {
+                case Gun_Distribution_Type.NONE:
+                default: return "Unknown Gun Distribution Type";
+
+                case Gun_Distribution_Type.CETNERLINE_DISTRIBUTED:              return "Centerline: Distributed Evenly Over Length";        
+                case Gun_Distribution_Type.CETNERLINE_END_FORE_GREAT_AFT:                     
+                case Gun_Distribution_Type.CETNERLINE_END_AFT_GREAT_FORE:                     
+                case Gun_Distribution_Type.CETNERLINE_FOREDECK_FORWARD:                    
+                case Gun_Distribution_Type.CETNERLINE_FOREDECK:                    
+                case Gun_Distribution_Type.CETNERLINE_FOREDECK_AFT:                    
+                case Gun_Distribution_Type.CETNERLINE_AFTDECK_FOREWARD:                     
+                case Gun_Distribution_Type.CETNERLINE_AFTDECK:                    
+                case Gun_Distribution_Type.CETNERLINE_AFTDECK_AFT:                     
+                case Gun_Distribution_Type.SIDES_DISTRIBUTED:                     
+                case Gun_Distribution_Type.SIDES_ENDS_FORE_GREAT_AFT:                    
+                case Gun_Distribution_Type.SIDES_ENDS_AFT_GREAT_FORE:                     
+                case Gun_Distribution_Type.SIDES_FOREDECK_FORWARD:
+                case Gun_Distribution_Type.SIDES_FOREDECK:                    
+                case Gun_Distribution_Type.SIDES_FOREDECK_AFT:                     
+                case Gun_Distribution_Type.SIDES_AFTDECK_FORWARD:                     
+                case Gun_Distribution_Type.SIDES_AFTDECK:              
+                case Gun_Distribution_Type.SIDES_AFTDECK_AFT:                   return "Sides: Aft Deck, Aft";
+            }
         }
     }
 
@@ -51,6 +74,74 @@ namespace ss_convert_cli
                     return Gun_Type.AUTO_RAPID_FIRE;
                 case 6:
                     return Gun_Type.MACHINE_GUN;
+            }
+        }
+
+        public static Mount_Type mount_type_from_int(int i)
+        {
+            switch (i)
+            {
+                case 0:
+                    return Mount_Type.BROADSIDE;
+                case 1:
+                    return Mount_Type.COLES_ERICSSON_TURRET;
+                case 2:
+                    return Mount_Type.OPERN_BARBETTE;
+                default://fallthrough
+                case 3:
+                    return Mount_Type.TURRET_ON_BARBETTE;
+                case 4:
+                    return Mount_Type.DECK_AND_HOIST;
+                case 5:
+                    return Mount_Type.DECK;
+                case 6:
+                    return Mount_Type.CASEMENT;
+            }
+        }
+
+        public static Gun_Distribution_Type gun_distribution_type_from_int(int i)
+        {
+            switch (i)
+            {
+                case 0:
+                    return Gun_Distribution_Type.CETNERLINE_DISTRIBUTED;
+                case 1:
+                    return Gun_Distribution_Type.CETNERLINE_END_FORE_GREAT_AFT;
+                case 2:
+                    return Gun_Distribution_Type.CETNERLINE_END_AFT_GREAT_FORE;
+                case 3:
+                    return Gun_Distribution_Type.CETNERLINE_FOREDECK_FORWARD;
+                case 4:
+                    return Gun_Distribution_Type.CETNERLINE_FOREDECK;
+                case 5:
+                    return Gun_Distribution_Type.CETNERLINE_FOREDECK_AFT;
+                case 6:
+                    return Gun_Distribution_Type.CETNERLINE_AFTDECK_FOREWARD;
+                case 7:
+                    return Gun_Distribution_Type.CETNERLINE_AFTDECK;
+                case 8:
+                    return Gun_Distribution_Type.CETNERLINE_AFTDECK_AFT;
+                case 9:
+                    return Gun_Distribution_Type.SIDES_DISTRIBUTED;
+                case 10:
+                    return Gun_Distribution_Type.SIDES_ENDS_FORE_GREAT_AFT;
+                case 11:
+                    return Gun_Distribution_Type.SIDES_ENDS_AFT_GREAT_FORE;
+                case 12:
+                    return Gun_Distribution_Type.SIDES_FOREDECK_FORWARD;
+                case 13:
+                    return Gun_Distribution_Type.SIDES_FOREDECK;
+                case 14:
+                    return Gun_Distribution_Type.SIDES_FOREDECK_AFT;
+                case 15:
+                    return Gun_Distribution_Type.SIDES_AFTDECK_FORWARD;
+                case 16:
+                    return Gun_Distribution_Type.SIDES_AFTDECK;
+                case 17:
+                    return Gun_Distribution_Type.SIDES_AFTDECK_AFT;
+                default://fallthrough
+                case 18:
+                    return Gun_Distribution_Type.NONE;
             }
         }
     }
@@ -629,78 +720,18 @@ namespace ss_convert_cli
 
         private Gun_Type get_gun_type_from_line(string line)
         {
-
             return MAKE_ENUMS.gun_type_from_int(get_int_from_line(line));
-
         }
 
         private Mount_Type get_gun_mount_type_from_line(string line)
         {
-            switch (this.get_int_from_line(line))
-            {
-                case 0:
-                    return Mount_Type.BROADSIDE;
-                case 1:
-                    return Mount_Type.COLES_ERICSSON_TURRET;
-                case 2:
-                    return Mount_Type.OPERN_BARBETTE;
-                default://fallthrough
-                case 3:                
-                    return Mount_Type.TURRET_ON_BARBETTE;
-                case 4:
-                    return Mount_Type.DECK_AND_HOIST;
-                case 5:
-                    return Mount_Type.DECK;
-                case 6:
-                    return Mount_Type.CASEMENT;
-            }
+            return MAKE_ENUMS.mount_type_from_int(get_int_from_line(line));
         }
 
         //can this be in the enum itself?
         private Gun_Distribution_Type get_gun_distribution_type_from_line(string line)
         {
-            switch (this.get_int_from_line(line))
-            {           
-                case 0:
-                    return Gun_Distribution_Type.CETNERLINE_DISTRIBUTED;
-                case 1:
-                    return Gun_Distribution_Type.CETNERLINE_END_FORE_GREAT_AFT;
-                case 2:
-                    return Gun_Distribution_Type.CETNERLINE_END_AFT_GREAT_FORE;
-                case 3:
-                    return Gun_Distribution_Type.CETNERLINE_FOREDECK_FORWARD;
-                case 4:
-                    return Gun_Distribution_Type.CETNERLINE_FOREDECK;
-                case 5:
-                    return Gun_Distribution_Type.CETNERLINE_FOREDECK_AFT;
-                case 6:
-                    return Gun_Distribution_Type.CETNERLINE_AFTDECK_FOREWARD;
-                case 7:
-                    return Gun_Distribution_Type.CETNERLINE_AFTDECK;
-                case 8:
-                    return Gun_Distribution_Type.CETNERLINE_AFTDECK_AFT;
-                case 9:
-                    return Gun_Distribution_Type.SIDES_DISTRIBUTED;
-                case 10:
-                    return Gun_Distribution_Type.SIDES_ENDS_FORE_GREAT_AFT;
-                case 11:
-                    return Gun_Distribution_Type.SIDES_ENDS_AFT_GREAT_FORE;
-                case 12:
-                    return Gun_Distribution_Type.SIDES_FOREDECK_FORWARD;
-                case 13:
-                    return Gun_Distribution_Type.SIDES_FOREDECK;
-                case 14:
-                    return Gun_Distribution_Type.SIDES_FOREDECK_AFT;
-                case 15:
-                    return Gun_Distribution_Type.SIDES_AFTDECK_FORWARD;
-                case 16:
-                    return Gun_Distribution_Type.SIDES_AFTDECK;
-                case 17:
-                    return Gun_Distribution_Type.SIDES_AFTDECK_AFT;
-                default://fallthrough
-                case 18:
-                    return Gun_Distribution_Type.NONE;
-            }
+            return MAKE_ENUMS.gun_distribution_type_from_int(get_int_from_line(line));
         }
 
         private int get_int_from_line(string line)
@@ -715,6 +746,11 @@ namespace ss_convert_cli
         {
             if (line == "True") return true;
             else return false; 
+        }
+
+        private void parse_main_battery(string[] sship_by_line)
+        {
+
         }
 
         //SS stores the numbers differently based on the unit system selected
@@ -780,8 +816,8 @@ namespace ss_convert_cli
             //ship.weapons.gun_battery[0].gun_groups[1].mount_numbers.mounts_on_deck = ship.weapons.gun_battery[0].number_of_mounts - ship.weapons.gun_battery[0].gun_groups[0].get_total_mounts() - ship.weapons.gun_battery[0].gun_groups[1].get_total_mounts();
 
             ship.weapons.gun_battery[0].mount_type = this.get_gun_mount_type_from_line(sship_by_line[64]);
-           
-            //line 65 = group 1 distribution type
+            ship.weapons.gun_battery[0].gun_groups[0].distribution = this.get_gun_distribution_type_from_line(sship_by_line[65]);
+
 
             ship.weapons.gun_battery[1].number_of_guns = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[38], ""));
             ship.weapons.gun_battery[1].guns.diameter = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[39], ""));
