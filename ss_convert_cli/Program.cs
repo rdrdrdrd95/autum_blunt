@@ -732,6 +732,7 @@ namespace ss_convert_cli
         Regex find_upper_belt = new Regex(@"Upper:.+/(.+) mm.+/(.+) m .+/(.+)m", RegexOptions.Compiled);
 
         Regex find_new_line = new Regex(@"\r\n|\n", RegexOptions.Compiled);
+        //End the gross collection of regexes
 
         //TODO: make a subclass to hold this shit
         private Gun_Type get_gun_type_from_line(string line)
@@ -764,7 +765,6 @@ namespace ss_convert_cli
             else return false; 
         }
 
-        //TODO: make functions like this for all 5 batteries in spring sharp. 
         private void parse_main_battery(string[] sship_by_line)
         {
             ship.weapons.gun_battery[0].guns.type = get_gun_type_from_line(sship_by_line[34]);
@@ -807,6 +807,55 @@ namespace ss_convert_cli
 
             ship.weapons.gun_battery[0].mount_type = this.get_gun_mount_type_from_line(sship_by_line[64]);
             ship.weapons.gun_battery[0].gun_groups[0].distribution = this.get_gun_distribution_type_from_line(sship_by_line[65]);
+        }
+
+        private void parse_secondary_battery(string[] sship_by_line)
+        {
+            ship.weapons.gun_battery[1].number_of_guns = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[38], ""));
+            ship.weapons.gun_battery[1].guns.diameter = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[39], ""));
+            ship.weapons.gun_battery[1].number_of_mounts = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[66], ""));
+            ship.weapons.gun_battery[1].armor.face_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[96], ""));
+            ship.weapons.gun_battery[1].armor.other_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[97], ""));
+            ship.weapons.gun_battery[1].armor.hoist_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[98], ""));
+            ship.weapons.gun_battery[1].guns.caliber = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[142], ""));
+            ship.weapons.gun_battery[1].guns.date = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[131], ""));
+            ship.weapons.gun_battery[1].guns.type = get_gun_type_from_line(sship_by_line[40]);
+        }
+        private void parse_tertiary_battery(string[] sship_by_line)
+        {
+            ship.weapons.gun_battery[2].number_of_guns = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[44], ""));
+            ship.weapons.gun_battery[2].guns.diameter = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[45], ""));
+            ship.weapons.gun_battery[2].number_of_mounts = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[69], ""));
+            ship.weapons.gun_battery[2].armor.face_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[99], ""));
+            ship.weapons.gun_battery[2].armor.other_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[100], ""));
+            ship.weapons.gun_battery[2].armor.hoist_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[101], ""));
+            ship.weapons.gun_battery[2].guns.caliber = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[143], ""));
+            ship.weapons.gun_battery[2].guns.date = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[132], ""));
+            ship.weapons.gun_battery[2].guns.type = get_gun_type_from_line(sship_by_line[46]);
+        }
+        private void parse_quaterarny_battery(string[] sship_by_line)
+        {
+            ship.weapons.gun_battery[3].number_of_guns = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[50], ""));
+            ship.weapons.gun_battery[3].guns.diameter = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[51], ""));
+            ship.weapons.gun_battery[3].number_of_mounts = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[72], ""));
+            ship.weapons.gun_battery[3].armor.face_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[102], ""));
+            ship.weapons.gun_battery[3].armor.other_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[103], ""));
+            ship.weapons.gun_battery[3].armor.hoist_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[104], ""));
+            ship.weapons.gun_battery[3].guns.caliber = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[144], ""));
+            ship.weapons.gun_battery[3].guns.date = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[133], ""));
+            ship.weapons.gun_battery[3].guns.type = get_gun_type_from_line(sship_by_line[52]);
+        }
+        private void parse_pentarny_battery(string[] sship_by_line)
+        {
+            ship.weapons.gun_battery[4].number_of_guns = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[56], ""));
+            ship.weapons.gun_battery[4].guns.diameter = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[57], ""));
+            ship.weapons.gun_battery[4].number_of_mounts = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[75], ""));
+            ship.weapons.gun_battery[4].armor.face_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[105], ""));
+            ship.weapons.gun_battery[4].armor.other_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[106], ""));
+            ship.weapons.gun_battery[4].armor.hoist_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[107], ""));
+            ship.weapons.gun_battery[4].guns.caliber = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[145], ""));
+            ship.weapons.gun_battery[4].guns.date = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[134], ""));
+            ship.weapons.gun_battery[4].guns.type = get_gun_type_from_line(sship_by_line[58]);
         }
 
         private void parse_notes(string[] sship_by_line)
@@ -861,81 +910,8 @@ namespace ss_convert_cli
             ship.misc_weight.hull_below_water = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[13], ""));
         }
 
-        //SS stores the numbers differently based on the unit system selected
-        //Maybe force metric for submissions?
-        //This will grab whatever is in the data file. 
-        public void parse_sship(Path sship_path)
+        private void parse_armor(string[] sship_by_line)
         {
-            var sship_file_string = File.OpenText(sship_path.File_Path).ReadToEnd();
-
-            var sship_by_line = find_new_line.Split(sship_file_string);
-
-            parse_notes(sship_by_line);
-
-            parse_type_info(sship_by_line);
-
-            parse_machinery(sship_by_line);
-
-            //parse guns
-            parse_main_battery(sship_by_line);
-            parse_misc_weights(sship_by_line); 
-
-            //TODO: encapsulate and debug each
-            ship.weapons.gun_battery[1].number_of_guns = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[38], ""));
-            ship.weapons.gun_battery[1].guns.diameter = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[39], ""));
-            ship.weapons.gun_battery[1].number_of_mounts = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[66], ""));
-            ship.weapons.gun_battery[1].armor.face_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[96], ""));
-            ship.weapons.gun_battery[1].armor.other_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[97], ""));
-            ship.weapons.gun_battery[1].armor.hoist_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[98], ""));
-            ship.weapons.gun_battery[1].guns.caliber = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[142], ""));
-            ship.weapons.gun_battery[1].guns.date = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[131], ""));
-
-            ship.weapons.gun_battery[2].number_of_guns = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[44], ""));
-            ship.weapons.gun_battery[2].guns.diameter = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[45], ""));
-            ship.weapons.gun_battery[2].number_of_mounts = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[69], ""));
-            ship.weapons.gun_battery[2].armor.face_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[99], ""));
-            ship.weapons.gun_battery[2].armor.other_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[100], ""));
-            ship.weapons.gun_battery[2].armor.hoist_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[101], ""));
-            ship.weapons.gun_battery[2].guns.caliber = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[143], ""));
-            ship.weapons.gun_battery[2].guns.date = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[132], ""));
-
-            ship.weapons.gun_battery[3].number_of_guns = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[50], ""));
-            ship.weapons.gun_battery[3].guns.diameter = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[51], ""));
-            ship.weapons.gun_battery[3].number_of_mounts = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[72], ""));
-            ship.weapons.gun_battery[3].armor.face_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[102], ""));
-            ship.weapons.gun_battery[3].armor.other_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[103], ""));
-            ship.weapons.gun_battery[3].armor.hoist_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[104], ""));
-            ship.weapons.gun_battery[3].guns.caliber = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[144], ""));
-            ship.weapons.gun_battery[3].guns.date = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[133], ""));
-
-            ship.weapons.gun_battery[4].number_of_guns = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[56], ""));
-            ship.weapons.gun_battery[4].guns.diameter = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[57], ""));
-            ship.weapons.gun_battery[4].number_of_mounts = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[75], ""));
-            ship.weapons.gun_battery[4].armor.face_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[105], ""));
-            ship.weapons.gun_battery[4].armor.other_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[106], ""));
-            ship.weapons.gun_battery[4].armor.hoist_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[107], ""));
-            ship.weapons.gun_battery[4].guns.caliber = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[145], ""));
-            ship.weapons.gun_battery[4].guns.date = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[134], ""));
-
-            ship.weapons.gun_battery[1].guns.type = get_gun_type_from_line(sship_by_line[40]);
-            ship.weapons.gun_battery[2].guns.type = get_gun_type_from_line(sship_by_line[46]);
-            ship.weapons.gun_battery[3].guns.type = get_gun_type_from_line(sship_by_line[52]);
-            ship.weapons.gun_battery[4].guns.type = get_gun_type_from_line(sship_by_line[58]);
-
-            //other weapons
-            ship.weapons.mine_battery[0].number = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[187], ""));
-            ship.weapons.mine_battery[0].reloads = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[188], ""));
-            ship.weapons.mine_battery[0].mine.weight = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[189], ""));
-
-            ship.weapons.asw_battery[0].number = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[191], ""));
-            ship.weapons.asw_battery[0].reloads = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[193], ""));
-            ship.weapons.asw_battery[0].weight = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[195], ""));
-
-            ship.weapons.asw_battery[1].number = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[192], ""));
-            ship.weapons.asw_battery[1].reloads = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[194], ""));
-            ship.weapons.asw_battery[1].weight = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[196], ""));
-
-            //armor
             ship.armor.fore_and_aft_deck.thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[108], ""));
             ship.armor.forecastle.thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[208], ""));
             ship.armor.quarter_deck.thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[209], ""));
@@ -951,10 +927,62 @@ namespace ss_convert_cli
 
             ship.armor.conning_tower_fore.armor.thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[109], ""));
             ship.armor.conning_tower_aft.armor.thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[211], ""));
+        }
 
-            
+        private void parse_mines(string[] sship_by_line)
+        {
+            ship.weapons.mine_battery[0].number = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[187], ""));
+            ship.weapons.mine_battery[0].reloads = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[188], ""));
+            ship.weapons.mine_battery[0].mine.weight = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[189], ""));
+        }
 
-            
+        private void parse_torpedos(string[] sship_by_line)
+        {
+
+        }
+
+        private void parse_asw_batteries(string[] sship_by_line)
+        {
+            ship.weapons.asw_battery[0].number = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[191], ""));
+            ship.weapons.asw_battery[0].reloads = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[193], ""));
+            ship.weapons.asw_battery[0].weight = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[195], ""));
+
+            ship.weapons.asw_battery[1].number = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[192], ""));
+            ship.weapons.asw_battery[1].reloads = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[194], ""));
+            ship.weapons.asw_battery[1].weight = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[196], ""));
+        }
+
+        //SS stores the numbers differently based on the unit system selected
+        //Maybe force metric for submissions?
+        //This will grab whatever is in the data file. 
+        public void parse_sship(Path sship_path)
+        {
+            var sship_file_string = File.OpenText(sship_path.File_Path).ReadToEnd();
+
+            var sship_by_line = find_new_line.Split(sship_file_string);
+
+            parse_notes(sship_by_line);
+
+            parse_type_info(sship_by_line);
+
+            parse_machinery(sship_by_line);
+
+            parse_misc_weights(sship_by_line);
+
+            //parse guns
+            parse_main_battery(sship_by_line);
+            parse_secondary_battery(sship_by_line);
+            parse_tertiary_battery(sship_by_line);
+            parse_quaterarny_battery(sship_by_line);
+            parse_pentarny_battery(sship_by_line);
+
+            //parse other weapons
+            parse_torpedos(sship_by_line); //TODO: implent this
+            parse_mines(sship_by_line);
+            parse_asw_batteries(sship_by_line); 
+
+
+            parse_armor(sship_by_line); 
 
 
 
@@ -964,6 +992,12 @@ namespace ss_convert_cli
 
         //need to make this aware of the units? 
         //Right now this always grabs the metric units
+        //This is super gross and needs to be re-worked and broken up. Only things that shouldn't be grabable from the sship need to come from here
+        //Namely:
+            //*Displacement
+            //*Compositional Strength
+            //*Performance stats
+            //*Broadside
         public void parse_ssr(Path ssr_path)
         {
             var report = File.OpenText(ssr_path.File_Path);
