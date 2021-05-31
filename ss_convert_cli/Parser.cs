@@ -170,50 +170,50 @@ namespace ss_convert_cli
 
         private void parse_secondary_battery(string[] sship_by_line)
         {
-            ship.weapons.gun_battery[1].number_of_guns = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[38], ""));
-            ship.weapons.gun_battery[1].guns.diameter = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[39], ""));
-            ship.weapons.gun_battery[1].number_of_mounts = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[66], ""));
-            ship.weapons.gun_battery[1].armor.face_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[96], ""));
-            ship.weapons.gun_battery[1].armor.other_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[97], ""));
-            ship.weapons.gun_battery[1].armor.hoist_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[98], ""));
-            ship.weapons.gun_battery[1].guns.caliber = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[142], ""));
-            ship.weapons.gun_battery[1].guns.date = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[131], ""));
+            ship.weapons.gun_battery[1].number_of_guns = this.get_int_from_line(sship_by_line[38]);
+            ship.weapons.gun_battery[1].guns.diameter = this.get_double_from_line(sship_by_line[39]);
+            ship.weapons.gun_battery[1].number_of_mounts = this.get_int_from_line(sship_by_line[66]);
+            ship.weapons.gun_battery[1].armor.face_thickness = this.get_double_from_line(sship_by_line[96]);
+            ship.weapons.gun_battery[1].armor.other_thickness = this.get_double_from_line(sship_by_line[97]);
+            ship.weapons.gun_battery[1].armor.hoist_thickness = this.get_double_from_line(sship_by_line[98]);
+            ship.weapons.gun_battery[1].guns.caliber = this.get_double_from_line(sship_by_line[142]);
+            ship.weapons.gun_battery[1].guns.date = this.get_int_from_line(sship_by_line[131]);
             ship.weapons.gun_battery[1].guns.type = get_gun_type_from_line(sship_by_line[40]);
         }
         private void parse_tertiary_battery(string[] sship_by_line)
         {
-            ship.weapons.gun_battery[2].number_of_guns = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[44], ""));
-            ship.weapons.gun_battery[2].guns.diameter = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[45], ""));
-            ship.weapons.gun_battery[2].number_of_mounts = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[69], ""));
-            ship.weapons.gun_battery[2].armor.face_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[99], ""));
-            ship.weapons.gun_battery[2].armor.other_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[100], ""));
-            ship.weapons.gun_battery[2].armor.hoist_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[101], ""));
-            ship.weapons.gun_battery[2].guns.caliber = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[143], ""));
-            ship.weapons.gun_battery[2].guns.date = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[132], ""));
+            ship.weapons.gun_battery[2].number_of_guns = this.get_int_from_line(sship_by_line[44]);
+            ship.weapons.gun_battery[2].guns.diameter = this.get_double_from_line(sship_by_line[45]);
+            ship.weapons.gun_battery[2].number_of_mounts = this.get_int_from_line(sship_by_line[69]);
+            ship.weapons.gun_battery[2].armor.face_thickness = this.get_double_from_line(sship_by_line[99]);
+            ship.weapons.gun_battery[2].armor.other_thickness = this.get_double_from_line(sship_by_line[100]);
+            ship.weapons.gun_battery[2].armor.hoist_thickness = this.get_double_from_line(sship_by_line[101]);
+            ship.weapons.gun_battery[2].guns.caliber = this.get_double_from_line(sship_by_line[143]);
+            ship.weapons.gun_battery[2].guns.date = this.get_int_from_line(sship_by_line[132]);
             ship.weapons.gun_battery[2].guns.type = get_gun_type_from_line(sship_by_line[46]);
         }
         private void parse_quaterarny_battery(string[] sship_by_line)
         {
-            ship.weapons.gun_battery[3].number_of_guns = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[50], ""));
-            ship.weapons.gun_battery[3].guns.diameter = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[51], ""));
-            ship.weapons.gun_battery[3].number_of_mounts = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[72], ""));
-            ship.weapons.gun_battery[3].armor.face_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[102], ""));
-            ship.weapons.gun_battery[3].armor.other_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[103], ""));
-            ship.weapons.gun_battery[3].armor.hoist_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[104], ""));
-            ship.weapons.gun_battery[3].guns.caliber = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[144], ""));
-            ship.weapons.gun_battery[3].guns.date = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[133], ""));
+            ship.weapons.gun_battery[3].number_of_guns = this.get_int_from_line(sship_by_line[50]);
+            ship.weapons.gun_battery[3].guns.diameter = this.get_double_from_line(sship_by_line[51]);
+            ship.weapons.gun_battery[3].number_of_mounts = this.get_int_from_line(sship_by_line[72]);
+            ship.weapons.gun_battery[3].armor.face_thickness = this.get_double_from_line(sship_by_line[102]);
+            ship.weapons.gun_battery[3].armor.other_thickness = this.get_double_from_line(sship_by_line[103]);
+            ship.weapons.gun_battery[3].armor.hoist_thickness = this.get_double_from_line(sship_by_line[104]);
+            ship.weapons.gun_battery[3].guns.caliber = this.get_double_from_line(sship_by_line[144]);
+            ship.weapons.gun_battery[3].guns.date = this.get_int_from_line(sship_by_line[133]);
             ship.weapons.gun_battery[3].guns.type = get_gun_type_from_line(sship_by_line[52]);
         }
         private void parse_pentarny_battery(string[] sship_by_line)
         {
-            ship.weapons.gun_battery[4].number_of_guns = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[56], ""));
-            ship.weapons.gun_battery[4].guns.diameter = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[57], ""));
-            ship.weapons.gun_battery[4].number_of_mounts = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[75], ""));
-            ship.weapons.gun_battery[4].armor.face_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[105], ""));
-            ship.weapons.gun_battery[4].armor.other_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[106], ""));
-            ship.weapons.gun_battery[4].armor.hoist_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[107], ""));
-            ship.weapons.gun_battery[4].guns.caliber = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[145], ""));
-            ship.weapons.gun_battery[4].guns.date = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[134], ""));
+            ship.weapons.gun_battery[4].number_of_guns = this.get_int_from_line(sship_by_line[56]);
+            ship.weapons.gun_battery[4].guns.diameter = this.get_double_from_line(sship_by_line[57]);
+            ship.weapons.gun_battery[4].number_of_mounts = this.get_int_from_line(sship_by_line[75]);
+            ship.weapons.gun_battery[4].armor.face_thickness = this.get_double_from_line(sship_by_line[105]);
+            ship.weapons.gun_battery[4].armor.other_thickness = this.get_double_from_line(sship_by_line[106]);
+            ship.weapons.gun_battery[4].armor.hoist_thickness = this.get_double_from_line(sship_by_line[107]);
+            ship.weapons.gun_battery[4].guns.caliber = this.get_double_from_line(sship_by_line[145]);
+            ship.weapons.gun_battery[4].guns.date = this.get_int_from_line(sship_by_line[134]);
             ship.weapons.gun_battery[4].guns.type = get_gun_type_from_line(sship_by_line[58]);
         }
 
@@ -260,11 +260,11 @@ namespace ss_convert_cli
 
         private void parse_misc_weights(string[] sship_by_line)
         {
-            ship.misc_weight.hull_above_water = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[199], ""));
-            ship.misc_weight.on_deck = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[200], ""));
-            ship.misc_weight.above_water = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[201], ""));
-            ship.misc_weight.hull_above_water = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[199], ""));
-            ship.misc_weight.hull_below_water = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[13], ""));
+            ship.misc_weight.hull_above_water   = this.get_double_from_line(sship_by_line[199]);
+            ship.misc_weight.on_deck            = this.get_double_from_line(sship_by_line[200]);
+            ship.misc_weight.above_water        = this.get_double_from_line(sship_by_line[201]);
+            ship.misc_weight.hull_above_water   = this.get_double_from_line(sship_by_line[199]);
+            ship.misc_weight.hull_below_water   = this.get_double_from_line(sship_by_line[13]);
         }
 
         private void parse_armor(string[] sship_by_line)
@@ -303,9 +303,9 @@ namespace ss_convert_cli
 
         private void parse_mines(string[] sship_by_line)
         {
-            ship.weapons.mine_battery[0].number = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[187], ""));
-            ship.weapons.mine_battery[0].reloads = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[188], ""));
-            ship.weapons.mine_battery[0].mine.weight = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[189], ""));
+            ship.weapons.mine_battery[0].number = this.get_int_from_line(sship_by_line[187]);
+            ship.weapons.mine_battery[0].reloads = this.get_int_from_line(sship_by_line[188]);
+            ship.weapons.mine_battery[0].mine.weight = this.get_double_from_line(sship_by_line[189]);
         }
 
         private void parse_torpedos(string[] sship_by_line)
