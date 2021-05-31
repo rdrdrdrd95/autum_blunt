@@ -969,6 +969,8 @@ namespace ss_convert_cli
 
             parse_misc_weights(sship_by_line);
 
+            parse_armor(sship_by_line);
+
             //parse guns
             parse_main_battery(sship_by_line);
             parse_secondary_battery(sship_by_line);
@@ -980,11 +982,6 @@ namespace ss_convert_cli
             parse_torpedos(sship_by_line); //TODO: implent this
             parse_mines(sship_by_line);
             parse_asw_batteries(sship_by_line); 
-
-
-            parse_armor(sship_by_line); 
-
-
 
 
             bool foo = true;
