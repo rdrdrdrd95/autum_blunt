@@ -20,6 +20,42 @@ using System.IO;
 
 namespace ss_convert_cli
 {
+
+    public static class Extensions
+    {
+        public static Deck_Type minPassing = Deck_Type.ARMORED_SINGLE;
+        public static bool Passing(this Deck_Type grade)
+        {
+            return grade >= minPassing;
+        }
+    }
+
+    public static class MAKE_ENUMS
+    {
+        public static Gun_Type gun_type_from_int(int i)
+        {
+            switch (i)
+            {
+                case 0:
+                    return Gun_Type.MUZZLE_LOAD;
+                default://fallthrough
+                case 1:
+                    return Gun_Type.BREACH_LOAD;
+                case 2:
+                    return Gun_Type.QUICK_FIRING;
+                case 3:
+                    return Gun_Type.ANTI_AIR;
+                case 4:
+                    return Gun_Type.DUAL_PURPOSE;
+                case 5:
+                    return Gun_Type.AUTO_RAPID_FIRE;
+                case 6:
+                    return Gun_Type.MACHINE_GUN;
+            }
+        }
+    }
+
+
     public enum Unit_System
     {
         SI,
@@ -148,7 +184,7 @@ namespace ss_convert_cli
         public int mounts_two_below;
     }
 
-    public struct Gun_Group
+    public class Gun_Group
     {
         public Mount_Size Mount_Size;
         public Gun_Distribution_Type distribution;
@@ -551,8 +587,7 @@ namespace ss_convert_cli
         Regex find_armor = new Regex(@"Armour:", RegexOptions.Compiled | RegexOptions.Multiline);
         Regex split_armarment = new Regex(@"      ", RegexOptions.Compiled);
         Regex find_broadside = new Regex(@"\/.+kg", RegexOptions.Compiled);
-        Regex strip_battery = new Regex(@"(?<=\d),", RegexOptions.Compiled);
-        Regex split_battery = new Regex(@"\n| - |mm|\/|\D,|(?<=mount)\s|(?<=mount)\| in | x ", RegexOptions.Compiled);
+
         Regex sub_non_decimal = new Regex(@"[^0-9.]", RegexOptions.Compiled);
         Regex sub_non_decimal_neg = new Regex(@"[^0-9.-]", RegexOptions.Compiled);
 
@@ -583,7 +618,6 @@ namespace ss_convert_cli
 
         Regex find_price = new Regex(@"\$(.+)million", RegexOptions.Compiled);
 
-        Regex find_class_info = new Regex(@"fs17(.+),(.+)laid down (.+)", RegexOptions.Compiled);
         Regex find_belt_incline = new Regex(@"Main Belt inclined(.+) degrees", RegexOptions.Compiled);
         Regex find_complement = new Regex(@"([0-9,]+) - ([0-9,]+)[\n\r]", RegexOptions.Compiled);
 
@@ -591,10 +625,116 @@ namespace ss_convert_cli
         Regex find_end_belt = new Regex(@"Ends:.+/(.+) mm.+/(.+) m .+/(.+)m", RegexOptions.Compiled);
         Regex find_upper_belt = new Regex(@"Upper:.+/(.+) mm.+/(.+) m .+/(.+)m", RegexOptions.Compiled);
 
-        Regex find_main_battery_armor = new Regex(@"Main:.+/(.+) mm.+/(.+) mm .+/(.+)mm", RegexOptions.Compiled);
-        Regex find_2nd_battery_armor = new Regex(@"2nd:.+/(.+) mm.+/(.+) mm .+/(.+)mm", RegexOptions.Compiled);
-
         Regex find_new_line = new Regex(@"\r\n|\n", RegexOptions.Compiled);
+
+        private Gun_Type get_gun_type_from_line(string line)
+        {
+
+            return MAKE_ENUMS.gun_type_from_int(get_int_from_line(line));
+
+
+            //switch (this.get_int_from_line(line))
+            //{
+            //    case 0:
+            //        return Gun_Type.MUZZLE_LOAD;
+            //    default://fallthrough
+            //    case 1:
+            //        return Gun_Type.BREACH_LOAD;
+            //    case 2:
+            //        return Gun_Type.QUICK_FIRING;
+            //    case 3:
+            //        return Gun_Type.ANTI_AIR;
+            //    case 4:
+            //        return Gun_Type.DUAL_PURPOSE;
+            //    case 5:
+            //        return Gun_Type.AUTO_RAPID_FIRE;
+            //    case 6:
+            //        return Gun_Type.MACHINE_GUN;
+            //}
+        }
+
+        private Mount_Type get_gun_mount_type_from_line(string line)
+        {
+            switch (this.get_int_from_line(line))
+            {
+                case 0:
+                    return Mount_Type.BROADSIDE;
+                case 1:
+                    return Mount_Type.COLES_ERICSSON_TURRET;
+                case 2:
+                    return Mount_Type.OPERN_BARBETTE;
+                default://fallthrough
+                case 3:                
+                    return Mount_Type.TURRET_ON_BARBETTE;
+                case 4:
+                    return Mount_Type.DECK_AND_HOIST;
+                case 5:
+                    return Mount_Type.DECK;
+                case 6:
+                    return Mount_Type.CASEMENT;
+            }
+        }
+
+        //can this be in the enum itself?
+        private Gun_Distribution_Type get_gun_distribution_type_from_line(string line)
+        {
+            switch (this.get_int_from_line(line))
+            {           
+                case 0:
+                    return Gun_Distribution_Type.CETNERLINE_DISTRIBUTED;
+                case 1:
+                    return Gun_Distribution_Type.CETNERLINE_END_FORE_GREAT_AFT;
+                case 2:
+                    return Gun_Distribution_Type.CETNERLINE_END_AFT_GREAT_FORE;
+                case 3:
+                    return Gun_Distribution_Type.CETNERLINE_FOREDECK_FORWARD;
+                case 4:
+                    return Gun_Distribution_Type.CETNERLINE_FOREDECK;
+                case 5:
+                    return Gun_Distribution_Type.CETNERLINE_FOREDECK_AFT;
+                case 6:
+                    return Gun_Distribution_Type.CETNERLINE_AFTDECK_FOREWARD;
+                case 7:
+                    return Gun_Distribution_Type.CETNERLINE_AFTDECK;
+                case 8:
+                    return Gun_Distribution_Type.CETNERLINE_AFTDECK_AFT;
+                case 9:
+                    return Gun_Distribution_Type.SIDES_DISTRIBUTED;
+                case 10:
+                    return Gun_Distribution_Type.SIDES_ENDS_FORE_GREAT_AFT;
+                case 11:
+                    return Gun_Distribution_Type.SIDES_ENDS_AFT_GREAT_FORE;
+                case 12:
+                    return Gun_Distribution_Type.SIDES_FOREDECK_FORWARD;
+                case 13:
+                    return Gun_Distribution_Type.SIDES_FOREDECK;
+                case 14:
+                    return Gun_Distribution_Type.SIDES_FOREDECK_AFT;
+                case 15:
+                    return Gun_Distribution_Type.SIDES_AFTDECK_FORWARD;
+                case 16:
+                    return Gun_Distribution_Type.SIDES_AFTDECK;
+                case 17:
+                    return Gun_Distribution_Type.SIDES_AFTDECK_AFT;
+                default://fallthrough
+                case 18:
+                    return Gun_Distribution_Type.NONE;
+            }
+        }
+
+        private int get_int_from_line(string line)
+        {
+            return Convert.ToInt32(sub_non_decimal.Replace(line, ""));
+        }
+        private double get_double_from_line(string line)
+        {
+            return Convert.ToDouble(sub_non_decimal.Replace(line, ""));
+        }
+        private bool get_bool_from_line(string line)
+        {
+            if (line == "True") return true;
+            else return false; 
+        }
 
         //SS stores the numbers differently based on the unit system selected
         //Maybe force metric?
@@ -628,6 +768,39 @@ namespace ss_convert_cli
             ship.weapons.gun_battery[0].armor.hoist_thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[95], ""));
             ship.weapons.gun_battery[0].guns.caliber = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[141], ""));
             ship.weapons.gun_battery[0].guns.date = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[130], ""));
+            
+            ship.weapons.gun_battery[0].guns.shell_weight = this.get_double_from_line(sship_by_line[37]);
+            ship.weapons.gun_battery[0].guns.ammo_stowage = this.get_int_from_line(sship_by_line[62]);
+            ship.weapons.gun_battery[0].gun_groups[0].mount_numbers.mounts_one_up = this.get_int_from_line(sship_by_line[35]);
+            ship.weapons.gun_battery[0].gun_groups[0].mount_numbers.mounts_one_below = this.get_int_from_line(sship_by_line[36]);
+
+            //TODO: move per battery logic into subroutine
+            if (this.get_bool_from_line(sship_by_line[160])) 
+            {
+                ship.weapons.gun_battery[0].gun_groups[1].mount_numbers.mounts_two_up = this.get_int_from_line(sship_by_line[155]);
+            }
+            else
+            {
+                ship.weapons.gun_battery[0].gun_groups[1].mount_numbers.mounts_one_up = this.get_int_from_line(sship_by_line[155]);
+            }
+
+            ship.weapons.gun_battery[0].gun_groups[1].mount_numbers.mounts_on_deck = this.get_int_from_line(sship_by_line[165]);
+
+            if (this.get_bool_from_line(sship_by_line[175]))
+            {
+                ship.weapons.gun_battery[0].gun_groups[1].mount_numbers.mounts_two_up = this.get_int_from_line(sship_by_line[170]);
+            }
+            else
+            {
+                ship.weapons.gun_battery[0].gun_groups[1].mount_numbers.mounts_one_up = this.get_int_from_line(sship_by_line[170]);
+            }
+
+            //TODO: implement sum function for a mount group to simplify this
+            //ship.weapons.gun_battery[0].gun_groups[1].mount_numbers.mounts_on_deck = ship.weapons.gun_battery[0].number_of_mounts - ship.weapons.gun_battery[0].gun_groups[0].get_total_mounts() - ship.weapons.gun_battery[0].gun_groups[1].get_total_mounts();
+
+            ship.weapons.gun_battery[0].mount_type = this.get_gun_mount_type_from_line(sship_by_line[64]);
+           
+            //line 65 = group 1 distribution type
 
             ship.weapons.gun_battery[1].number_of_guns = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[38], ""));
             ship.weapons.gun_battery[1].guns.diameter = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[39], ""));
@@ -703,6 +876,30 @@ namespace ss_convert_cli
 
             ship.armor.conning_tower_fore.armor.thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[109], ""));
             ship.armor.conning_tower_aft.armor.thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[211], ""));
+
+            if (sship_by_line[115] == "True") ship.machinery.powerplant.coal_boilers = true;
+            if (sship_by_line[116] == "True") ship.machinery.powerplant.oil_boilers = true;
+            if (sship_by_line[117] == "True") ship.machinery.powerplant.diesel = true;
+            if (sship_by_line[118] == "True") ship.machinery.powerplant.petrol = true;
+            if (sship_by_line[119] == "True") ship.machinery.powerplant.batteries = true;
+
+            if (sship_by_line[120] == "True") ship.machinery.powerplant.simple_reciprocating = true;
+            if (sship_by_line[121] == "True") ship.machinery.powerplant.complex_reciprocating = true;
+            if (sship_by_line[122] == "True") ship.machinery.powerplant.steam_turbine = true;
+
+            //TODO: replace all this verbose crap with helpers
+            //TODO: break up and encapsulate into machinery, armarment, armor, etc
+            ship.machinery.drive.direct = this.get_bool_from_line(sship_by_line[123]);
+            if (sship_by_line[124] == "True") ship.machinery.drive.geared = true;
+            if (sship_by_line[125] == "True") ship.machinery.drive.electric = true;
+            if (sship_by_line[126] == "True") ship.machinery.drive.hydraulic = true;
+
+
+            ship.weapons.gun_battery[0].guns.type = get_gun_type_from_line(sship_by_line[34]);
+            ship.weapons.gun_battery[1].guns.type = get_gun_type_from_line(sship_by_line[40]);
+            ship.weapons.gun_battery[2].guns.type = get_gun_type_from_line(sship_by_line[46]);
+            ship.weapons.gun_battery[3].guns.type = get_gun_type_from_line(sship_by_line[52]);
+            ship.weapons.gun_battery[4].guns.type = get_gun_type_from_line(sship_by_line[58]);
 
 
             bool foo = true;
