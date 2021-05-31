@@ -195,9 +195,25 @@ namespace ss_convert_cli
             }
         }
 
+        public static ASW_Type asw_type_from_int(int i)
+        {
+            switch (i)
+            {
+                default://fallthrough
+                case 0:
+                    return ASW_Type.STERN_DEPTH_CHARGE_RACK;
+                case 1:
+                    return ASW_Type.DEPTH_CHARGE_THROWERS;
+                case 2:
+                    return ASW_Type.HEDGEHOG_STYLE_AS_MORTARS;
+                case 3:
+                    return ASW_Type.SUID_STYLE_AS_MORTARS;
+            }
+        }
 
 
-        
+
+
     }
 
 

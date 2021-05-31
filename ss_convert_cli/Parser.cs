@@ -101,6 +101,11 @@ namespace ss_convert_cli
             return MAKE_ENUMS.torpedo_mount_size_from_int(get_int_from_line(line));
         }
 
+        private ASW_Type get_asw_type_from_line(string line)
+        {
+            return MAKE_ENUMS.asw_type_from_int(get_int_from_line(line));
+        }
+
         private int get_int_from_line(string line)
         {
             return Convert.ToInt32(sub_non_decimal.Replace(line, ""));
@@ -307,13 +312,15 @@ namespace ss_convert_cli
 
         private void parse_asw_batteries(string[] sship_by_line)
         {
-            ship.weapons.asw_battery[0].number = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[191], ""));
-            ship.weapons.asw_battery[0].reloads = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[193], ""));
-            ship.weapons.asw_battery[0].weight = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[195], ""));
+            ship.weapons.asw_battery[0].number = this.get_int_from_line(sship_by_line[191]);
+            ship.weapons.asw_battery[0].reloads = this.get_int_from_line(sship_by_line[193]);
+            ship.weapons.asw_battery[0].weight = this.get_double_from_line(sship_by_line[195]);
+            ship.weapons.asw_battery[0].type = this.get_asw_type_from_line(sship_by_line[197]);
 
-            ship.weapons.asw_battery[1].number = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[192], ""));
-            ship.weapons.asw_battery[1].reloads = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[194], ""));
-            ship.weapons.asw_battery[1].weight = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[196], ""));
+            ship.weapons.asw_battery[1].number = this.get_int_from_line(sship_by_line[192]);
+            ship.weapons.asw_battery[1].reloads = this.get_int_from_line(sship_by_line[194]);
+            ship.weapons.asw_battery[1].weight = this.get_double_from_line(sship_by_line[196]);
+            ship.weapons.asw_battery[1].type = this.get_asw_type_from_line(sship_by_line[198]);
         }
 
         //SS stores the numbers differently based on the unit system selected
