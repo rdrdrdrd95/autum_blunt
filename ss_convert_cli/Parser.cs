@@ -450,7 +450,7 @@ namespace ss_convert_cli
             ship.machinery.performance.total_shaft_horsepower = Convert.ToDouble(sub_non_decimal.Replace(find_shp_and_speed.Match(stripped).Groups[1].ToString(), ""));
             ship.machinery.performance.max_speed = Convert.ToDouble(sub_non_decimal.Replace(find_shp_and_speed.Match(stripped).Groups[2].ToString(), ""));
 
-            ship.type.cost = Convert.ToDouble(sub_non_decimal.Replace(find_price.Match(stripped).Groups[1].ToString(), ""));
+            ship.type.cost = Convert.ToDouble(sub_non_decimal.Replace(find_price.Match(stripped).Groups[1].ToString(), "")) * 1000000;
 
             
             ship.type.complement_low = Convert.ToDouble(sub_non_decimal.Replace(find_complement.Match(stripped).Groups[1].ToString(), ""));

@@ -211,6 +211,65 @@ namespace ss_convert_cli
             }
         }
 
+        public static Torpedo_Bulkhead_Type tds_type_from_int(int i)
+        {
+            switch (i)
+            {
+                default://fallthrough
+                case 0:
+                    return Torpedo_Bulkhead_Type.STRENGTHENED;
+                case 1:
+                    return Torpedo_Bulkhead_Type.ADDITIONAL;
+            }
+        }
+
+        public static Deck_Type deck_type_from_int(int i)
+        {
+            switch (i)
+            {
+                default://fallthrough
+                case 0:
+                    return Deck_Type.ARMORED_SINGLE;
+                case 1:
+                    return Deck_Type.ARMORED_MULTIPLE;
+                case 2:
+                    return Deck_Type.PROTECTED_SINGLE;
+                case 3:
+                    return Deck_Type.PROTECTED_MULTIPLE;
+            }
+        }
+
+        public static Bow_Type bow_type_from_int(int i)
+        {
+            switch (i)
+            {
+                default://fallthrough
+                case 0:
+                    return Bow_Type.RAM;
+                case 1:
+                    return Bow_Type.NORMAL;
+                case 2:
+                    return Bow_Type.BULBOUS_STRAIGHT;
+                case 3:
+                    return Bow_Type.BULBOUS_FORWARD;
+            }
+        }
+
+        public static Stern_Type stern_type_from_int(int i)
+        {
+            switch (i)
+            {
+                default://fallthrough
+                case 0:
+                    return Stern_Type.CRUISER;
+                case 1:
+                    return Stern_Type.ROUND;
+                case 2:
+                    return Stern_Type.TRANSOM_SMALL;
+                case 3:
+                    return Stern_Type.TRANSOM_LARGE;
+            }
+        }
 
 
 
@@ -220,7 +279,7 @@ namespace ss_convert_cli
     public enum Unit_System
     {
         SI,
-        IMPERIAL, //Force SI internally for now, this is just for display
+        IMPERIAL, //Force SI internally for now, this is just for display?
                   //convert at the print stage
     }
 

@@ -27,6 +27,8 @@ namespace ss_convert_cli
             parser.parse_ssr(new Path("Vicksburg.ssr"));
 
             Ship copy = parser.ship;
+
+            bool foo = true; 
         }
     }
 }
