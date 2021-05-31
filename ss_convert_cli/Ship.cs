@@ -491,7 +491,7 @@ namespace ss_convert_cli
         public string country;
         public string type;
         public double date_laid_down;
-        public double cost;
+        public double cost_usd;//TODO: put usd into the cost XML vs the type name?
         public double complement_low;
         public double complement_high;
     }

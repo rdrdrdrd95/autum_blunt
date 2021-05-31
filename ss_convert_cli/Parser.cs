@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Collections.Generic;
 
 //TODO:
 //* ENUM selection from the ss ints, check the c# source?
@@ -190,8 +191,6 @@ namespace ss_convert_cli
 
             ship.weapons.gun_battery[0].gun_groups[1].distribution = this.get_gun_distribution_type_from_line(sship_by_line[150]);
             ship.weapons.gun_battery[0].gun_groups[1].Mount_Size = this.get_gun_mount_size_from_line(sship_by_line[242]);
-
-            if (ship.weapons.gun_battery[0].guns.diameter == 0) ship.weapons.gun_battery[0].guns.type = Gun_Type.NONE;
         }
 
         private void parse_secondary_battery(string[] sship_by_line)
@@ -205,8 +204,6 @@ namespace ss_convert_cli
             ship.weapons.gun_battery[1].guns.caliber = this.get_double_from_line(sship_by_line[142]);
             ship.weapons.gun_battery[1].guns.date = this.get_int_from_line(sship_by_line[131]);
             ship.weapons.gun_battery[1].guns.type = get_gun_type_from_line(sship_by_line[40]);
-
-            if (ship.weapons.gun_battery[1].guns.diameter == 0) ship.weapons.gun_battery[1].guns.type = Gun_Type.NONE;
         }
         private void parse_tertiary_battery(string[] sship_by_line)
         {
@@ -219,8 +216,6 @@ namespace ss_convert_cli
             ship.weapons.gun_battery[2].guns.caliber = this.get_double_from_line(sship_by_line[143]);
             ship.weapons.gun_battery[2].guns.date = this.get_int_from_line(sship_by_line[132]);
             ship.weapons.gun_battery[2].guns.type = get_gun_type_from_line(sship_by_line[46]);
-
-            if (ship.weapons.gun_battery[2].guns.diameter == 0) ship.weapons.gun_battery[2].guns.type = Gun_Type.NONE;
         }
         private void parse_quaterarny_battery(string[] sship_by_line)
         {
@@ -233,8 +228,6 @@ namespace ss_convert_cli
             ship.weapons.gun_battery[3].guns.caliber = this.get_double_from_line(sship_by_line[144]);
             ship.weapons.gun_battery[3].guns.date = this.get_int_from_line(sship_by_line[133]);
             ship.weapons.gun_battery[3].guns.type = get_gun_type_from_line(sship_by_line[52]);
-
-            if (ship.weapons.gun_battery[3].guns.diameter == 0) ship.weapons.gun_battery[3].guns.type = Gun_Type.NONE;
         }
         private void parse_pentarny_battery(string[] sship_by_line)
         {
@@ -247,8 +240,32 @@ namespace ss_convert_cli
             ship.weapons.gun_battery[4].guns.caliber = this.get_double_from_line(sship_by_line[145]);
             ship.weapons.gun_battery[4].guns.date = this.get_int_from_line(sship_by_line[134]);
             ship.weapons.gun_battery[4].guns.type = get_gun_type_from_line(sship_by_line[58]);
+        }
 
-            if (ship.weapons.gun_battery[4].guns.diameter == 0) ship.weapons.gun_battery[4].guns.type = Gun_Type.NONE;
+        //TODO: actually remove entries for unused batteries. 
+        private void remove_unused_batteries( )
+        {
+            //List<int> to_remove = new List<int>(); 
+            for (int battery = 0; battery < ship.weapons.gun_battery.Count; ++battery)
+            {
+
+                if (ship.weapons.gun_battery[battery].guns.diameter == 0)
+                {
+                    ship.weapons.gun_battery[battery].guns.type = Gun_Type.NONE;
+                    ship.weapons.gun_battery[battery].mount_type = Mount_Type.NONE; 
+                }
+                for( int gun_group = 0; gun_group < ship.weapons.gun_battery[battery].gun_groups.Count; ++gun_group)
+                {
+                    if(ship.weapons.gun_battery[battery].gun_groups[gun_group].sum_total_mounts() == 0)
+                    {
+                        ship.weapons.gun_battery[battery].gun_groups[gun_group].Mount_Size = Mount_Size.NONE;
+                        ship.weapons.gun_battery[battery].gun_groups[gun_group].distribution = Gun_Distribution_Type.NONE;
+
+                        //ship.weapons.gun_battery[battery].gun_groups.RemoveAt(gun_group);
+                    }
+                }
+            }
+
         }
 
         private void parse_notes(string[] sship_by_line)
@@ -536,7 +553,7 @@ namespace ss_convert_cli
             ship.machinery.performance.total_shaft_horsepower = Convert.ToDouble(sub_non_decimal.Replace(find_shp_and_speed.Match(stripped).Groups[1].ToString(), ""));
             ship.machinery.performance.max_speed = Convert.ToDouble(sub_non_decimal.Replace(find_shp_and_speed.Match(stripped).Groups[2].ToString(), ""));
 
-            ship.type.cost = Convert.ToDouble(sub_non_decimal.Replace(find_price.Match(stripped).Groups[1].ToString(), "")) * 1000000;
+            ship.type.cost_usd = Convert.ToDouble(sub_non_decimal.Replace(find_price.Match(stripped).Groups[1].ToString(), "")) * 1000000;
             
             ship.type.complement_low = Convert.ToDouble(sub_non_decimal.Replace(find_complement.Match(stripped).Groups[1].ToString(), ""));
             ship.type.complement_high = Convert.ToDouble(sub_non_decimal.Replace(find_complement.Match(stripped).Groups[2].ToString(), ""));
@@ -548,6 +565,8 @@ namespace ss_convert_cli
 
             XmlSerializer serializer = new XmlSerializer(typeof(Ship));
             TextWriter writer = new StreamWriter(save_path.File_Path);
+
+            remove_unused_batteries(); 
 
             serializer.Serialize(writer, ship);
             writer.Close();
