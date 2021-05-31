@@ -332,8 +332,6 @@ namespace ss_convert_cli
             ship.weapons.mine_battery[0].reloads = this.get_int_from_line(sship_by_line[188]);
             ship.weapons.mine_battery[0].mine.weight = this.get_double_from_line(sship_by_line[189]);
             ship.weapons.mine_battery[0].mount = this.get_mine_type_from_line(sship_by_line[190]);
-            190
-            //TODO: mine type from line
         }
 
         private void parse_torpedos(string[] sship_by_line)
@@ -364,6 +362,43 @@ namespace ss_convert_cli
             ship.weapons.asw_battery[1].type = this.get_asw_type_from_line(sship_by_line[198]);
         }
 
+        private void parse_hull_form(string[] sship_by_line)
+        {
+            //bow
+            ship.hull.bow.bow_type = this.get_bow_type_from_line(sship_by_line[135]);
+            ship.hull.bow.bow_angle = this.get_double_from_line(sship_by_line[31]);
+            ship.hull.bow.ram_length = this.get_double_from_line(sship_by_line[136]);
+
+            //stern
+            ship.hull.stern.stern_type = this.get_stern_type_from_line(sship_by_line[17]);
+            ship.hull.stern.stern_overhang = this.get_double_from_line(sship_by_line[20]);
+
+            //freeboard
+            //fore castle
+            ship.hull.hull_form.fore_castle.length_pcnt = this.get_double_from_line(sship_by_line[27]);
+            ship.hull.hull_form.fore_castle.forward_freeboard = this.get_double_from_line(sship_by_line[29]);
+            ship.hull.hull_form.fore_castle.aft_freboard = this.get_double_from_line(sship_by_line[30]);
+
+            //fore deck
+            ship.hull.hull_form.fore_deck.length_pcnt = this.get_double_from_line(sship_by_line[24]);
+            ship.hull.hull_form.fore_deck.forward_freeboard = this.get_double_from_line(sship_by_line[28]);
+            ship.hull.hull_form.fore_deck.aft_freboard = this.get_double_from_line(sship_by_line[26]);
+
+            //quarter deck
+            ship.hull.hull_form.quarter_deck.length_pcnt = this.get_double_from_line(sship_by_line[21]);
+            ship.hull.hull_form.quarter_deck.forward_freeboard = this.get_double_from_line(sship_by_line[22]);
+            ship.hull.hull_form.quarter_deck.aft_freboard = this.get_double_from_line(sship_by_line[19]);
+
+
+            //aft deck
+            ship.hull.hull_form.aft_deck.length_pcnt = 100 - ship.hull.hull_form.fore_castle.length_pcnt - ship.hull.hull_form.fore_deck.length_pcnt - ship.hull.hull_form.quarter_deck.length_pcnt;
+            ship.hull.hull_form.aft_deck.forward_freeboard = this.get_double_from_line(sship_by_line[25]);
+            ship.hull.hull_form.aft_deck.aft_freboard = this.get_double_from_line(sship_by_line[23]);
+
+            
+
+        }
+
         //SS stores the numbers differently based on the unit system selected
         //Maybe force metric for submissions?
         //This will grab whatever is in the data file. 
@@ -376,6 +411,8 @@ namespace ss_convert_cli
             parse_notes(sship_by_line);
 
             parse_type_info(sship_by_line);
+
+            parse_hull_form(sship_by_line); 
 
             parse_machinery(sship_by_line);
 

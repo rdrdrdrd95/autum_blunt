@@ -245,13 +245,13 @@ namespace ss_convert_cli
             {
                 default://fallthrough
                 case 0:
-                    return Bow_Type.RAM;
-                case 1:
                     return Bow_Type.NORMAL;
-                case 2:
+                case 1:
                     return Bow_Type.BULBOUS_STRAIGHT;
-                case 3:
+                case 2:
                     return Bow_Type.BULBOUS_FORWARD;
+                case 3:
+                    return Bow_Type.RAM;
             }
         }
 
@@ -261,13 +261,13 @@ namespace ss_convert_cli
             {
                 default://fallthrough
                 case 0:
-                    return Stern_Type.CRUISER;
+                    return Stern_Type.CRUISER; 
                 case 1:
-                    return Stern_Type.ROUND;
-                case 2:
                     return Stern_Type.TRANSOM_SMALL;
-                case 3:
+                case 2:
                     return Stern_Type.TRANSOM_LARGE;
+                case 3:
+                    return Stern_Type.ROUND;
             }
         }
 
