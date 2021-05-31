@@ -767,6 +767,7 @@ namespace ss_convert_cli
         //TODO: make functions like this for all 5 batteries in spring sharp. 
         private void parse_main_battery(string[] sship_by_line)
         {
+            ship.weapons.gun_battery[0].guns.type = get_gun_type_from_line(sship_by_line[34]);
             ship.weapons.gun_battery[0].number_of_guns = this.get_int_from_line(sship_by_line[32]);
             ship.weapons.gun_battery[0].guns.diameter = this.get_double_from_line(sship_by_line[33]);
             ship.weapons.gun_battery[0].number_of_mounts = this.get_int_from_line(sship_by_line[63]);
@@ -808,6 +809,58 @@ namespace ss_convert_cli
             ship.weapons.gun_battery[0].gun_groups[0].distribution = this.get_gun_distribution_type_from_line(sship_by_line[65]);
         }
 
+        private void parse_notes(string[] sship_by_line)
+        {
+            string notes = "";
+            const int note_start_line = 281; //should always be the same per the sship files I looked at
+            for (int index = note_start_line; index < sship_by_line.Length; ++index)
+            {
+                notes += sship_by_line[index] + "\n";
+            }
+            ship.ship_notes = notes;
+        }
+
+        private void parse_type_info(string[] sship_by_line)
+        {
+            ship.type.name = sship_by_line[1];
+            ship.type.country = sship_by_line[2];
+            ship.type.type = sship_by_line[3];
+            ship.type.date_laid_down = this.get_int_from_line(sship_by_line[12]);
+        }
+
+        private void parse_machinery(string[] sship_by_line)
+        {
+            //Machinery
+            ship.machinery.fuel.coal_percentage = this.get_double_from_line(sship_by_line[114]);
+            ship.machinery.drive.number_of_shafts = this.get_int_from_line(sship_by_line[113]);
+            ship.machinery.date = this.get_int_from_line(sship_by_line[129]);
+
+            ship.machinery.powerplant.coal_boilers = this.get_bool_from_line(sship_by_line[115]); ;
+            ship.machinery.powerplant.oil_boilers = this.get_bool_from_line(sship_by_line[116]); ;
+            ship.machinery.powerplant.diesel = this.get_bool_from_line(sship_by_line[117]); ;
+            ship.machinery.powerplant.petrol = this.get_bool_from_line(sship_by_line[118]); ;
+            ship.machinery.powerplant.batteries = this.get_bool_from_line(sship_by_line[119]); ;
+
+            ship.machinery.powerplant.simple_reciprocating = this.get_bool_from_line(sship_by_line[120]); ;
+            ship.machinery.powerplant.complex_reciprocating = this.get_bool_from_line(sship_by_line[121]); ;
+            ship.machinery.powerplant.steam_turbine = this.get_bool_from_line(sship_by_line[122]); ;
+
+            ship.machinery.drive.direct = this.get_bool_from_line(sship_by_line[123]);
+            ship.machinery.drive.geared = this.get_bool_from_line(sship_by_line[124]);
+            ship.machinery.drive.electric = this.get_bool_from_line(sship_by_line[125]);
+            ship.machinery.drive.hydraulic = this.get_bool_from_line(sship_by_line[126]);
+        }
+
+        private void parse_misc_weights(string[] sship_by_line)
+        {
+            // misc weight
+            ship.misc_weight.hull_above_water = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[199], ""));
+            ship.misc_weight.on_deck = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[200], ""));
+            ship.misc_weight.above_water = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[201], ""));
+            ship.misc_weight.hull_above_water = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[199], ""));
+            ship.misc_weight.hull_below_water = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[13], ""));
+        }
+
         //SS stores the numbers differently based on the unit system selected
         //Maybe force metric for submissions?
         //This will grab whatever is in the data file. 
@@ -817,25 +870,17 @@ namespace ss_convert_cli
 
             var sship_by_line = find_new_line.Split(sship_file_string);
 
-            string notes = "";
-            const int note_start_line = 281; //should always be the same per the sship files I looked at
-            for (int index = note_start_line; index < sship_by_line.Length; ++index)
-            {
-                notes += sship_by_line[index] + "\n";
-            }
-            ship.ship_notes = notes;
+            parse_notes(sship_by_line);
 
-            ship.type.name = sship_by_line[1];
-            ship.type.country = sship_by_line[2];
-            ship.type.type = sship_by_line[3];
-            ship.type.date_laid_down = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[12], ""));
+            parse_type_info(sship_by_line);
 
-            
+            parse_machinery(sship_by_line);
 
             //parse guns
             parse_main_battery(sship_by_line);
+            parse_misc_weights(sship_by_line); 
 
-
+            //TODO: encapsulate and debug each
             ship.weapons.gun_battery[1].number_of_guns = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[38], ""));
             ship.weapons.gun_battery[1].guns.diameter = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[39], ""));
             ship.weapons.gun_battery[1].number_of_mounts = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[66], ""));
@@ -872,19 +917,12 @@ namespace ss_convert_cli
             ship.weapons.gun_battery[4].guns.caliber = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[145], ""));
             ship.weapons.gun_battery[4].guns.date = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[134], ""));
 
-            ship.armor.fore_and_aft_deck.thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[108], ""));
-            ship.armor.forecastle.thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[208], ""));
-            ship.armor.quarter_deck.thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[209], ""));
-            ship.armor.tds.beam_between_bulkeads = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[207], ""));
+            ship.weapons.gun_battery[1].guns.type = get_gun_type_from_line(sship_by_line[40]);
+            ship.weapons.gun_battery[2].guns.type = get_gun_type_from_line(sship_by_line[46]);
+            ship.weapons.gun_battery[3].guns.type = get_gun_type_from_line(sship_by_line[52]);
+            ship.weapons.gun_battery[4].guns.type = get_gun_type_from_line(sship_by_line[58]);
 
-            ship.armor.tds.bulkhead.thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[90], ""));
-            ship.armor.tds.bulkhead.length = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[91], ""));
-            ship.armor.tds.bulkhead.height = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[92], ""));
-
-            ship.machinery.fuel.coal_percentage = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[114], ""));
-            ship.machinery.drive.number_of_shafts = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[113], ""));
-            ship.machinery.date = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[129], ""));
-
+            //other weapons
             ship.weapons.mine_battery[0].number = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[187], ""));
             ship.weapons.mine_battery[0].reloads = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[188], ""));
             ship.weapons.mine_battery[0].mine.weight = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[189], ""));
@@ -897,12 +935,15 @@ namespace ss_convert_cli
             ship.weapons.asw_battery[1].reloads = Convert.ToInt32(sub_non_decimal.Replace(sship_by_line[194], ""));
             ship.weapons.asw_battery[1].weight = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[196], ""));
 
-            ship.misc_weight.hull_above_water = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[199], ""));
-            ship.misc_weight.on_deck = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[200], ""));
-            ship.misc_weight.above_water = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[201], ""));
+            //armor
+            ship.armor.fore_and_aft_deck.thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[108], ""));
+            ship.armor.forecastle.thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[208], ""));
+            ship.armor.quarter_deck.thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[209], ""));
+            ship.armor.tds.beam_between_bulkeads = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[207], ""));
 
-            ship.misc_weight.hull_above_water = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[199], ""));
-            ship.misc_weight.hull_below_water = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[13], ""));
+            ship.armor.tds.bulkhead.thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[90], ""));
+            ship.armor.tds.bulkhead.length = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[91], ""));
+            ship.armor.tds.bulkhead.height = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[92], ""));
 
             ship.armor.bulge.thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[203], ""));
             ship.armor.bulge.length = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[204], ""));
@@ -911,29 +952,11 @@ namespace ss_convert_cli
             ship.armor.conning_tower_fore.armor.thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[109], ""));
             ship.armor.conning_tower_aft.armor.thickness = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[211], ""));
 
-            if (sship_by_line[115] == "True") ship.machinery.powerplant.coal_boilers = true;
-            if (sship_by_line[116] == "True") ship.machinery.powerplant.oil_boilers = true;
-            if (sship_by_line[117] == "True") ship.machinery.powerplant.diesel = true;
-            if (sship_by_line[118] == "True") ship.machinery.powerplant.petrol = true;
-            if (sship_by_line[119] == "True") ship.machinery.powerplant.batteries = true;
+            
 
-            if (sship_by_line[120] == "True") ship.machinery.powerplant.simple_reciprocating = true;
-            if (sship_by_line[121] == "True") ship.machinery.powerplant.complex_reciprocating = true;
-            if (sship_by_line[122] == "True") ship.machinery.powerplant.steam_turbine = true;
-
-            //TODO: replace all this verbose crap with helpers
-            //TODO: break up and encapsulate into machinery, armarment, armor, etc
-            ship.machinery.drive.direct = this.get_bool_from_line(sship_by_line[123]);
-            if (sship_by_line[124] == "True") ship.machinery.drive.geared = true;
-            if (sship_by_line[125] == "True") ship.machinery.drive.electric = true;
-            if (sship_by_line[126] == "True") ship.machinery.drive.hydraulic = true;
+            
 
 
-            ship.weapons.gun_battery[0].guns.type = get_gun_type_from_line(sship_by_line[34]);
-            ship.weapons.gun_battery[1].guns.type = get_gun_type_from_line(sship_by_line[40]);
-            ship.weapons.gun_battery[2].guns.type = get_gun_type_from_line(sship_by_line[46]);
-            ship.weapons.gun_battery[3].guns.type = get_gun_type_from_line(sship_by_line[52]);
-            ship.weapons.gun_battery[4].guns.type = get_gun_type_from_line(sship_by_line[58]);
 
 
             bool foo = true;
