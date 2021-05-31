@@ -20,59 +20,59 @@ namespace ss_convert_cli
         public Ship ship = new Ship();
 
         //TODO: make a re subclass to hold this shit
-        Regex strip_formatting = new Regex(@"\\tab|\\par", RegexOptions.Compiled);
+        private Regex strip_formatting = new Regex(@"\\tab|\\par", RegexOptions.Compiled);
 
-        Regex find_displacement = new Regex(@"\n.+load", RegexOptions.Compiled);
-        Regex split_displacement = new Regex(@";", RegexOptions.Compiled);
-        Regex strip_non_numeric = new Regex(@"\D", RegexOptions.Compiled);
+        private Regex find_displacement = new Regex(@"\n.+load", RegexOptions.Compiled);
+        private Regex split_displacement = new Regex(@";", RegexOptions.Compiled);
+        private Regex strip_non_numeric = new Regex(@"\D", RegexOptions.Compiled);
 
-        Regex find_dimensions = new Regex(@"\(.+m\).+x.+x.+\)", RegexOptions.Compiled);
-        Regex split_dimensions = new Regex(@"[x\/]", RegexOptions.Compiled);
-        Regex strip_units = new Regex(@"\(|\)|[m]|\s", RegexOptions.Compiled);
+        private Regex find_dimensions = new Regex(@"\(.+m\).+x.+x.+\)", RegexOptions.Compiled);
+        private Regex split_dimensions = new Regex(@"[x\/]", RegexOptions.Compiled);
+        private Regex strip_units = new Regex(@"\(|\)|[m]|\s", RegexOptions.Compiled);
 
-        Regex find_armarment = new Regex(@"Armament:", RegexOptions.Compiled);
-        Regex find_armor = new Regex(@"Armour:", RegexOptions.Compiled | RegexOptions.Multiline);
-        Regex split_armarment = new Regex(@"      ", RegexOptions.Compiled);
-        Regex find_broadside = new Regex(@"\/.+kg", RegexOptions.Compiled);
+        private Regex find_armarment = new Regex(@"Armament:", RegexOptions.Compiled);
+        private Regex find_armor = new Regex(@"Armour:", RegexOptions.Compiled | RegexOptions.Multiline);
+        private Regex split_armarment = new Regex(@"      ", RegexOptions.Compiled);
+        private Regex find_broadside = new Regex(@"\/.+kg", RegexOptions.Compiled);
 
-        Regex sub_non_decimal = new Regex(@"[^0-9.]", RegexOptions.Compiled);
-        Regex sub_non_decimal_neg = new Regex(@"[^0-9.-]", RegexOptions.Compiled);
+        private Regex sub_non_decimal = new Regex(@"[^0-9.]", RegexOptions.Compiled);
+        private Regex sub_non_decimal_neg = new Regex(@"[^0-9.-]", RegexOptions.Compiled);
 
-        Regex find_comp_c = new Regex(@"Cross-sectional:.+\n", RegexOptions.Compiled);
-        Regex find_comp_l = new Regex(@"Longitudinal:.+\n", RegexOptions.Compiled);
-        Regex find_comp_o = new Regex(@"Overall:.+\n", RegexOptions.Compiled);
+        private Regex find_comp_c = new Regex(@"Cross-sectional:.+\n", RegexOptions.Compiled);
+        private Regex find_comp_l = new Regex(@"Longitudinal:.+\n", RegexOptions.Compiled);
+        private Regex find_comp_o = new Regex(@"Overall:.+\n", RegexOptions.Compiled);
 
-        Regex find_gm = new Regex(@"Metacentric height.+/(.+)\n", RegexOptions.Compiled);
-        Regex find_recoil = new Regex(@"Recoil effect.+:(.+)\n", RegexOptions.Compiled);
-        Regex find_stead = new Regex(@"Steadiness.+:(.+)%", RegexOptions.Compiled);
-        Regex find_roll = new Regex(@" Roll period:(.+) seconds", RegexOptions.Compiled);
-        Regex find_stab = new Regex(@"Stability.+:(.+)\n", RegexOptions.Compiled);
-        Regex find_seakeep = new Regex(@"Seaboat quality.+:(.+)\n", RegexOptions.Compiled);
-        Regex find_natural_speed = new Regex(@"'Natural speed' for length:(.+)\n", RegexOptions.Compiled);
+        private Regex find_gm = new Regex(@"Metacentric height.+/(.+)\n", RegexOptions.Compiled);
+        private Regex find_recoil = new Regex(@"Recoil effect.+:(.+)\n", RegexOptions.Compiled);
+        private Regex find_stead = new Regex(@"Steadiness.+:(.+)%", RegexOptions.Compiled);
+        private Regex find_roll = new Regex(@" Roll period:(.+) seconds", RegexOptions.Compiled);
+        private Regex find_stab = new Regex(@"Stability.+:(.+)\n", RegexOptions.Compiled);
+        private Regex find_seakeep = new Regex(@"Seaboat quality.+:(.+)\n", RegexOptions.Compiled);
+        private Regex find_natural_speed = new Regex(@"'Natural speed' for length:(.+)\n", RegexOptions.Compiled);
 
-        Regex find_trim = new Regex(@"Trim.+:(.+)", RegexOptions.Compiled);
-        Regex find_bow_angle = new Regex(@"Bow angle.+:(.+)degrees", RegexOptions.Compiled);
-        Regex find_stern_overhand = new Regex(@"Stern overhang:.+/(.+)\n", RegexOptions.Compiled);
+        private Regex find_trim = new Regex(@"Trim.+:(.+)", RegexOptions.Compiled);
+        private Regex find_bow_angle = new Regex(@"Bow angle.+:(.+)degrees", RegexOptions.Compiled);
+        private Regex find_stern_overhand = new Regex(@"Stern overhang:.+/(.+)\n", RegexOptions.Compiled);
 
-        Regex find_cb = new Regex(@"Block coefficient.+:(.+)/(.+)\n", RegexOptions.Compiled);
-        Regex find_power_to_waves = new Regex(@"Power going to wave formation at top speed:(.+)%", RegexOptions.Compiled);
-        Regex find_l2b = new Regex(@"Length to Beam Ratio:(.+):", RegexOptions.Compiled);
+        private Regex find_cb = new Regex(@"Block coefficient.+:(.+)/(.+)\n", RegexOptions.Compiled);
+        private Regex find_power_to_waves = new Regex(@"Power going to wave formation at top speed:(.+)%", RegexOptions.Compiled);
+        private Regex find_l2b = new Regex(@"Length to Beam Ratio:(.+):", RegexOptions.Compiled);
 
-        Regex find_range_and_cruising_speed = new Regex(@"Range (.+)nm at (.+) kt", RegexOptions.Compiled);
+        private Regex find_range_and_cruising_speed = new Regex(@"Range (.+)nm at (.+) kt", RegexOptions.Compiled);
 
-        Regex find_shp_and_speed = new Regex(@"shafts?,(.+)shp.+=(.+)kt", RegexOptions.Compiled);
-        Regex find_bunker = new Regex(@"Bunker.+=(.+)tons", RegexOptions.Compiled);
+        private Regex find_shp_and_speed = new Regex(@"shafts?,(.+)shp.+=(.+)kt", RegexOptions.Compiled);
+        private Regex find_bunker = new Regex(@"Bunker.+=(.+)tons", RegexOptions.Compiled);
 
-        Regex find_price = new Regex(@"\$(.+)million", RegexOptions.Compiled);
+        private Regex find_price = new Regex(@"\$(.+)million", RegexOptions.Compiled);
 
-        Regex find_belt_incline = new Regex(@"Main Belt inclined(.+) degrees", RegexOptions.Compiled);
-        Regex find_complement = new Regex(@"([0-9,]+) - ([0-9,]+)[\n\r]", RegexOptions.Compiled);
+        private Regex find_belt_incline = new Regex(@"Main Belt inclined(.+) degrees", RegexOptions.Compiled);
+        private Regex find_complement = new Regex(@"([0-9,]+) - ([0-9,]+)[\n\r]", RegexOptions.Compiled);
 
-        Regex find_main_belt = new Regex(@"Main:.+/(.+) mm.+/(.+) m.+/(.+)m", RegexOptions.Compiled);
-        Regex find_end_belt = new Regex(@"Ends:.+/(.+) mm.+/(.+) m .+/(.+)m", RegexOptions.Compiled);
-        Regex find_upper_belt = new Regex(@"Upper:.+/(.+) mm.+/(.+) m .+/(.+)m", RegexOptions.Compiled);
+        private Regex find_main_belt = new Regex(@"Main:.+/(.+) mm.+/(.+) m.+/(.+)m", RegexOptions.Compiled);
+        private Regex find_end_belt = new Regex(@"Ends:.+/(.+) mm.+/(.+) m .+/(.+)m", RegexOptions.Compiled);
+        private Regex find_upper_belt = new Regex(@"Upper:.+/(.+) mm.+/(.+) m .+/(.+)m", RegexOptions.Compiled);
 
-        Regex find_new_line = new Regex(@"\r\n|\n", RegexOptions.Compiled);
+        private Regex find_new_line = new Regex(@"\r\n|\n", RegexOptions.Compiled);
         //End the gross collection of regexes
 
         //TODO: make a subclass to hold this shit
@@ -86,10 +86,19 @@ namespace ss_convert_cli
             return MAKE_ENUMS.mount_type_from_int(get_int_from_line(line));
         }
 
-        //can this be in the enum itself?
         private Gun_Distribution_Type get_gun_distribution_type_from_line(string line)
         {
             return MAKE_ENUMS.gun_distribution_type_from_int(get_int_from_line(line));
+        }
+
+        private Mount_Size get_gun_mount_size_from_line(string line)
+        {
+            return MAKE_ENUMS.gun_mount_size_from_int(get_int_from_line(line));
+        }
+
+        private Torpedo_Mount_Type get_torpedo_mount_type_from_line(string line)
+        {
+            return MAKE_ENUMS.torpedo_mount_size_from_int(get_int_from_line(line));
         }
 
         private int get_int_from_line(string line)
@@ -143,11 +152,15 @@ namespace ss_convert_cli
                 ship.weapons.gun_battery[0].gun_groups[1].mount_numbers.mounts_one_up = this.get_int_from_line(sship_by_line[170]);
             }
 
-            //TODO: implement sum function for a mount group to simplify this
-            ship.weapons.gun_battery[0].gun_groups[1].mount_numbers.mounts_on_deck = ship.weapons.gun_battery[0].number_of_mounts - ship.weapons.gun_battery[0].gun_groups[0].sum_total_mounts() - ship.weapons.gun_battery[0].gun_groups[1].sum_total_mounts();
+            ship.weapons.gun_battery[0].gun_groups[0].mount_numbers.mounts_on_deck = ship.weapons.gun_battery[0].number_of_mounts - ship.weapons.gun_battery[0].gun_groups[0].sum_total_mounts() - ship.weapons.gun_battery[0].gun_groups[1].sum_total_mounts();
 
             ship.weapons.gun_battery[0].mount_type = this.get_gun_mount_type_from_line(sship_by_line[64]);
             ship.weapons.gun_battery[0].gun_groups[0].distribution = this.get_gun_distribution_type_from_line(sship_by_line[65]);
+            ship.weapons.gun_battery[0].gun_groups[0].Mount_Size = this.get_gun_mount_size_from_line(sship_by_line[237]);
+
+            ship.weapons.gun_battery[0].gun_groups[1].distribution = this.get_gun_distribution_type_from_line(sship_by_line[150]);
+            ship.weapons.gun_battery[0].gun_groups[1].Mount_Size = this.get_gun_mount_size_from_line(sship_by_line[242]);
+
         }
 
         private void parse_secondary_battery(string[] sship_by_line)
@@ -220,7 +233,6 @@ namespace ss_convert_cli
 
         private void parse_machinery(string[] sship_by_line)
         {
-            //Machinery
             ship.machinery.fuel.coal_percentage = this.get_double_from_line(sship_by_line[114]);
             ship.machinery.drive.number_of_shafts = this.get_int_from_line(sship_by_line[113]);
             ship.machinery.date = this.get_int_from_line(sship_by_line[129]);
@@ -243,7 +255,6 @@ namespace ss_convert_cli
 
         private void parse_misc_weights(string[] sship_by_line)
         {
-            // misc weight
             ship.misc_weight.hull_above_water = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[199], ""));
             ship.misc_weight.on_deck = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[200], ""));
             ship.misc_weight.above_water = Convert.ToDouble(sub_non_decimal.Replace(sship_by_line[201], ""));
@@ -279,6 +290,18 @@ namespace ss_convert_cli
 
         private void parse_torpedos(string[] sship_by_line)
         {
+            ship.weapons.torpedo_battery[0].mount.number = this.get_int_from_line(sship_by_line[78]);         
+            ship.weapons.torpedo_battery[0].mount.sets = this.get_int_from_line(sship_by_line[180]);
+            ship.weapons.torpedo_battery[0].mount.mount_type = this.get_torpedo_mount_type_from_line(sship_by_line[185]);
+            ship.weapons.torpedo_battery[0].torpedo.diameter = this.get_double_from_line(sship_by_line[80]);
+            ship.weapons.torpedo_battery[0].torpedo.length = this.get_double_from_line(sship_by_line[183]);
+
+
+            ship.weapons.torpedo_battery[1].mount.number = this.get_int_from_line(sship_by_line[79]);
+            ship.weapons.torpedo_battery[1].mount.sets = this.get_int_from_line(sship_by_line[181]);
+            ship.weapons.torpedo_battery[1].mount.mount_type = this.get_torpedo_mount_type_from_line(sship_by_line[186]);
+            ship.weapons.torpedo_battery[1].torpedo.diameter = this.get_double_from_line(sship_by_line[182]);
+            ship.weapons.torpedo_battery[1].torpedo.length = this.get_double_from_line(sship_by_line[184]);
 
         }
 

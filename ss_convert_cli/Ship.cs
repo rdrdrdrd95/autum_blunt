@@ -129,6 +129,75 @@ namespace ss_convert_cli
                     return Gun_Distribution_Type.NONE;
             }
         }
+
+        public static Mount_Size gun_mount_size_from_int(int i)
+        {
+            switch (i)
+            {
+                default://fallthrough
+                case 0:
+                    return Mount_Size.SINGLE;
+                case 1:
+                    return Mount_Size.TWO_ROW_TWIN;
+                case 2:
+                    return Mount_Size.FOUR_ROW_QUAD;
+                case 3:
+                    return Mount_Size.TWIN;
+                case 4:
+                    return Mount_Size.TWO_GUN;
+                case 5:
+                    return Mount_Size.TWO_ROW_QUAD;
+                case 6:
+                    return Mount_Size.TRIPPLE;
+                case 7:
+                    return Mount_Size.THREE_GUN;
+                case 8:
+                    return Mount_Size.TWO_ROW_SEXTUPLE;
+                case 9:
+                    return Mount_Size.QUAD;
+                case 10:
+                    return Mount_Size.FOUR_GUN;
+                case 11:
+                    return Mount_Size.TWO_ROW_OCTUPLE;
+                case 12:
+                    return Mount_Size.QUINTUPLE;
+                case 13:
+                    return Mount_Size.FIVE_GUN;
+                case 14:
+                    return Mount_Size.TWO_ROW_DECUPLE;
+             
+            }
+        }
+
+        public static Torpedo_Mount_Type torpedo_mount_size_from_int(int i)
+        {
+            switch (i)
+            {
+                default://fallthrough
+                case 0:
+                    return Torpedo_Mount_Type.DECK_MOUNTED_CARRIGE_FIXED_TUBE;
+                case 1:
+                    return Torpedo_Mount_Type.DECK_MOUNTED_SIDE_ROTATING_TUBE;
+                case 2:
+                    return Torpedo_Mount_Type.DECK_MOUNTED_CENTER_ROTATING_TUBE;
+                case 3:
+                    return Torpedo_Mount_Type.DECK_MOUNTED_RELOAD;
+                case 4:
+                    return Torpedo_Mount_Type.SUBMURGED_BOW_TUBE;
+                case 5:
+                    return Torpedo_Mount_Type.SUBMERGED_STERN_TUBE;
+                case 6:
+                    return Torpedo_Mount_Type.SUBMERGED_BOW_AND_STERN_TUBE;
+                case 7:
+                    return Torpedo_Mount_Type.SUBMURGED_SIDE_TUBE;
+                case 8:
+                    return Torpedo_Mount_Type.BELOW_WATER_RELOAD;
+            }
+        }
+
+
+
+        
     }
 
 
