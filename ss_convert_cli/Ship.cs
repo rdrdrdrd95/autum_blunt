@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace ss_convert_cli
 {
@@ -234,13 +236,13 @@ namespace ss_convert_cli
             switch (i)
             {
                 case 0:
-                    return Deck_Type.ARMORED_SINGLE;
-                case 1:
                     return Deck_Type.ARMORED_MULTIPLE;
+                case 1:
+                    return Deck_Type.ARMORED_SINGLE;
                 case 2:
-                    return Deck_Type.PROTECTED_SINGLE;
-                case 3:
                     return Deck_Type.PROTECTED_MULTIPLE;
+                case 3:
+                    return Deck_Type.PROTECTED_SINGLE;
                 case 4:
                     return Deck_Type.BOX_OVER_MACHINERY;
                 case 5:
@@ -634,7 +636,7 @@ namespace ss_convert_cli
     {
         public Performance performance;
         public Strength strength;
-        public Damage_Resistance damage_resistance;
+        //public Damage_Resistance damage_resistance;//This is a dubious and silly statistic for now. 
     }
 
     public struct Bow
@@ -788,9 +790,16 @@ namespace ss_convert_cli
             }
         }
 
+        [XmlElementAttribute(IsNullable = false)]
         public List<Battery> gun_battery = new List<Battery>();
+
+        [XmlElementAttribute(IsNullable = false)]
         public List<Torpedo_Battery> torpedo_battery = new List<Torpedo_Battery>();
+
+        [XmlElementAttribute(IsNullable = false)]
         public List<Mine_Battery> mine_battery = new List<Mine_Battery>();
+
+        [XmlElementAttribute(IsNullable = false)]
         public List<ASW_Battery> asw_battery = new List<ASW_Battery>();
     }
 
@@ -813,9 +822,11 @@ namespace ss_convert_cli
     {
         public Type type;
         public Hull hull = new Hull();
+        public Machinery machinery;
+
         public Armor armor = new Armor();
         public Weapon_Suite weapons = new Weapon_Suite();
-        public Machinery machinery;
+        
         public Misc_Weight misc_weight;
         public Stats stats;
         public string ship_notes;
