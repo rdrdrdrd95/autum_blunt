@@ -7,6 +7,7 @@ using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System;
 
 //TODO:
 //* ENUM selection from the ss ints, check the c# source?
@@ -22,13 +23,15 @@ namespace ss_convert_cli
         {
             Parser parser = new Parser();
 
-            parser.parse_sship(new Path("Vicksburg.sship"));
+            if (args.Length < 3) new NotSupportedException();
 
-            parser.parse_ssr(new Path("Vicksburg.ssr"));
+            parser.parse_sship(new Path(args[0]));
+
+            parser.parse_ssr(new Path(args[1]));
 
             Ship copy = parser.ship;
 
-            parser.save_ship_xml(new Path("Vicksburg.xml"));
+            parser.save_ship_xml(new Path(args[2]));
         }
     }
 }
