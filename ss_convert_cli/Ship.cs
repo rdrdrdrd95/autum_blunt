@@ -606,6 +606,7 @@ namespace ss_convert_cli
         public double composite;
     }
 
+    //TODO: make this not suck
     public struct Damage_Resistance
     {
         public double number_main_battery_hits;
@@ -623,12 +624,13 @@ namespace ss_convert_cli
         public double trim;
         public double stability;
         public double steadiness;
-        public double recoil;
-        public double floation;
+        public double recoil; 
         public double metacentric_height;
         public double seakeeping;
         public double weight_of_broadside;
         public double roll_period;
+
+        //public double floation;
     }
 
 

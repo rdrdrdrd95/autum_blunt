@@ -215,28 +215,28 @@
         <other_thickness>0.5</other_thickness>
         <hoist_thickness>1</hoist_thickness>
       </armor>
-      <mount_type>NONE</mount_type>
+      <mount_type>TURRET_ON_BARBETTE</mount_type>
       <number_of_mounts>10</number_of_mounts>
       <number_of_guns>20</number_of_guns>
       <gun_groups>
         <Gun_Group>
-          <Mount_Size>SINGLE</Mount_Size>
-          <distribution>CETNERLINE_AFTDECK_AFT</distribution>
+          <Mount_Size>TWO_GUN</Mount_Size>
+          <distribution>SIDES_DISTRIBUTED</distribution>
           <mount_numbers>
             <mounts_two_up>0</mounts_two_up>
             <mounts_one_up>4</mounts_one_up>
-            <mounts_on_deck>1</mounts_on_deck>
+            <mounts_on_deck>4</mounts_on_deck>
             <mounts_one_below>0</mounts_one_below>
             <mounts_two_below>0</mounts_two_below>
           </mount_numbers>
         </Gun_Group>
         <Gun_Group>
-          <Mount_Size>SINGLE</Mount_Size>
-          <distribution>SIDES_DISTRIBUTED</distribution>
+          <Mount_Size>TWO_GUN</Mount_Size>
+          <distribution>CETNERLINE_DISTRIBUTED</distribution>
           <mount_numbers>
             <mounts_two_up>1</mounts_two_up>
             <mounts_one_up>0</mounts_one_up>
-            <mounts_on_deck>0</mounts_on_deck>
+            <mounts_on_deck>1</mounts_on_deck>
             <mounts_one_below>0</mounts_one_below>
             <mounts_two_below>0</mounts_two_below>
           </mount_numbers>
@@ -249,26 +249,166 @@
         <diameter>3</diameter>
         <caliber>50</caliber>
         <date>1914</date>
-        <ammo_stowage>0</ammo_stowage>
-        <shell_weight>0</shell_weight>
+        <ammo_stowage>300</ammo_stowage>
+        <shell_weight>105</shell_weight>
       </guns>
       <armor>
         <face_thickness>0</face_thickness>
         <other_thickness>0</other_thickness>
         <hoist_thickness>0</hoist_thickness>
       </armor>
-      <mount_type>BROADSIDE</mount_type>
+      <mount_type>NONE</mount_type>
       <number_of_mounts>8</number_of_mounts>
       <number_of_guns>8</number_of_guns>
-      <gun_groups />
+      <gun_groups>
+        <Gun_Group>
+          <Mount_Size>SINGLE</Mount_Size>
+          <distribution>SIDES_DISTRIBUTED</distribution>
+          <mount_numbers>
+            <mounts_two_up>0</mounts_two_up>
+            <mounts_one_up>4</mounts_one_up>
+            <mounts_on_deck>4</mounts_on_deck>
+            <mounts_one_below>0</mounts_one_below>
+            <mounts_two_below>0</mounts_two_below>
+          </mount_numbers>
+        </Gun_Group>
+      </gun_groups>
     </gun_battery>
+    <gun_battery>
+      <guns>
+        <type>MACHINE_GUN</type>
+        <diameter>10</diameter>
+        <caliber>10</caliber>
+        <date>1910</date>
+        <ammo_stowage>666</ammo_stowage>
+        <shell_weight>437.97</shell_weight>
+      </guns>
+      <armor>
+        <face_thickness>32</face_thickness>
+        <other_thickness>12</other_thickness>
+        <hoist_thickness>21</hoist_thickness>
+      </armor>
+      <mount_type>CASEMENT</mount_type>
+      <number_of_mounts>20</number_of_mounts>
+      <number_of_guns>20</number_of_guns>
+      <gun_groups>
+        <Gun_Group>
+          <Mount_Size>SINGLE</Mount_Size>
+          <distribution>SIDES_AFTDECK_AFT</distribution>
+          <mount_numbers>
+            <mounts_two_up>0</mounts_two_up>
+            <mounts_one_up>4</mounts_one_up>
+            <mounts_on_deck>9</mounts_on_deck>
+            <mounts_one_below>4</mounts_one_below>
+            <mounts_two_below>0</mounts_two_below>
+          </mount_numbers>
+        </Gun_Group>
+        <Gun_Group>
+          <Mount_Size>TWO_ROW_TWIN</Mount_Size>
+          <distribution>SIDES_FOREDECK_AFT</distribution>
+          <mount_numbers>
+            <mounts_two_up>1</mounts_two_up>
+            <mounts_one_up>0</mounts_one_up>
+            <mounts_on_deck>1</mounts_on_deck>
+            <mounts_one_below>0</mounts_one_below>
+            <mounts_two_below>1</mounts_two_below>
+          </mount_numbers>
+        </Gun_Group>
+      </gun_groups>
+    </gun_battery>
+    <gun_battery>
+      <guns>
+        <type>AUTO_RAPID_FIRE</type>
+        <diameter>2</diameter>
+        <caliber>60</caliber>
+        <date>1919</date>
+        <ammo_stowage>1000</ammo_stowage>
+        <shell_weight>4.38</shell_weight>
+      </guns>
+      <armor>
+        <face_thickness>1</face_thickness>
+        <other_thickness>3</other_thickness>
+        <hoist_thickness>4</hoist_thickness>
+      </armor>
+      <mount_type>DECK</mount_type>
+      <number_of_mounts>20</number_of_mounts>
+      <number_of_guns>200</number_of_guns>
+      <gun_groups>
+        <Gun_Group>
+          <Mount_Size>TWO_ROW_DECUPLE</Mount_Size>
+          <distribution>SIDES_DISTRIBUTED</distribution>
+          <mount_numbers>
+            <mounts_two_up>0</mounts_two_up>
+            <mounts_one_up>2</mounts_one_up>
+            <mounts_on_deck>5</mounts_on_deck>
+            <mounts_one_below>1</mounts_one_below>
+            <mounts_two_below>0</mounts_two_below>
+          </mount_numbers>
+        </Gun_Group>
+        <Gun_Group>
+          <Mount_Size>TWO_ROW_DECUPLE</Mount_Size>
+          <distribution>SIDES_DISTRIBUTED</distribution>
+          <mount_numbers>
+            <mounts_two_up>0</mounts_two_up>
+            <mounts_one_up>5</mounts_one_up>
+            <mounts_on_deck>4</mounts_on_deck>
+            <mounts_one_below>3</mounts_one_below>
+            <mounts_two_below>0</mounts_two_below>
+          </mount_numbers>
+        </Gun_Group>
+      </gun_groups>
+    </gun_battery>
+    <torpedo_battery>
+      <mount>
+        <number>51</number>
+        <sets>6</sets>
+        <mount_type>DECK_MOUNTED_CARRIGE_FIXED_TUBE</mount_type>
+      </mount>
+      <torpedo>
+        <diameter>69</diameter>
+        <length>690</length>
+      </torpedo>
+    </torpedo_battery>
+    <torpedo_battery>
+      <mount>
+        <number>15</number>
+        <sets>5</sets>
+        <mount_type>DECK_MOUNTED_CENTER_ROTATING_TUBE</mount_type>
+      </mount>
+      <torpedo>
+        <diameter>70</diameter>
+        <length>71</length>
+      </torpedo>
+    </torpedo_battery>
+    <mine_battery>
+      <mine>
+        <weight>9001</weight>
+      </mine>
+      <mount>BELOW_WATER_BOW_TUBE</mount>
+      <number>420</number>
+      <reloads>68</reloads>
+    </mine_battery>
+    <asw_battery>
+      <number>5</number>
+      <reloads>5</reloads>
+      <weight>871</weight>
+      <range>0</range>
+      <type>HEDGEHOG_STYLE_AS_MORTARS</type>
+    </asw_battery>
+    <asw_battery>
+      <number>9</number>
+      <reloads>9</reloads>
+      <weight>123</weight>
+      <range>0</range>
+      <type>SUID_STYLE_AS_MORTARS</type>
+    </asw_battery>
   </weapons>
   <misc_weight>
-    <hull_below_water>0</hull_below_water>
-    <hull_above_water>0</hull_above_water>
-    <on_deck>0</on_deck>
-    <above_water>0</above_water>
-    <void_weight>0</void_weight>
+    <hull_below_water>35</hull_below_water>
+    <hull_above_water>17</hull_above_water>
+    <on_deck>98</on_deck>
+    <above_water>10</above_water>
+    <void_weight>145</void_weight>
   </misc_weight>
   <stats>
     <performance>
