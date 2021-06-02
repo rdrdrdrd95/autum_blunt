@@ -8,6 +8,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System;
+//using ServiceStack.Text;
+using CsvHelper;
+using System.IO;
+using System.Globalization;
+using CsvHelper.Configuration;
+
 
 //TODO:
 //* ENUM selection from the ss ints, check the c# source?
@@ -31,7 +37,27 @@ namespace ss_convert_cli
 
             Ship copy = parser.ship;
 
+            //var csv = CsvSerializer.SerializeToString( copy);
+
             parser.save_ship_xml(new Path(args[2]));
+
+            var configuration = new CsvConfiguration(CultureInfo.InvariantCulture);
+            //configuration.IncludePrivateMembers = true;
+            configuration.MemberTypes = CsvHelper.Configuration.MemberTypes.Fields;
+            configuration.HasHeaderRecord = true; 
+
+            var csv = new CsvWriter(new StreamWriter("as_csv.csv") , configuration);
+
+            csv.WriteHeader<Ship>();
+            csv.NextRecord(); 
+
+            csv.WriteRecord<Ship>(copy);
+            csv.NextRecord();
+            csv.Flush();
+
+            
+
+
         }
     }
 }
