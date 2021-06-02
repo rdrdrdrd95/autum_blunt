@@ -189,8 +189,8 @@
           </mount_numbers>
         </group1>
         <group2>
-          <Mount_Size>SINGLE</Mount_Size>
-          <distribution>CETNERLINE_END_FORE_GREAT_AFT</distribution>
+          <Mount_Size>NONE</Mount_Size>
+          <distribution>NONE</distribution>
           <mount_numbers>
             <mounts_two_up>0</mounts_two_up>
             <mounts_one_up>0</mounts_one_up>
@@ -269,8 +269,8 @@
           </mount_numbers>
         </group1>
         <group2>
-          <Mount_Size>SINGLE</Mount_Size>
-          <distribution>SIDES_DISTRIBUTED</distribution>
+          <Mount_Size>NONE</Mount_Size>
+          <distribution>NONE</distribution>
           <mount_numbers>
             <mounts_two_up>0</mounts_two_up>
             <mounts_one_up>0</mounts_one_up>
@@ -282,7 +282,7 @@
       </tertiary_battery>
       <quaternary_battery>
         <guns>
-          <type>BREACH_LOAD</type>
+          <type>NONE</type>
           <diameter>0</diameter>
           <caliber>45</caliber>
           <date>1933</date>
@@ -294,12 +294,12 @@
           <other_thickness>0</other_thickness>
           <hoist_thickness>0</hoist_thickness>
         </armor>
-        <mount_type>DECK</mount_type>
+        <mount_type>NONE</mount_type>
         <number_of_mounts>0</number_of_mounts>
         <number_of_guns>0</number_of_guns>
         <group1>
-          <Mount_Size>SINGLE</Mount_Size>
-          <distribution>SIDES_DISTRIBUTED</distribution>
+          <Mount_Size>NONE</Mount_Size>
+          <distribution>NONE</distribution>
           <mount_numbers>
             <mounts_two_up>0</mounts_two_up>
             <mounts_one_up>2</mounts_one_up>
@@ -309,8 +309,8 @@
           </mount_numbers>
         </group1>
         <group2>
-          <Mount_Size>SINGLE</Mount_Size>
-          <distribution>SIDES_DISTRIBUTED</distribution>
+          <Mount_Size>NONE</Mount_Size>
+          <distribution>NONE</distribution>
           <mount_numbers>
             <mounts_two_up>0</mounts_two_up>
             <mounts_one_up>0</mounts_one_up>
@@ -322,7 +322,7 @@
       </quaternary_battery>
       <penatnary_battery>
         <guns>
-          <type>BREACH_LOAD</type>
+          <type>NONE</type>
           <diameter>0</diameter>
           <caliber>45</caliber>
           <date>1933</date>
@@ -334,12 +334,12 @@
           <other_thickness>0</other_thickness>
           <hoist_thickness>0</hoist_thickness>
         </armor>
-        <mount_type>DECK</mount_type>
+        <mount_type>NONE</mount_type>
         <number_of_mounts>0</number_of_mounts>
         <number_of_guns>0</number_of_guns>
         <group1>
-          <Mount_Size>SINGLE</Mount_Size>
-          <distribution>SIDES_DISTRIBUTED</distribution>
+          <Mount_Size>NONE</Mount_Size>
+          <distribution>NONE</distribution>
           <mount_numbers>
             <mounts_two_up>0</mounts_two_up>
             <mounts_one_up>0</mounts_one_up>
@@ -349,8 +349,8 @@
           </mount_numbers>
         </group1>
         <group2>
-          <Mount_Size>SINGLE</Mount_Size>
-          <distribution>SIDES_DISTRIBUTED</distribution>
+          <Mount_Size>NONE</Mount_Size>
+          <distribution>NONE</distribution>
           <mount_numbers>
             <mounts_two_up>0</mounts_two_up>
             <mounts_one_up>0</mounts_one_up>

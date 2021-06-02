@@ -55,6 +55,8 @@ namespace ss_convert_cli
 
                 parser.parse_ssr(new Path(files[1]));
 
+                parser.remove_unused_batteries();
+
                 parsed_ships.Add(parser.ship);
 
                 var name = files[0].Split('.')[0];

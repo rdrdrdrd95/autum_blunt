@@ -401,7 +401,7 @@ namespace ss_convert_cli
         }
 
         //TODO: actually remove entries for unused batteries. 
-        private void remove_unused_batteries( )
+        public void remove_unused_batteries( )
         {
 
    
