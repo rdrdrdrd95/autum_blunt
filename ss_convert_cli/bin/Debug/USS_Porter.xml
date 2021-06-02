@@ -1,67 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Ship xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <type>
-    <name>USS Vicksburg</name>
-    <country>USA</country>
-    <type>CC</type>
-    <date_laid_down>1920</date_laid_down>
-    <cost_usd>52063000</cost_usd>
-    <complement_low>1824</complement_low>
-    <complement_high>2372</complement_high>
+    <name>USS Porter</name>
+    <country>United States</country>
+    <type>Destroyer Leader</type>
+    <date_laid_down>1933</date_laid_down>
+    <cost_usd>4984000</cost_usd>
+    <complement_low>159</complement_low>
+    <complement_high>207</complement_high>
   </type>
   <hull>
     <size>
-      <length_waterline>289.56</length_waterline>
-      <length_overall>297.03</length_overall>
-      <beam>32.31</beam>
+      <length_waterline>113.39</length_waterline>
+      <length_overall>116.14</length_overall>
+      <beam>11.24</beam>
       <bulge>0</bulge>
-      <draft_nom>10.06</draft_nom>
-      <draft_max>10.46</draft_max>
-      <block_coeffecient_nom>0.592</block_coeffecient_nom>
-      <block_coeffecient_max>0.598</block_coeffecient_max>
-      <length_to_beam>8.96</length_to_beam>
+      <draft_nom>3.49</draft_nom>
+      <draft_max>3.79</draft_max>
+      <block_coeffecient_nom>0.487</block_coeffecient_nom>
+      <block_coeffecient_max>0.5</block_coeffecient_max>
+      <length_to_beam>10.09</length_to_beam>
     </size>
     <dispacment>
-      <light>50205</light>
-      <standard>52611</standard>
-      <normal>56208</normal>
-      <max>59085</max>
+      <light>1780</light>
+      <standard>1871</standard>
+      <normal>2187</normal>
+      <max>2440</max>
     </dispacment>
     <hull_form>
       <fore_castle>
-        <length_pcnt>20</length_pcnt>
-        <forward_freeboard>36</forward_freeboard>
-        <aft_freboard>23</aft_freboard>
+        <length_pcnt>16.8</length_pcnt>
+        <forward_freeboard>19.542</forward_freeboard>
+        <aft_freboard>16.542</aft_freboard>
       </fore_castle>
       <fore_deck>
-        <length_pcnt>30</length_pcnt>
-        <forward_freeboard>23</forward_freeboard>
-        <aft_freboard>22</aft_freboard>
+        <length_pcnt>20.8</length_pcnt>
+        <forward_freeboard>16.542</forward_freeboard>
+        <aft_freboard>16.542</aft_freboard>
       </fore_deck>
       <aft_deck>
-        <length_pcnt>35</length_pcnt>
-        <forward_freeboard>22</forward_freeboard>
-        <aft_freboard>22</aft_freboard>
+        <length_pcnt>47.600000000000009</length_pcnt>
+        <forward_freeboard>9.542</forward_freeboard>
+        <aft_freboard>9.542</aft_freboard>
       </aft_deck>
       <quarter_deck>
-        <length_pcnt>15</length_pcnt>
-        <forward_freeboard>22</forward_freeboard>
-        <aft_freboard>22</aft_freboard>
+        <length_pcnt>14.8</length_pcnt>
+        <forward_freeboard>9.542</forward_freeboard>
+        <aft_freboard>9.542</aft_freboard>
       </quarter_deck>
     </hull_form>
     <bow>
-      <bow_type>RAM</bow_type>
-      <bow_angle>35</bow_angle>
-      <ram_length>5</ram_length>
+      <bow_type>NORMAL</bow_type>
+      <bow_angle>14</bow_angle>
+      <ram_length>0</ram_length>
     </bow>
     <stern>
-      <stern_overhang>-10</stern_overhang>
-      <stern_type>CRUISER</stern_type>
+      <stern_overhang>4.17</stern_overhang>
+      <stern_type>ROUND</stern_type>
     </stern>
-    <natural_speed>35.13</natural_speed>
+    <natural_speed>19.29</natural_speed>
   </hull>
   <machinery>
-    <date>1920</date>
+    <date>1933</date>
     <powerplant>
       <simple_reciprocating>false</simple_reciprocating>
       <complex_reciprocating>false</complex_reciprocating>
@@ -74,38 +74,38 @@
     </powerplant>
     <drive>
       <direct>false</direct>
-      <geared>false</geared>
-      <electric>true</electric>
+      <geared>true</geared>
+      <electric>false</electric>
       <hydraulic>false</hydraulic>
-      <number_of_shafts>5</number_of_shafts>
+      <number_of_shafts>2</number_of_shafts>
     </drive>
     <fuel>
-      <range>8000</range>
-      <bunker>6474</bunker>
+      <range>6500</range>
+      <bunker>568</bunker>
       <coal_percentage>0</coal_percentage>
     </fuel>
     <performance>
-      <max_speed>33</max_speed>
-      <cruising_speed>15</cruising_speed>
-      <total_shaft_horsepower>216001</total_shaft_horsepower>
-      <power_to_wavemaking>50</power_to_wavemaking>
+      <max_speed>33.7</max_speed>
+      <cruising_speed>14.75</cruising_speed>
+      <total_shaft_horsepower>50695</total_shaft_horsepower>
+      <power_to_wavemaking>69</power_to_wavemaking>
     </performance>
   </machinery>
   <armor>
     <main_belt>
-      <height>16</height>
-      <length>700</length>
-      <thickness>13</thickness>
-      <incline>-15</incline>
+      <height>0</height>
+      <length>0</length>
+      <thickness>0</thickness>
+      <incline>0</incline>
     </main_belt>
     <end_belts>
-      <height>12.35</height>
+      <height>0</height>
       <length>0</length>
       <thickness>0</thickness>
       <incline>0</incline>
     </end_belts>
     <upper_belt>
-      <height>8</height>
+      <height>0</height>
       <length>0</length>
       <thickness>0</thickness>
       <incline>0</incline>
@@ -118,34 +118,34 @@
     </bulge>
     <tds>
       <bulkhead>
-        <height>33</height>
-        <length>700</length>
-        <thickness>2</thickness>
+        <height>0</height>
+        <length>0</length>
+        <thickness>0</thickness>
         <incline>0</incline>
       </bulkhead>
       <bulkhead_type>ADDITIONAL</bulkhead_type>
-      <beam_between_bulkeads>80</beam_between_bulkeads>
+      <beam_between_bulkeads>0</beam_between_bulkeads>
     </tds>
     <forecastle>
       <thickness>0</thickness>
-      <type>ARMORED_SINGLE</type>
+      <type>ARMORED_MULTIPLE</type>
       <length>0</length>
     </forecastle>
     <fore_and_aft_deck>
-      <thickness>5</thickness>
-      <type>ARMORED_SINGLE</type>
+      <thickness>0</thickness>
+      <type>ARMORED_MULTIPLE</type>
       <length>0</length>
     </fore_and_aft_deck>
     <quarter_deck>
       <thickness>0</thickness>
-      <type>ARMORED_SINGLE</type>
+      <type>ARMORED_MULTIPLE</type>
       <length>0</length>
     </quarter_deck>
     <conning_tower_fore>
       <armor>
         <height>0</height>
         <length>0</length>
-        <thickness>13</thickness>
+        <thickness>0</thickness>
         <incline>0</incline>
       </armor>
     </conning_tower_fore>
@@ -163,38 +163,38 @@
       <main_battery>
         <guns>
           <type>BREACH_LOAD</type>
-          <diameter>18</diameter>
-          <caliber>48</caliber>
-          <date>1920</date>
+          <diameter>5</diameter>
+          <caliber>38</caliber>
+          <date>1933</date>
           <ammo_stowage>100</ammo_stowage>
-          <shell_weight>2900</shell_weight>
+          <shell_weight>55</shell_weight>
         </guns>
         <armor>
-          <face_thickness>13</face_thickness>
-          <other_thickness>3.78</other_thickness>
-          <hoist_thickness>11</hoist_thickness>
+          <face_thickness>0.5</face_thickness>
+          <other_thickness>0.5</other_thickness>
+          <hoist_thickness>0</hoist_thickness>
         </armor>
-        <mount_type>TURRET_ON_BARBETTE</mount_type>
-        <number_of_mounts>3</number_of_mounts>
-        <number_of_guns>6</number_of_guns>
+        <mount_type>DECK_AND_HOIST</mount_type>
+        <number_of_mounts>4</number_of_mounts>
+        <number_of_guns>8</number_of_guns>
         <group1>
           <Mount_Size>TWO_GUN</Mount_Size>
-          <distribution>CETNERLINE_FOREDECK</distribution>
+          <distribution>CETNERLINE_END_FORE_GREAT_AFT</distribution>
           <mount_numbers>
             <mounts_two_up>0</mounts_two_up>
-            <mounts_one_up>1</mounts_one_up>
-            <mounts_on_deck>1</mounts_on_deck>
+            <mounts_one_up>2</mounts_one_up>
+            <mounts_on_deck>2</mounts_on_deck>
             <mounts_one_below>0</mounts_one_below>
             <mounts_two_below>0</mounts_two_below>
           </mount_numbers>
         </group1>
         <group2>
-          <Mount_Size>TWO_GUN</Mount_Size>
-          <distribution>CETNERLINE_AFTDECK</distribution>
+          <Mount_Size>SINGLE</Mount_Size>
+          <distribution>CETNERLINE_END_FORE_GREAT_AFT</distribution>
           <mount_numbers>
             <mounts_two_up>0</mounts_two_up>
             <mounts_one_up>0</mounts_one_up>
-            <mounts_on_deck>1</mounts_on_deck>
+            <mounts_on_deck>0</mounts_on_deck>
             <mounts_one_below>0</mounts_one_below>
             <mounts_two_below>0</mounts_two_below>
           </mount_numbers>
@@ -202,39 +202,39 @@
       </main_battery>
       <secondary_battery>
         <guns>
-          <type>BREACH_LOAD</type>
-          <diameter>6</diameter>
-          <caliber>53</caliber>
-          <date>1920</date>
-          <ammo_stowage>200</ammo_stowage>
-          <shell_weight>105</shell_weight>
+          <type>ANTI_AIR</type>
+          <diameter>1.1</diameter>
+          <caliber>45</caliber>
+          <date>1933</date>
+          <ammo_stowage>300</ammo_stowage>
+          <shell_weight>0.67</shell_weight>
         </guns>
         <armor>
-          <face_thickness>1</face_thickness>
-          <other_thickness>0.5</other_thickness>
-          <hoist_thickness>1</hoist_thickness>
+          <face_thickness>0</face_thickness>
+          <other_thickness>0</other_thickness>
+          <hoist_thickness>0</hoist_thickness>
         </armor>
-        <mount_type>TURRET_ON_BARBETTE</mount_type>
-        <number_of_mounts>10</number_of_mounts>
-        <number_of_guns>20</number_of_guns>
+        <mount_type>DECK</mount_type>
+        <number_of_mounts>2</number_of_mounts>
+        <number_of_guns>8</number_of_guns>
         <group1>
-          <Mount_Size>TWO_GUN</Mount_Size>
-          <distribution>SIDES_DISTRIBUTED</distribution>
+          <Mount_Size>QUAD</Mount_Size>
+          <distribution>CETNERLINE_AFTDECK_AFT</distribution>
           <mount_numbers>
             <mounts_two_up>0</mounts_two_up>
-            <mounts_one_up>4</mounts_one_up>
-            <mounts_on_deck>4</mounts_on_deck>
+            <mounts_one_up>1</mounts_one_up>
+            <mounts_on_deck>0</mounts_on_deck>
             <mounts_one_below>0</mounts_one_below>
             <mounts_two_below>0</mounts_two_below>
           </mount_numbers>
         </group1>
         <group2>
-          <Mount_Size>TWO_GUN</Mount_Size>
-          <distribution>CETNERLINE_DISTRIBUTED</distribution>
+          <Mount_Size>QUAD</Mount_Size>
+          <distribution>CETNERLINE_FOREDECK</distribution>
           <mount_numbers>
             <mounts_two_up>1</mounts_two_up>
             <mounts_one_up>0</mounts_one_up>
-            <mounts_on_deck>1</mounts_on_deck>
+            <mounts_on_deck>0</mounts_on_deck>
             <mounts_one_below>0</mounts_one_below>
             <mounts_two_below>0</mounts_two_below>
           </mount_numbers>
@@ -242,12 +242,12 @@
       </secondary_battery>
       <tertiary_battery>
         <guns>
-          <type>ANTI_AIR</type>
-          <diameter>3</diameter>
-          <caliber>50</caliber>
-          <date>1914</date>
-          <ammo_stowage>300</ammo_stowage>
-          <shell_weight>105</shell_weight>
+          <type>MACHINE_GUN</type>
+          <diameter>0.5</diameter>
+          <caliber>45</caliber>
+          <date>1933</date>
+          <ammo_stowage>500</ammo_stowage>
+          <shell_weight>0.67</shell_weight>
         </guns>
         <armor>
           <face_thickness>0</face_thickness>
@@ -255,15 +255,15 @@
           <hoist_thickness>0</hoist_thickness>
         </armor>
         <mount_type>NONE</mount_type>
-        <number_of_mounts>8</number_of_mounts>
-        <number_of_guns>8</number_of_guns>
+        <number_of_mounts>2</number_of_mounts>
+        <number_of_guns>2</number_of_guns>
         <group1>
           <Mount_Size>SINGLE</Mount_Size>
           <distribution>SIDES_DISTRIBUTED</distribution>
           <mount_numbers>
             <mounts_two_up>0</mounts_two_up>
-            <mounts_one_up>4</mounts_one_up>
-            <mounts_on_deck>4</mounts_on_deck>
+            <mounts_one_up>1</mounts_one_up>
+            <mounts_on_deck>1</mounts_on_deck>
             <mounts_one_below>0</mounts_one_below>
             <mounts_two_below>0</mounts_two_below>
           </mount_numbers>
@@ -285,7 +285,7 @@
           <type>BREACH_LOAD</type>
           <diameter>0</diameter>
           <caliber>45</caliber>
-          <date>1920</date>
+          <date>1933</date>
           <ammo_stowage>150</ammo_stowage>
           <shell_weight>0</shell_weight>
         </guns>
@@ -302,8 +302,8 @@
           <distribution>SIDES_DISTRIBUTED</distribution>
           <mount_numbers>
             <mounts_two_up>0</mounts_two_up>
-            <mounts_one_up>4</mounts_one_up>
-            <mounts_on_deck>-4</mounts_on_deck>
+            <mounts_one_up>2</mounts_one_up>
+            <mounts_on_deck>-2</mounts_on_deck>
             <mounts_one_below>0</mounts_one_below>
             <mounts_two_below>0</mounts_two_below>
           </mount_numbers>
@@ -325,7 +325,7 @@
           <type>BREACH_LOAD</type>
           <diameter>0</diameter>
           <caliber>45</caliber>
-          <date>1920</date>
+          <date>1933</date>
           <ammo_stowage>150</ammo_stowage>
           <shell_weight>0</shell_weight>
         </guns>
@@ -364,24 +364,24 @@
     <torpedo_battery>
       <main_torpedos>
         <mount>
-          <number>0</number>
-          <sets>0</sets>
-          <mount_type>NONE</mount_type>
+          <number>8</number>
+          <sets>2</sets>
+          <mount_type>DECK_MOUNTED_CENTER_ROTATING_TUBE</mount_type>
         </mount>
         <torpedo>
-          <diameter>0</diameter>
-          <length>0</length>
+          <diameter>21</diameter>
+          <length>20</length>
         </torpedo>
       </main_torpedos>
       <secondary_torpedos>
         <mount>
-          <number>0</number>
+          <number>8</number>
           <sets>0</sets>
-          <mount_type>NONE</mount_type>
+          <mount_type>DECK_MOUNTED_RELOAD</mount_type>
         </mount>
         <torpedo>
-          <diameter>0</diameter>
-          <length>0</length>
+          <diameter>21</diameter>
+          <length>20</length>
         </torpedo>
       </secondary_torpedos>
     </torpedo_battery>
@@ -413,37 +413,27 @@
   <misc_weight>
     <hull_below_water>0</hull_below_water>
     <hull_above_water>0</hull_above_water>
-    <on_deck>0</on_deck>
+    <on_deck>15</on_deck>
     <above_water>0</above_water>
     <void_weight>0</void_weight>
   </misc_weight>
   <stats>
     <performance>
-      <trim>50</trim>
-      <stability>1.06</stability>
-      <steadiness>51</steadiness>
-      <recoil>0.95</recoil>
-      <metacentric_height>1.9</metacentric_height>
-      <seakeeping>1.02</seakeeping>
-      <weight_of_broadside>11523</weight_of_broadside>
-      <roll_period>18</roll_period>
+      <trim>90</trim>
+      <stability>1.13</stability>
+      <steadiness>50</steadiness>
+      <recoil>0.57</recoil>
+      <metacentric_height>0.4</metacentric_height>
+      <seakeeping>0.56</seakeeping>
+      <weight_of_broadside>202</weight_of_broadside>
+      <roll_period>13</roll_period>
     </performance>
     <strength>
-      <cross_sectional>1.01</cross_sectional>
-      <longitudinal>0.99</longitudinal>
-      <composite>1</composite>
+      <cross_sectional>0.49</cross_sectional>
+      <longitudinal>0.72</longitudinal>
+      <composite>0.51</composite>
     </strength>
   </stats>
-  <ship_notes>6 1920 experimental 18"/48 guns for main battery.
-20 1920 6"/53 guns for secondary battery.
-8 3"/50 AA mounts.
-
-Intended to outrun and outrange HMS Hood with similar armor protection. Can penetrate HMS Nelson from a range that renders Nelson's fire ineffective per very rough navweaps calculations. 
-
-Turbo-Electric drive allows for more effecient distribution of machinery. 
-
-5 Shafts required to handle required power, 4 turbines with generators to feed the drive motors. 
-
-
+  <ship_notes>
 </ship_notes>
 </Ship>

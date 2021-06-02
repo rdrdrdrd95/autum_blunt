@@ -36,7 +36,7 @@ namespace ss_convert_cli
         private Regex find_armarment = new Regex(@"Armament:", RegexOptions.Compiled);
         private Regex find_armor = new Regex(@"Armour:", RegexOptions.Compiled | RegexOptions.Multiline);
         private Regex split_armarment = new Regex(@"      ", RegexOptions.Compiled);
-        private Regex find_broadside = new Regex(@"\/.+kg", RegexOptions.Compiled);
+        private Regex find_broadside = new Regex(@"Weight of broadside.+/(.+)kg", RegexOptions.Compiled);
 
         private Regex sub_non_decimal = new Regex(@"[^0-9.]", RegexOptions.Compiled);
         private Regex sub_non_decimal_neg = new Regex(@"[^0-9.-]", RegexOptions.Compiled);
@@ -145,291 +145,351 @@ namespace ss_convert_cli
         {
             const int battery = 0;
 
-            ship.weapons.gun_battery[battery].guns.type = get_gun_type_from_line(sship_by_line[34]);
-            ship.weapons.gun_battery[battery].number_of_guns = this.get_int_from_line(sship_by_line[32]);
-            ship.weapons.gun_battery[battery].guns.diameter = this.get_double_from_line(sship_by_line[33]);
-            ship.weapons.gun_battery[battery].number_of_mounts = this.get_int_from_line(sship_by_line[63]);
-            ship.weapons.gun_battery[battery].armor.face_thickness = this.get_double_from_line(sship_by_line[93]);
-            ship.weapons.gun_battery[battery].armor.other_thickness = this.get_double_from_line(sship_by_line[94]);
-            ship.weapons.gun_battery[battery].armor.hoist_thickness = this.get_double_from_line(sship_by_line[95]);
-            ship.weapons.gun_battery[battery].guns.caliber = this.get_double_from_line(sship_by_line[141]);
-            ship.weapons.gun_battery[battery].guns.date = this.get_int_from_line(sship_by_line[130]);
+            ship.weapons.gun_battery.main_battery.guns.type = get_gun_type_from_line(sship_by_line[34]);
+            ship.weapons.gun_battery.main_battery.number_of_guns = this.get_int_from_line(sship_by_line[32]);
+            ship.weapons.gun_battery.main_battery.guns.diameter = this.get_double_from_line(sship_by_line[33]);
+            ship.weapons.gun_battery.main_battery.number_of_mounts = this.get_int_from_line(sship_by_line[63]);
+            ship.weapons.gun_battery.main_battery.armor.face_thickness = this.get_double_from_line(sship_by_line[93]);
+            ship.weapons.gun_battery.main_battery.armor.other_thickness = this.get_double_from_line(sship_by_line[94]);
+            ship.weapons.gun_battery.main_battery.armor.hoist_thickness = this.get_double_from_line(sship_by_line[95]);
+            ship.weapons.gun_battery.main_battery.guns.caliber = this.get_double_from_line(sship_by_line[141]);
+            ship.weapons.gun_battery.main_battery.guns.date = this.get_int_from_line(sship_by_line[130]);
 
-            ship.weapons.gun_battery[battery].guns.shell_weight = this.get_double_from_line(sship_by_line[37]);
-            ship.weapons.gun_battery[battery].guns.ammo_stowage = this.get_int_from_line(sship_by_line[62]);
-            ship.weapons.gun_battery[battery].gun_groups[0].mount_numbers.mounts_one_up = this.get_int_from_line(sship_by_line[35]);
-            ship.weapons.gun_battery[battery].gun_groups[0].mount_numbers.mounts_one_below = this.get_int_from_line(sship_by_line[36]);
+            ship.weapons.gun_battery.main_battery.guns.shell_weight = this.get_double_from_line(sship_by_line[37]);
+            ship.weapons.gun_battery.main_battery.guns.ammo_stowage = this.get_int_from_line(sship_by_line[62]);
+            ship.weapons.gun_battery.main_battery.group1.mount_numbers.mounts_one_up = this.get_int_from_line(sship_by_line[35]);
+            ship.weapons.gun_battery.main_battery.group1.mount_numbers.mounts_one_below = this.get_int_from_line(sship_by_line[36]);
 
             if (this.get_bool_from_line(sship_by_line[160]))//two moutns up checkbox
             {
-                ship.weapons.gun_battery[battery].gun_groups[1].mount_numbers.mounts_two_up = this.get_int_from_line(sship_by_line[155]);
+                ship.weapons.gun_battery.main_battery.group2.mount_numbers.mounts_two_up = this.get_int_from_line(sship_by_line[155]);
             }
             else
             {
-                ship.weapons.gun_battery[battery].gun_groups[1].mount_numbers.mounts_one_up = this.get_int_from_line(sship_by_line[155]);
+                ship.weapons.gun_battery.main_battery.group2.mount_numbers.mounts_one_up = this.get_int_from_line(sship_by_line[155]);
             }
 
-            ship.weapons.gun_battery[battery].gun_groups[1].mount_numbers.mounts_on_deck = this.get_int_from_line(sship_by_line[165]);
+            ship.weapons.gun_battery.main_battery.group2.mount_numbers.mounts_on_deck = this.get_int_from_line(sship_by_line[165]);
 
             if (this.get_bool_from_line(sship_by_line[175]))//two moutns up checkbox
             {
-                ship.weapons.gun_battery[battery].gun_groups[1].mount_numbers.mounts_two_below = this.get_int_from_line(sship_by_line[170]);
+                ship.weapons.gun_battery.main_battery.group2.mount_numbers.mounts_two_below = this.get_int_from_line(sship_by_line[170]);
             }
             else
             {
-                ship.weapons.gun_battery[battery].gun_groups[1].mount_numbers.mounts_one_below = this.get_int_from_line(sship_by_line[170]);
+                ship.weapons.gun_battery.main_battery.group2.mount_numbers.mounts_one_below = this.get_int_from_line(sship_by_line[170]);
             }
 
-            ship.weapons.gun_battery[battery].gun_groups[0].mount_numbers.mounts_on_deck = 
-                ship.weapons.gun_battery[battery].number_of_mounts 
-                - ship.weapons.gun_battery[battery].gun_groups[0].sum_total_mounts() 
-                - ship.weapons.gun_battery[battery].gun_groups[1].sum_total_mounts();
+            ship.weapons.gun_battery.main_battery.group1.mount_numbers.mounts_on_deck = 
+                ship.weapons.gun_battery.main_battery.number_of_mounts 
+                - ship.weapons.gun_battery.main_battery.group1.sum_total_mounts() 
+                - ship.weapons.gun_battery.main_battery.group2.sum_total_mounts();
 
-            ship.weapons.gun_battery[battery].mount_type = this.get_gun_mount_type_from_line(sship_by_line[64]);
-            ship.weapons.gun_battery[battery].gun_groups[0].distribution = this.get_gun_distribution_type_from_line(sship_by_line[65]);
-            ship.weapons.gun_battery[battery].gun_groups[0].Mount_Size = this.get_gun_mount_size_from_line(sship_by_line[237]);
+            ship.weapons.gun_battery.main_battery.mount_type = this.get_gun_mount_type_from_line(sship_by_line[64]);
+            ship.weapons.gun_battery.main_battery.group1.distribution = this.get_gun_distribution_type_from_line(sship_by_line[65]);
+            ship.weapons.gun_battery.main_battery.group1.Mount_Size = this.get_gun_mount_size_from_line(sship_by_line[237]);
 
-            ship.weapons.gun_battery[battery].gun_groups[1].distribution = this.get_gun_distribution_type_from_line(sship_by_line[150]);
-            ship.weapons.gun_battery[battery].gun_groups[1].Mount_Size = this.get_gun_mount_size_from_line(sship_by_line[242]);
+            ship.weapons.gun_battery.main_battery.group2.distribution = this.get_gun_distribution_type_from_line(sship_by_line[150]);
+            ship.weapons.gun_battery.main_battery.group2.Mount_Size = this.get_gun_mount_size_from_line(sship_by_line[242]);
         }
 
         private void parse_secondary_battery(string[] sship_by_line)
         {
             const int battery = 1;
 
-            ship.weapons.gun_battery[battery].guns.type = get_gun_type_from_line(sship_by_line[40]);
-            ship.weapons.gun_battery[battery].number_of_guns = this.get_int_from_line(sship_by_line[38]);
-            ship.weapons.gun_battery[battery].guns.diameter = this.get_double_from_line(sship_by_line[39]);
-            ship.weapons.gun_battery[battery].number_of_mounts = this.get_int_from_line(sship_by_line[66]);
-            ship.weapons.gun_battery[battery].armor.face_thickness = this.get_double_from_line(sship_by_line[96]);
-            ship.weapons.gun_battery[battery].armor.other_thickness = this.get_double_from_line(sship_by_line[97]);
-            ship.weapons.gun_battery[battery].armor.hoist_thickness = this.get_double_from_line(sship_by_line[98]);
-            ship.weapons.gun_battery[battery].guns.caliber = this.get_double_from_line(sship_by_line[142]);
-            ship.weapons.gun_battery[battery].guns.date = this.get_int_from_line(sship_by_line[131]);
+            ship.weapons.gun_battery.secondary_battery.guns.type = get_gun_type_from_line(sship_by_line[40]);
+            ship.weapons.gun_battery.secondary_battery.number_of_guns = this.get_int_from_line(sship_by_line[38]);
+            ship.weapons.gun_battery.secondary_battery.guns.diameter = this.get_double_from_line(sship_by_line[39]);
+            ship.weapons.gun_battery.secondary_battery.number_of_mounts = this.get_int_from_line(sship_by_line[66]);
+            ship.weapons.gun_battery.secondary_battery.armor.face_thickness = this.get_double_from_line(sship_by_line[96]);
+            ship.weapons.gun_battery.secondary_battery.armor.other_thickness = this.get_double_from_line(sship_by_line[97]);
+            ship.weapons.gun_battery.secondary_battery.armor.hoist_thickness = this.get_double_from_line(sship_by_line[98]);
+            ship.weapons.gun_battery.secondary_battery.guns.caliber = this.get_double_from_line(sship_by_line[142]);
+            ship.weapons.gun_battery.secondary_battery.guns.date = this.get_int_from_line(sship_by_line[131]);
             
 
-            ship.weapons.gun_battery[battery].guns.shell_weight = this.get_double_from_line(sship_by_line[43]);
-            ship.weapons.gun_battery[battery].guns.ammo_stowage = this.get_int_from_line(sship_by_line[146]);
-            ship.weapons.gun_battery[battery].gun_groups[0].mount_numbers.mounts_one_up = this.get_int_from_line(sship_by_line[213]);
-            ship.weapons.gun_battery[battery].gun_groups[0].mount_numbers.mounts_one_below = this.get_int_from_line(sship_by_line[218]);
+            ship.weapons.gun_battery.secondary_battery.guns.shell_weight = this.get_double_from_line(sship_by_line[43]);
+            ship.weapons.gun_battery.secondary_battery.guns.ammo_stowage = this.get_int_from_line(sship_by_line[146]);
+            ship.weapons.gun_battery.secondary_battery.group1.mount_numbers.mounts_one_up = this.get_int_from_line(sship_by_line[213]);
+            ship.weapons.gun_battery.secondary_battery.group1.mount_numbers.mounts_one_below = this.get_int_from_line(sship_by_line[218]);
 
             if (this.get_bool_from_line(sship_by_line[161]))//two moutns up checkbox
             {
-                ship.weapons.gun_battery[battery].gun_groups[1].mount_numbers.mounts_two_up = this.get_int_from_line(sship_by_line[223]);
+                ship.weapons.gun_battery.secondary_battery.group2.mount_numbers.mounts_two_up = this.get_int_from_line(sship_by_line[223]);
             }
             else
             {
-                ship.weapons.gun_battery[battery].gun_groups[1].mount_numbers.mounts_one_up = this.get_int_from_line(sship_by_line[223]);
+                ship.weapons.gun_battery.secondary_battery.group2.mount_numbers.mounts_one_up = this.get_int_from_line(sship_by_line[223]);
             }
 
-            ship.weapons.gun_battery[battery].gun_groups[1].mount_numbers.mounts_on_deck = this.get_int_from_line(sship_by_line[228]);
+            ship.weapons.gun_battery.secondary_battery.group2.mount_numbers.mounts_on_deck = this.get_int_from_line(sship_by_line[228]);
 
             if (this.get_bool_from_line(sship_by_line[176]))//two moutns up checkbox
             {
-                ship.weapons.gun_battery[battery].gun_groups[1].mount_numbers.mounts_two_below = this.get_int_from_line(sship_by_line[233]);
+                ship.weapons.gun_battery.secondary_battery.group2.mount_numbers.mounts_two_below = this.get_int_from_line(sship_by_line[233]);
             }
             else
             {
-                ship.weapons.gun_battery[battery].gun_groups[1].mount_numbers.mounts_one_below = this.get_int_from_line(sship_by_line[233]);
+                ship.weapons.gun_battery.secondary_battery.group2.mount_numbers.mounts_one_below = this.get_int_from_line(sship_by_line[233]);
             }
 
-            ship.weapons.gun_battery[battery].gun_groups[0].mount_numbers.mounts_on_deck =
-                ship.weapons.gun_battery[battery].number_of_mounts
-                - ship.weapons.gun_battery[battery].gun_groups[0].sum_total_mounts()
-                - ship.weapons.gun_battery[battery].gun_groups[1].sum_total_mounts();
+            ship.weapons.gun_battery.secondary_battery.group1.mount_numbers.mounts_on_deck =
+                ship.weapons.gun_battery.secondary_battery.number_of_mounts
+                - ship.weapons.gun_battery.secondary_battery.group1.sum_total_mounts()
+                - ship.weapons.gun_battery.secondary_battery.group2.sum_total_mounts();
 
-            ship.weapons.gun_battery[battery].mount_type = this.get_gun_mount_type_from_line(sship_by_line[67]);
-            ship.weapons.gun_battery[battery].gun_groups[0].distribution = this.get_gun_distribution_type_from_line(sship_by_line[68]);
-            ship.weapons.gun_battery[battery].gun_groups[0].Mount_Size = this.get_gun_mount_size_from_line(sship_by_line[238]);
+            ship.weapons.gun_battery.secondary_battery.mount_type = this.get_gun_mount_type_from_line(sship_by_line[67]);
+            ship.weapons.gun_battery.secondary_battery.group1.distribution = this.get_gun_distribution_type_from_line(sship_by_line[68]);
+            ship.weapons.gun_battery.secondary_battery.group1.Mount_Size = this.get_gun_mount_size_from_line(sship_by_line[238]);
 
-            ship.weapons.gun_battery[battery].gun_groups[1].distribution = this.get_gun_distribution_type_from_line(sship_by_line[151]);
-            ship.weapons.gun_battery[battery].gun_groups[1].Mount_Size = this.get_gun_mount_size_from_line(sship_by_line[243]);
+            ship.weapons.gun_battery.secondary_battery.group2.distribution = this.get_gun_distribution_type_from_line(sship_by_line[151]);
+            ship.weapons.gun_battery.secondary_battery.group2.Mount_Size = this.get_gun_mount_size_from_line(sship_by_line[243]);
         }
 
         private void parse_tertiary_battery(string[] sship_by_line)
         {
             const int battery = 2;
 
-            ship.weapons.gun_battery[battery].number_of_guns = this.get_int_from_line(sship_by_line[44]);
-            ship.weapons.gun_battery[battery].guns.diameter = this.get_double_from_line(sship_by_line[45]);
-            ship.weapons.gun_battery[battery].number_of_mounts = this.get_int_from_line(sship_by_line[69]);
-            ship.weapons.gun_battery[battery].armor.face_thickness = this.get_double_from_line(sship_by_line[99]);
-            ship.weapons.gun_battery[battery].armor.other_thickness = this.get_double_from_line(sship_by_line[100]);
-            ship.weapons.gun_battery[battery].armor.hoist_thickness = this.get_double_from_line(sship_by_line[101]);
-            ship.weapons.gun_battery[battery].guns.caliber = this.get_double_from_line(sship_by_line[143]);
-            ship.weapons.gun_battery[battery].guns.date = this.get_int_from_line(sship_by_line[132]);
-            ship.weapons.gun_battery[battery].guns.type = get_gun_type_from_line(sship_by_line[46]);
+            ship.weapons.gun_battery.tertiary_battery.number_of_guns = this.get_int_from_line(sship_by_line[44]);
+            ship.weapons.gun_battery.tertiary_battery.guns.diameter = this.get_double_from_line(sship_by_line[45]);
+            ship.weapons.gun_battery.tertiary_battery.number_of_mounts = this.get_int_from_line(sship_by_line[69]);
+            ship.weapons.gun_battery.tertiary_battery.armor.face_thickness = this.get_double_from_line(sship_by_line[99]);
+            ship.weapons.gun_battery.tertiary_battery.armor.other_thickness = this.get_double_from_line(sship_by_line[100]);
+            ship.weapons.gun_battery.tertiary_battery.armor.hoist_thickness = this.get_double_from_line(sship_by_line[101]);
+            ship.weapons.gun_battery.tertiary_battery.guns.caliber = this.get_double_from_line(sship_by_line[143]);
+            ship.weapons.gun_battery.tertiary_battery.guns.date = this.get_int_from_line(sship_by_line[132]);
+            ship.weapons.gun_battery.tertiary_battery.guns.type = get_gun_type_from_line(sship_by_line[46]);
 
-            ship.weapons.gun_battery[battery].guns.shell_weight = this.get_double_from_line(sship_by_line[43]);
-            ship.weapons.gun_battery[battery].guns.ammo_stowage = this.get_int_from_line(sship_by_line[147]);
-            ship.weapons.gun_battery[battery].gun_groups[0].mount_numbers.mounts_one_up = this.get_int_from_line(sship_by_line[213]);
-            ship.weapons.gun_battery[battery].gun_groups[0].mount_numbers.mounts_one_below = this.get_int_from_line(sship_by_line[219]);
+            ship.weapons.gun_battery.tertiary_battery.guns.shell_weight = this.get_double_from_line(sship_by_line[43]);
+            ship.weapons.gun_battery.tertiary_battery.guns.ammo_stowage = this.get_int_from_line(sship_by_line[147]);
+            ship.weapons.gun_battery.tertiary_battery.group1.mount_numbers.mounts_one_up = this.get_int_from_line(sship_by_line[213]);
+            ship.weapons.gun_battery.tertiary_battery.group1.mount_numbers.mounts_one_below = this.get_int_from_line(sship_by_line[219]);
 
             if (this.get_bool_from_line(sship_by_line[162]))//two moutns up checkbox
             {
-                ship.weapons.gun_battery[battery].gun_groups[1].mount_numbers.mounts_two_up = this.get_int_from_line(sship_by_line[224]);
+                ship.weapons.gun_battery.tertiary_battery.group2.mount_numbers.mounts_two_up = this.get_int_from_line(sship_by_line[224]);
             }
             else
             {
-                ship.weapons.gun_battery[battery].gun_groups[1].mount_numbers.mounts_one_up = this.get_int_from_line(sship_by_line[224]);
+                ship.weapons.gun_battery.tertiary_battery.group2.mount_numbers.mounts_one_up = this.get_int_from_line(sship_by_line[224]);
             }
 
-            ship.weapons.gun_battery[battery].gun_groups[1].mount_numbers.mounts_on_deck = this.get_int_from_line(sship_by_line[229]);
+            ship.weapons.gun_battery.tertiary_battery.group2.mount_numbers.mounts_on_deck = this.get_int_from_line(sship_by_line[229]);
 
             if (this.get_bool_from_line(sship_by_line[177]))//two moutns up checkbox
             {
-                ship.weapons.gun_battery[battery].gun_groups[1].mount_numbers.mounts_two_below = this.get_int_from_line(sship_by_line[234]);
+                ship.weapons.gun_battery.tertiary_battery.group2.mount_numbers.mounts_two_below = this.get_int_from_line(sship_by_line[234]);
             }
             else
             {
-                ship.weapons.gun_battery[battery].gun_groups[1].mount_numbers.mounts_one_below = this.get_int_from_line(sship_by_line[234]);
+                ship.weapons.gun_battery.tertiary_battery.group2.mount_numbers.mounts_one_below = this.get_int_from_line(sship_by_line[234]);
             }
 
-            ship.weapons.gun_battery[battery].gun_groups[0].mount_numbers.mounts_on_deck =
-                ship.weapons.gun_battery[battery].number_of_mounts
-                - ship.weapons.gun_battery[battery].gun_groups[0].sum_total_mounts()
-                - ship.weapons.gun_battery[battery].gun_groups[1].sum_total_mounts();
+            ship.weapons.gun_battery.tertiary_battery.group1.mount_numbers.mounts_on_deck =
+                ship.weapons.gun_battery.tertiary_battery.number_of_mounts
+                - ship.weapons.gun_battery.tertiary_battery.group1.sum_total_mounts()
+                - ship.weapons.gun_battery.tertiary_battery.group2.sum_total_mounts();
 
-            ship.weapons.gun_battery[battery].mount_type = this.get_gun_mount_type_from_line(sship_by_line[68]);
-            ship.weapons.gun_battery[battery].gun_groups[0].distribution = this.get_gun_distribution_type_from_line(sship_by_line[71]);
-            ship.weapons.gun_battery[battery].gun_groups[0].Mount_Size = this.get_gun_mount_size_from_line(sship_by_line[239]);
+            ship.weapons.gun_battery.tertiary_battery.mount_type = this.get_gun_mount_type_from_line(sship_by_line[68]);
+            ship.weapons.gun_battery.tertiary_battery.group1.distribution = this.get_gun_distribution_type_from_line(sship_by_line[71]);
+            ship.weapons.gun_battery.tertiary_battery.group1.Mount_Size = this.get_gun_mount_size_from_line(sship_by_line[239]);
 
-            ship.weapons.gun_battery[battery].gun_groups[1].distribution = this.get_gun_distribution_type_from_line(sship_by_line[152]);
-            ship.weapons.gun_battery[battery].gun_groups[1].Mount_Size = this.get_gun_mount_size_from_line(sship_by_line[244]);
+            ship.weapons.gun_battery.tertiary_battery.group2.distribution = this.get_gun_distribution_type_from_line(sship_by_line[152]);
+            ship.weapons.gun_battery.tertiary_battery.group2.Mount_Size = this.get_gun_mount_size_from_line(sship_by_line[244]);
         }
         private void parse_quaterarny_battery(string[] sship_by_line)
         {
             const int battery = 3;
 
-            ship.weapons.gun_battery[battery].number_of_guns = this.get_int_from_line(sship_by_line[50]);
-            ship.weapons.gun_battery[battery].guns.diameter = this.get_double_from_line(sship_by_line[51]);
-            ship.weapons.gun_battery[battery].number_of_mounts = this.get_int_from_line(sship_by_line[72]);
-            ship.weapons.gun_battery[battery].armor.face_thickness = this.get_double_from_line(sship_by_line[102]);
-            ship.weapons.gun_battery[battery].armor.other_thickness = this.get_double_from_line(sship_by_line[103]);
-            ship.weapons.gun_battery[battery].armor.hoist_thickness = this.get_double_from_line(sship_by_line[104]);
-            ship.weapons.gun_battery[battery].guns.caliber = this.get_double_from_line(sship_by_line[144]);
-            ship.weapons.gun_battery[battery].guns.date = this.get_int_from_line(sship_by_line[133]);
-            ship.weapons.gun_battery[battery].guns.type = get_gun_type_from_line(sship_by_line[52]);
+            ship.weapons.gun_battery.quaternary_battery.number_of_guns = this.get_int_from_line(sship_by_line[50]);
+            ship.weapons.gun_battery.quaternary_battery.guns.diameter = this.get_double_from_line(sship_by_line[51]);
+            ship.weapons.gun_battery.quaternary_battery.number_of_mounts = this.get_int_from_line(sship_by_line[72]);
+            ship.weapons.gun_battery.quaternary_battery.armor.face_thickness = this.get_double_from_line(sship_by_line[102]);
+            ship.weapons.gun_battery.quaternary_battery.armor.other_thickness = this.get_double_from_line(sship_by_line[103]);
+            ship.weapons.gun_battery.quaternary_battery.armor.hoist_thickness = this.get_double_from_line(sship_by_line[104]);
+            ship.weapons.gun_battery.quaternary_battery.guns.caliber = this.get_double_from_line(sship_by_line[144]);
+            ship.weapons.gun_battery.quaternary_battery.guns.date = this.get_int_from_line(sship_by_line[133]);
+            ship.weapons.gun_battery.quaternary_battery.guns.type = get_gun_type_from_line(sship_by_line[52]);
 
-            ship.weapons.gun_battery[battery].guns.shell_weight = this.get_double_from_line(sship_by_line[55]);
-            ship.weapons.gun_battery[battery].guns.ammo_stowage = this.get_int_from_line(sship_by_line[148]);
-            ship.weapons.gun_battery[battery].gun_groups[0].mount_numbers.mounts_one_up = this.get_int_from_line(sship_by_line[214]);
-            ship.weapons.gun_battery[battery].gun_groups[0].mount_numbers.mounts_one_below = this.get_int_from_line(sship_by_line[220]);
+            ship.weapons.gun_battery.quaternary_battery.guns.shell_weight = this.get_double_from_line(sship_by_line[55]);
+            ship.weapons.gun_battery.quaternary_battery.guns.ammo_stowage = this.get_int_from_line(sship_by_line[148]);
+            ship.weapons.gun_battery.quaternary_battery.group1.mount_numbers.mounts_one_up = this.get_int_from_line(sship_by_line[214]);
+            ship.weapons.gun_battery.quaternary_battery.group1.mount_numbers.mounts_one_below = this.get_int_from_line(sship_by_line[220]);
 
             if (this.get_bool_from_line(sship_by_line[163]))//two moutns up checkbox
             {
-                ship.weapons.gun_battery[battery].gun_groups[1].mount_numbers.mounts_two_up = this.get_int_from_line(sship_by_line[225]);
+                ship.weapons.gun_battery.quaternary_battery.group2.mount_numbers.mounts_two_up = this.get_int_from_line(sship_by_line[225]);
             }
             else
             {
-                ship.weapons.gun_battery[battery].gun_groups[1].mount_numbers.mounts_one_up = this.get_int_from_line(sship_by_line[225]);
+                ship.weapons.gun_battery.quaternary_battery.group2.mount_numbers.mounts_one_up = this.get_int_from_line(sship_by_line[225]);
             }
 
-            ship.weapons.gun_battery[battery].gun_groups[1].mount_numbers.mounts_on_deck = this.get_int_from_line(sship_by_line[230]);
+            ship.weapons.gun_battery.quaternary_battery.group2.mount_numbers.mounts_on_deck = this.get_int_from_line(sship_by_line[230]);
 
             if (this.get_bool_from_line(sship_by_line[178]))//two moutns up checkbox
             {
-                ship.weapons.gun_battery[battery].gun_groups[1].mount_numbers.mounts_two_below = this.get_int_from_line(sship_by_line[235]);
+                ship.weapons.gun_battery.quaternary_battery.group2.mount_numbers.mounts_two_below = this.get_int_from_line(sship_by_line[235]);
             }
             else
             {
-                ship.weapons.gun_battery[battery].gun_groups[1].mount_numbers.mounts_one_below = this.get_int_from_line(sship_by_line[235]);
+                ship.weapons.gun_battery.quaternary_battery.group2.mount_numbers.mounts_one_below = this.get_int_from_line(sship_by_line[235]);
             }
 
-            ship.weapons.gun_battery[battery].gun_groups[0].mount_numbers.mounts_on_deck =
-                ship.weapons.gun_battery[battery].number_of_mounts
-                - ship.weapons.gun_battery[battery].gun_groups[0].sum_total_mounts()
-                - ship.weapons.gun_battery[battery].gun_groups[1].sum_total_mounts();
+            ship.weapons.gun_battery.quaternary_battery.group1.mount_numbers.mounts_on_deck =
+                ship.weapons.gun_battery.quaternary_battery.number_of_mounts
+                - ship.weapons.gun_battery.quaternary_battery.group1.sum_total_mounts()
+                - ship.weapons.gun_battery.quaternary_battery.group2.sum_total_mounts();
 
-            ship.weapons.gun_battery[battery].mount_type = this.get_gun_mount_type_from_line(sship_by_line[73]);
-            ship.weapons.gun_battery[battery].gun_groups[0].distribution = this.get_gun_distribution_type_from_line(sship_by_line[74]);
-            ship.weapons.gun_battery[battery].gun_groups[0].Mount_Size = this.get_gun_mount_size_from_line(sship_by_line[240]);
+            ship.weapons.gun_battery.quaternary_battery.mount_type = this.get_gun_mount_type_from_line(sship_by_line[73]);
+            ship.weapons.gun_battery.quaternary_battery.group1.distribution = this.get_gun_distribution_type_from_line(sship_by_line[74]);
+            ship.weapons.gun_battery.quaternary_battery.group1.Mount_Size = this.get_gun_mount_size_from_line(sship_by_line[240]);
 
-            ship.weapons.gun_battery[battery].gun_groups[1].distribution = this.get_gun_distribution_type_from_line(sship_by_line[153]);
-            ship.weapons.gun_battery[battery].gun_groups[1].Mount_Size = this.get_gun_mount_size_from_line(sship_by_line[245]);
+            ship.weapons.gun_battery.quaternary_battery.group2.distribution = this.get_gun_distribution_type_from_line(sship_by_line[153]);
+            ship.weapons.gun_battery.quaternary_battery.group2.Mount_Size = this.get_gun_mount_size_from_line(sship_by_line[245]);
         }
         private void parse_pentarny_battery(string[] sship_by_line)
         {
             const int battery = 4; 
 
-            ship.weapons.gun_battery[battery].number_of_guns = this.get_int_from_line(sship_by_line[56]);
-            ship.weapons.gun_battery[battery].guns.diameter = this.get_double_from_line(sship_by_line[57]);
-            ship.weapons.gun_battery[battery].number_of_mounts = this.get_int_from_line(sship_by_line[75]);
-            ship.weapons.gun_battery[battery].armor.face_thickness = this.get_double_from_line(sship_by_line[105]);
-            ship.weapons.gun_battery[battery].armor.other_thickness = this.get_double_from_line(sship_by_line[106]);
-            ship.weapons.gun_battery[battery].armor.hoist_thickness = this.get_double_from_line(sship_by_line[107]);
-            ship.weapons.gun_battery[battery].guns.caliber = this.get_double_from_line(sship_by_line[145]);
-            ship.weapons.gun_battery[battery].guns.date = this.get_int_from_line(sship_by_line[134]);
-            ship.weapons.gun_battery[battery].guns.type = get_gun_type_from_line(sship_by_line[58]);
+            ship.weapons.gun_battery.penatnary_battery.number_of_guns = this.get_int_from_line(sship_by_line[56]);
+            ship.weapons.gun_battery.penatnary_battery.guns.diameter = this.get_double_from_line(sship_by_line[57]);
+            ship.weapons.gun_battery.penatnary_battery.number_of_mounts = this.get_int_from_line(sship_by_line[75]);
+            ship.weapons.gun_battery.penatnary_battery.armor.face_thickness = this.get_double_from_line(sship_by_line[105]);
+            ship.weapons.gun_battery.penatnary_battery.armor.other_thickness = this.get_double_from_line(sship_by_line[106]);
+            ship.weapons.gun_battery.penatnary_battery.armor.hoist_thickness = this.get_double_from_line(sship_by_line[107]);
+            ship.weapons.gun_battery.penatnary_battery.guns.caliber = this.get_double_from_line(sship_by_line[145]);
+            ship.weapons.gun_battery.penatnary_battery.guns.date = this.get_int_from_line(sship_by_line[134]);
+            ship.weapons.gun_battery.penatnary_battery.guns.type = get_gun_type_from_line(sship_by_line[58]);
 
-            ship.weapons.gun_battery[battery].guns.shell_weight = this.get_double_from_line(sship_by_line[61]);
-            ship.weapons.gun_battery[battery].guns.ammo_stowage = this.get_int_from_line(sship_by_line[149]);
-            ship.weapons.gun_battery[battery].gun_groups[0].mount_numbers.mounts_one_up = this.get_int_from_line(sship_by_line[216]);
-            ship.weapons.gun_battery[battery].gun_groups[0].mount_numbers.mounts_one_below = this.get_int_from_line(sship_by_line[221]);
+            ship.weapons.gun_battery.penatnary_battery.guns.shell_weight = this.get_double_from_line(sship_by_line[61]);
+            ship.weapons.gun_battery.penatnary_battery.guns.ammo_stowage = this.get_int_from_line(sship_by_line[149]);
+            ship.weapons.gun_battery.penatnary_battery.group1.mount_numbers.mounts_one_up = this.get_int_from_line(sship_by_line[216]);
+            ship.weapons.gun_battery.penatnary_battery.group1.mount_numbers.mounts_one_below = this.get_int_from_line(sship_by_line[221]);
 
             if (this.get_bool_from_line(sship_by_line[164]))//two moutns up checkbox
             {
-                ship.weapons.gun_battery[battery].gun_groups[1].mount_numbers.mounts_two_up = this.get_int_from_line(sship_by_line[226]);
+                ship.weapons.gun_battery.penatnary_battery.group2.mount_numbers.mounts_two_up = this.get_int_from_line(sship_by_line[226]);
             }
             else
             {
-                ship.weapons.gun_battery[battery].gun_groups[1].mount_numbers.mounts_one_up = this.get_int_from_line(sship_by_line[226]);
+                ship.weapons.gun_battery.penatnary_battery.group2.mount_numbers.mounts_one_up = this.get_int_from_line(sship_by_line[226]);
             }
 
-            ship.weapons.gun_battery[battery].gun_groups[1].mount_numbers.mounts_on_deck = this.get_int_from_line(sship_by_line[231]);
+            ship.weapons.gun_battery.penatnary_battery.group2.mount_numbers.mounts_on_deck = this.get_int_from_line(sship_by_line[231]);
 
             if (this.get_bool_from_line(sship_by_line[179]))//two moutns up checkbox
             {
-                ship.weapons.gun_battery[battery].gun_groups[1].mount_numbers.mounts_two_below = this.get_int_from_line(sship_by_line[236]);
+                ship.weapons.gun_battery.penatnary_battery.group2.mount_numbers.mounts_two_below = this.get_int_from_line(sship_by_line[236]);
             }
             else
             {
-                ship.weapons.gun_battery[battery].gun_groups[1].mount_numbers.mounts_one_below = this.get_int_from_line(sship_by_line[236]);
+                ship.weapons.gun_battery.penatnary_battery.group2.mount_numbers.mounts_one_below = this.get_int_from_line(sship_by_line[236]);
             }
 
-            ship.weapons.gun_battery[battery].gun_groups[0].mount_numbers.mounts_on_deck =
-                ship.weapons.gun_battery[battery].number_of_mounts
-                - ship.weapons.gun_battery[battery].gun_groups[0].sum_total_mounts()
-                - ship.weapons.gun_battery[battery].gun_groups[1].sum_total_mounts();
+            ship.weapons.gun_battery.penatnary_battery.group1.mount_numbers.mounts_on_deck =
+                ship.weapons.gun_battery.penatnary_battery.number_of_mounts
+                - ship.weapons.gun_battery.penatnary_battery.group1.sum_total_mounts()
+                - ship.weapons.gun_battery.penatnary_battery.group2.sum_total_mounts();
 
-            ship.weapons.gun_battery[battery].mount_type = this.get_gun_mount_type_from_line(sship_by_line[76]);
-            ship.weapons.gun_battery[battery].gun_groups[0].distribution = this.get_gun_distribution_type_from_line(sship_by_line[77]);
-            ship.weapons.gun_battery[battery].gun_groups[0].Mount_Size = this.get_gun_mount_size_from_line(sship_by_line[241]);
+            ship.weapons.gun_battery.penatnary_battery.mount_type = this.get_gun_mount_type_from_line(sship_by_line[76]);
+            ship.weapons.gun_battery.penatnary_battery.group1.distribution = this.get_gun_distribution_type_from_line(sship_by_line[77]);
+            ship.weapons.gun_battery.penatnary_battery.group1.Mount_Size = this.get_gun_mount_size_from_line(sship_by_line[241]);
 
-            ship.weapons.gun_battery[battery].gun_groups[1].distribution = this.get_gun_distribution_type_from_line(sship_by_line[154]);
-            ship.weapons.gun_battery[battery].gun_groups[1].Mount_Size = this.get_gun_mount_size_from_line(sship_by_line[246]);
+            ship.weapons.gun_battery.penatnary_battery.group2.distribution = this.get_gun_distribution_type_from_line(sship_by_line[154]);
+            ship.weapons.gun_battery.penatnary_battery.group2.Mount_Size = this.get_gun_mount_size_from_line(sship_by_line[246]);
         }
 
         //TODO: actually remove entries for unused batteries. 
         private void remove_unused_batteries( )
         {
-            //List<int> to_remove = new List<int>(); 
-            for (int battery = 0; battery < ship.weapons.gun_battery.Count; ++battery)
+
+   
+            if (ship.weapons.gun_battery.main_battery.guns.diameter == 0)
             {
-
-                if (ship.weapons.gun_battery[battery].guns.diameter == 0)
-                {
-                    ship.weapons.gun_battery[battery].guns.type = Gun_Type.NONE;
-                    ship.weapons.gun_battery[battery].mount_type = Mount_Type.NONE; 
-                }
-                for( int gun_group = 0; gun_group < ship.weapons.gun_battery[battery].gun_groups.Count; ++gun_group)
-                {
-                    if(ship.weapons.gun_battery[battery].gun_groups[gun_group].sum_total_mounts() == 0)
-                    {
-                        ship.weapons.gun_battery[battery].gun_groups[gun_group].Mount_Size = Mount_Size.NONE;
-                        ship.weapons.gun_battery[battery].gun_groups[gun_group].distribution = Gun_Distribution_Type.NONE;
-
-                        //ship.weapons.gun_battery[battery].gun_groups.RemoveAt(gun_group);
-                    }
-                }
-
-                ship.weapons.gun_battery[battery].gun_groups.RemoveAll(gun_group_empty); 
+                ship.weapons.gun_battery.main_battery.guns.type = Gun_Type.NONE;
+                ship.weapons.gun_battery.main_battery.mount_type = Mount_Type.NONE;
+            }
+            if (ship.weapons.gun_battery.main_battery.group1.sum_total_mounts() == 0)
+            {
+                ship.weapons.gun_battery.main_battery.group1.Mount_Size = Mount_Size.NONE;
+                ship.weapons.gun_battery.main_battery.group1.distribution = Gun_Distribution_Type.NONE;
+            }
+            if (ship.weapons.gun_battery.main_battery.group2.sum_total_mounts() == 0)
+            {
+                ship.weapons.gun_battery.main_battery.group2.Mount_Size = Mount_Size.NONE;
+                ship.weapons.gun_battery.main_battery.group2.distribution = Gun_Distribution_Type.NONE;
             }
 
-            ship.weapons.gun_battery.RemoveAll(gun_battery_empty);
-            ship.weapons.torpedo_battery.RemoveAll(torpedo_battery_empty);
-            ship.weapons.mine_battery.RemoveAll(mine_battery_empty);
-            ship.weapons.asw_battery.RemoveAll(asw_battery_empty); 
+            if (ship.weapons.gun_battery.secondary_battery.guns.diameter == 0)
+            {
+                ship.weapons.gun_battery.secondary_battery.guns.type = Gun_Type.NONE;
+                ship.weapons.gun_battery.secondary_battery.mount_type = Mount_Type.NONE;
+            }
+            if (ship.weapons.gun_battery.secondary_battery.group1.sum_total_mounts() == 0)
+            {
+                ship.weapons.gun_battery.secondary_battery.group1.Mount_Size = Mount_Size.NONE;
+                ship.weapons.gun_battery.secondary_battery.group1.distribution = Gun_Distribution_Type.NONE;
+            }
+            if (ship.weapons.gun_battery.secondary_battery.group2.sum_total_mounts() == 0)
+            {
+                ship.weapons.gun_battery.secondary_battery.group2.Mount_Size = Mount_Size.NONE;
+                ship.weapons.gun_battery.secondary_battery.group2.distribution = Gun_Distribution_Type.NONE;
+            }
+
+            if (ship.weapons.gun_battery.tertiary_battery.guns.diameter == 0)
+            {
+                ship.weapons.gun_battery.tertiary_battery.guns.type = Gun_Type.NONE;
+                ship.weapons.gun_battery.tertiary_battery.mount_type = Mount_Type.NONE;
+            }
+            if (ship.weapons.gun_battery.tertiary_battery.group1.sum_total_mounts() == 0)
+            {
+                ship.weapons.gun_battery.tertiary_battery.group1.Mount_Size = Mount_Size.NONE;
+                ship.weapons.gun_battery.tertiary_battery.group1.distribution = Gun_Distribution_Type.NONE;
+            }
+            if (ship.weapons.gun_battery.tertiary_battery.group2.sum_total_mounts() == 0)
+            {
+                ship.weapons.gun_battery.tertiary_battery.group2.Mount_Size = Mount_Size.NONE;
+                ship.weapons.gun_battery.tertiary_battery.group2.distribution = Gun_Distribution_Type.NONE;
+            }
+
+            if (ship.weapons.gun_battery.quaternary_battery.guns.diameter == 0)
+            {
+                ship.weapons.gun_battery.quaternary_battery.guns.type = Gun_Type.NONE;
+                ship.weapons.gun_battery.quaternary_battery.mount_type = Mount_Type.NONE;
+            }
+            if (ship.weapons.gun_battery.quaternary_battery.group1.sum_total_mounts() == 0)
+            {
+                ship.weapons.gun_battery.quaternary_battery.group1.Mount_Size = Mount_Size.NONE;
+                ship.weapons.gun_battery.quaternary_battery.group1.distribution = Gun_Distribution_Type.NONE;
+            }
+            if (ship.weapons.gun_battery.quaternary_battery.group2.sum_total_mounts() == 0)
+            {
+                ship.weapons.gun_battery.quaternary_battery.group2.Mount_Size = Mount_Size.NONE;
+                ship.weapons.gun_battery.quaternary_battery.group2.distribution = Gun_Distribution_Type.NONE;
+            }
+
+            if (ship.weapons.gun_battery.penatnary_battery.guns.diameter == 0)
+            {
+                ship.weapons.gun_battery.penatnary_battery.guns.type = Gun_Type.NONE;
+                ship.weapons.gun_battery.penatnary_battery.mount_type = Mount_Type.NONE;
+            }
+            if (ship.weapons.gun_battery.penatnary_battery.group1.sum_total_mounts() == 0)
+            {
+                ship.weapons.gun_battery.penatnary_battery.group1.Mount_Size = Mount_Size.NONE;
+                ship.weapons.gun_battery.penatnary_battery.group1.distribution = Gun_Distribution_Type.NONE;
+            }
+            if (ship.weapons.gun_battery.penatnary_battery.group2.sum_total_mounts() == 0)
+            {
+                ship.weapons.gun_battery.penatnary_battery.group2.Mount_Size = Mount_Size.NONE;
+                ship.weapons.gun_battery.penatnary_battery.group2.distribution = Gun_Distribution_Type.NONE;
+            }
+
+
+            //ship.weapons.gun_battery.RemoveAll(gun_battery_empty);
+            //ship.weapons.torpedo_battery.RemoveAll(torpedo_battery_empty);
+            //ship.weapons.mine_battery.RemoveAll(mine_battery_empty);
+            //ship.weapons.asw_battery.RemoveAll(asw_battery_empty); 
 
         }
 
@@ -554,43 +614,43 @@ namespace ss_convert_cli
 
         private void parse_mines(string[] sship_by_line)
         {
-            ship.weapons.mine_battery[0].number = this.get_int_from_line(sship_by_line[187]);
-            ship.weapons.mine_battery[0].reloads = this.get_int_from_line(sship_by_line[188]);
-            ship.weapons.mine_battery[0].mine.weight = this.get_double_from_line(sship_by_line[189]);
-            ship.weapons.mine_battery[0].mount = this.get_mine_type_from_line(sship_by_line[190]);
-            if (ship.weapons.mine_battery[0].number == 0) ship.weapons.mine_battery[0].mount = Mine_Mount_Type.NONE; 
+            ship.weapons.mine_battery.number = this.get_int_from_line(sship_by_line[187]);
+            ship.weapons.mine_battery.reloads = this.get_int_from_line(sship_by_line[188]);
+            ship.weapons.mine_battery.mine.weight = this.get_double_from_line(sship_by_line[189]);
+            ship.weapons.mine_battery.mount = this.get_mine_type_from_line(sship_by_line[190]);
+            if (ship.weapons.mine_battery.number == 0) ship.weapons.mine_battery.mount = Mine_Mount_Type.NONE; 
         }
 
         private void parse_torpedos(string[] sship_by_line)
         {
-            ship.weapons.torpedo_battery[0].mount.number = this.get_int_from_line(sship_by_line[78]);         
-            ship.weapons.torpedo_battery[0].mount.sets = this.get_int_from_line(sship_by_line[180]);
-            ship.weapons.torpedo_battery[0].mount.mount_type = this.get_torpedo_mount_type_from_line(sship_by_line[185]);
-            ship.weapons.torpedo_battery[0].torpedo.diameter = this.get_double_from_line(sship_by_line[80]);
-            ship.weapons.torpedo_battery[0].torpedo.length = this.get_double_from_line(sship_by_line[183]);
-            if (ship.weapons.torpedo_battery[0].mount.number == 0) ship.weapons.torpedo_battery[0].mount.mount_type = Torpedo_Mount_Type.NONE; 
+            ship.weapons.torpedo_battery.main_torpedos.mount.number = this.get_int_from_line(sship_by_line[78]);         
+            ship.weapons.torpedo_battery.main_torpedos.mount.sets = this.get_int_from_line(sship_by_line[180]);
+            ship.weapons.torpedo_battery.main_torpedos.mount.mount_type = this.get_torpedo_mount_type_from_line(sship_by_line[185]);
+            ship.weapons.torpedo_battery.main_torpedos.torpedo.diameter = this.get_double_from_line(sship_by_line[80]);
+            ship.weapons.torpedo_battery.main_torpedos.torpedo.length = this.get_double_from_line(sship_by_line[183]);
+            if (ship.weapons.torpedo_battery.main_torpedos.mount.number == 0) ship.weapons.torpedo_battery.main_torpedos.mount.mount_type = Torpedo_Mount_Type.NONE; 
 
-            ship.weapons.torpedo_battery[1].mount.number = this.get_int_from_line(sship_by_line[79]);
-            ship.weapons.torpedo_battery[1].mount.sets = this.get_int_from_line(sship_by_line[181]);
-            ship.weapons.torpedo_battery[1].mount.mount_type = this.get_torpedo_mount_type_from_line(sship_by_line[186]);
-            ship.weapons.torpedo_battery[1].torpedo.diameter = this.get_double_from_line(sship_by_line[182]);
-            ship.weapons.torpedo_battery[1].torpedo.length = this.get_double_from_line(sship_by_line[184]);
-            if (ship.weapons.torpedo_battery[1].mount.number == 0) ship.weapons.torpedo_battery[1].mount.mount_type = Torpedo_Mount_Type.NONE;
+            ship.weapons.torpedo_battery.secondary_torpedos.mount.number = this.get_int_from_line(sship_by_line[79]);
+            ship.weapons.torpedo_battery.secondary_torpedos.mount.sets = this.get_int_from_line(sship_by_line[181]);
+            ship.weapons.torpedo_battery.secondary_torpedos.mount.mount_type = this.get_torpedo_mount_type_from_line(sship_by_line[186]);
+            ship.weapons.torpedo_battery.secondary_torpedos.torpedo.diameter = this.get_double_from_line(sship_by_line[182]);
+            ship.weapons.torpedo_battery.secondary_torpedos.torpedo.length = this.get_double_from_line(sship_by_line[184]);
+            if (ship.weapons.torpedo_battery.secondary_torpedos.mount.number == 0) ship.weapons.torpedo_battery.secondary_torpedos.mount.mount_type = Torpedo_Mount_Type.NONE;
         }
 
         private void parse_asw_batteries(string[] sship_by_line)
         {
-            ship.weapons.asw_battery[0].number = this.get_int_from_line(sship_by_line[191]);
-            ship.weapons.asw_battery[0].reloads = this.get_int_from_line(sship_by_line[193]);
-            ship.weapons.asw_battery[0].weight = this.get_double_from_line(sship_by_line[195]);
-            ship.weapons.asw_battery[0].type = this.get_asw_type_from_line(sship_by_line[197]);
-            if (ship.weapons.asw_battery[0].number == 0) ship.weapons.asw_battery[0].type = ASW_Type.NONE; 
+            ship.weapons.asw_battery.main_asw.number = this.get_int_from_line(sship_by_line[191]);
+            ship.weapons.asw_battery.main_asw.reloads = this.get_int_from_line(sship_by_line[193]);
+            ship.weapons.asw_battery.main_asw.weight = this.get_double_from_line(sship_by_line[195]);
+            ship.weapons.asw_battery.main_asw.type = this.get_asw_type_from_line(sship_by_line[197]);
+            if (ship.weapons.asw_battery.main_asw.number == 0) ship.weapons.asw_battery.main_asw.type = ASW_Type.NONE; 
 
-            ship.weapons.asw_battery[1].number = this.get_int_from_line(sship_by_line[192]);
-            ship.weapons.asw_battery[1].reloads = this.get_int_from_line(sship_by_line[194]);
-            ship.weapons.asw_battery[1].weight = this.get_double_from_line(sship_by_line[196]);
-            ship.weapons.asw_battery[1].type = this.get_asw_type_from_line(sship_by_line[198]);
-            if (ship.weapons.asw_battery[1].number == 0) ship.weapons.asw_battery[1].type = ASW_Type.NONE;
+            ship.weapons.asw_battery.secondary_asw.number = this.get_int_from_line(sship_by_line[192]);
+            ship.weapons.asw_battery.secondary_asw.reloads = this.get_int_from_line(sship_by_line[194]);
+            ship.weapons.asw_battery.secondary_asw.weight = this.get_double_from_line(sship_by_line[196]);
+            ship.weapons.asw_battery.secondary_asw.type = this.get_asw_type_from_line(sship_by_line[198]);
+            if (ship.weapons.asw_battery.secondary_asw.number == 0) ship.weapons.asw_battery.secondary_asw.type = ASW_Type.NONE;
         }
 
         private void parse_hull_form(string[] sship_by_line)
@@ -711,13 +771,13 @@ namespace ss_convert_cli
             ship.hull.size.draft_nom = Convert.ToDouble(dimensions_lo_lw_b_dn_dd[3]);
             ship.hull.size.draft_max = Convert.ToDouble(dimensions_lo_lw_b_dn_dd[4]);
 
-            var armarment_start = find_armarment.Match(stripped).Index + find_armarment.Match(stripped).Length + 3;
-            var armarment_end = find_armor.Match(stripped).Index;
-            var armarment_block = stripped.Substring(armarment_start, armarment_end);
+            //var armarment_start = find_armarment.Match(stripped).Index + find_armarment.Match(stripped).Length + 3;
+            //var armarment_end = find_armor.Match(stripped).Index;
+            //var armarment_block = stripped.Substring(armarment_start, armarment_end);
 
-            var armarment_list = split_armarment.Split(armarment_block);
+            // var armarment_list = split_armarment.Split(armarment_block);
 
-            var broadside = strip_non_numeric.Replace(find_broadside.Match(armarment_list[armarment_list.Length - 1]).ToString(), "");
+            var broadside = strip_non_numeric.Replace(find_broadside.Match(stripped).Groups[1].ToString(), "");
             ship.stats.performance.weight_of_broadside = Convert.ToDouble(broadside);
 
             ship.stats.strength.cross_sectional = Convert.ToDouble(sub_non_decimal.Replace(find_comp_c.Match(stripped).ToString(), ""));
@@ -761,7 +821,7 @@ namespace ss_convert_cli
             XmlSerializer serializer = new XmlSerializer(typeof(Ship));
             TextWriter writer = new StreamWriter(save_path.File_Path);
 
-            remove_unused_batteries();//consdier doing this on a seperate Ship object copy?  
+            //remove_unused_batteries();//consdier doing this on a seperate Ship object copy?  
 
             serializer.Serialize(writer, ship);
             writer.Close();

@@ -475,16 +475,19 @@ namespace ss_convert_cli
         public Mount_Type mount_type;
         public int number_of_mounts;
         public int number_of_guns;
-        public List<Gun_Group> gun_groups = new List<Gun_Group>();
+        //public List<Gun_Group> gun_groups = new List<Gun_Group>();
+
+        public Gun_Group group1 = new Gun_Group();
+        public Gun_Group group2 = new Gun_Group();
 
         //for now just two groups at all times. 
-        public Battery()
-        {
-            for (int groups = 0; groups < 2; ++groups)
-            {
-                gun_groups.Add(new Gun_Group());
-            }
-        }
+        //public Battery()
+        //{
+        //    for (int groups = 0; groups < 2; ++groups)
+        //    {
+        //        gun_groups.Add(new Gun_Group());
+        //    }
+        //}
     }
 
     public struct Type
@@ -766,43 +769,69 @@ namespace ss_convert_cli
         public ASW_Type type;
     }
 
+    public class gun_batteries
+    {
+        public Battery main_battery = new Battery();
+        public Battery secondary_battery = new Battery();
+        public Battery tertiary_battery = new Battery();
+        public Battery quaternary_battery = new Battery();
+        public Battery penatnary_battery = new Battery();
+    }
+
+    public class torpedo_batteries
+    {
+        public Torpedo_Battery main_torpedos = new Torpedo_Battery();
+
+        public Torpedo_Battery secondary_torpedos = new Torpedo_Battery();
+    }
+
+    public class asw_batteries
+    {
+        public ASW_Battery main_asw = new ASW_Battery();
+
+        public ASW_Battery secondary_asw = new ASW_Battery();
+    }
 
     public class Weapon_Suite
     {
         public void init_for_ss_import()
         {
-            for (int battery = 0; battery < 5; ++battery)
-            {
-                gun_battery.Add(new Battery());
-            }
+            //for (int battery = 0; battery < 5; ++battery)
+            //{
+                //gun_battery.Add(new Battery());
+            //}
 
-            for (int battery = 0; battery < 2; ++battery)
-            {
-                torpedo_battery.Add(new Torpedo_Battery());
-            }
+            //for (int battery = 0; battery < 2; ++battery)
+            //{
+                //torpedo_battery.Add(new Torpedo_Battery());
+            //}
 
-            for (int battery = 0; battery < 1; ++battery)
-            {
-                mine_battery.Add(new Mine_Battery());
-            }
+            //for (int battery = 0; battery < 1; ++battery)
+            //{
+                //mine_battery.Add(new Mine_Battery());
+            //}
 
-            for (int battery = 0; battery < 2; ++battery)
-            {
-                asw_battery.Add(new ASW_Battery());
-            }
+            //for (int battery = 0; battery < 2; ++battery)
+            //{
+                //asw_battery.Add(new ASW_Battery());
+            //}
         }
 
-        [XmlElementAttribute(IsNullable = false)]
-        public List<Battery> gun_battery = new List<Battery>();
+        //[XmlElementAttribute(IsNullable = false)]
+        //public List<Battery> gun_battery = new List<Battery>();
+        public gun_batteries gun_battery = new gun_batteries();
 
-        [XmlElementAttribute(IsNullable = false)]
-        public List<Torpedo_Battery> torpedo_battery = new List<Torpedo_Battery>();
+        //[XmlElementAttribute(IsNullable = false)]
+        //public List<Torpedo_Battery> torpedo_battery = new List<Torpedo_Battery>();
+        public torpedo_batteries torpedo_battery = new torpedo_batteries(); 
 
-        [XmlElementAttribute(IsNullable = false)]
-        public List<Mine_Battery> mine_battery = new List<Mine_Battery>();
+        //[XmlElementAttribute(IsNullable = false)]
+        //public List<Mine_Battery> mine_battery = new List<Mine_Battery>();
+        public Mine_Battery mine_battery = new Mine_Battery();
 
-        [XmlElementAttribute(IsNullable = false)]
-        public List<ASW_Battery> asw_battery = new List<ASW_Battery>();
+        //[XmlElementAttribute(IsNullable = false)]
+        //public List<ASW_Battery> asw_battery = new List<ASW_Battery>();
+        public asw_batteries asw_battery = new asw_batteries();
     }
 
     //TODO: add stuff here
